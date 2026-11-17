@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
-import { TriangleAlert } from "lucide-react";
+import { Mail } from "lucide-react";
+import Alerta from "../components/ui/Alerta";
 import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import Cartao from "../components/ui/Cartao";
+import Container from "../components/ui/Container";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 import { EMAIL_CONTATO } from "../utils/contato";
 
-const ESTILO_TITULO_SECAO = "font-titulo font-bold text-2xl text-white lg:text-3xl";
-const ESTILO_PARAGRAFO = "text-base leading-relaxed text-gray-300";
-const ESTILO_LINK = "font-semibold text-red-200 underline hover:text-white";
+const ESTILO_TITULO_DA_SECAO = "font-titulo text-2xl font-bold tracking-tight text-texto";
+const ESTILO_LINK = "font-semibold text-marca-300 underline underline-offset-4 hover:text-marca-200";
 
 const ASSUNTOS = [
   {
@@ -16,7 +17,7 @@ const ASSUNTOS = [
   },
   {
     titulo: "Problemas de acesso",
-    texto: "O código de verificação não chegou, ou você não consegue entrar mesmo depois de redefinir a senha.",
+    texto: "Esqueceu a senha de uma conta criada aqui? Crie outra ou use as contas de teste no botão Entrar.",
   },
   {
     titulo: "Conteúdo com erro",
@@ -24,68 +25,66 @@ const ASSUNTOS = [
   },
   {
     titulo: "Seus dados pessoais",
-    texto:
-      "Pedidos e dúvidas sobre o tratamento dos seus dados, pela LGPD. O encarregado pelo tratamento é Jonathan Augusto Rodrigues Barbosa.",
+    texto: "Nesta demonstração, os dados ficam só no seu navegador. Você pode baixá-los ou apagá-los a qualquer momento.",
   },
 ];
 
 function ContatoPages() {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
+    <Container largura="estreita" className="pb-16">
       <CabecalhoPagina
         titulo="Contato"
-        subtitulo="Fale com a equipe do MenteForte pelo e-mail abaixo. Respondemos em até 15 dias."
+        subtitulo="Fale com o MenteForte pelo e-mail abaixo."
         icone={ICONES_DAS_PAGINAS.contato}
       />
 
       <div className="space-y-12">
-        <Cartao className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-200">E-mail</p>
+        <Cartao className="flex flex-col items-center gap-3 text-center sm:p-10">
+          <span className="flex size-12 items-center justify-center rounded-xl bg-marca-600/15 text-marca-400">
+            <Mail size={24} aria-hidden="true" />
+          </span>
           <a
             href={`mailto:${EMAIL_CONTATO}`}
-            className="mt-2 inline-block break-all font-titulo font-bold text-2xl text-white underline hover:text-red-200 sm:text-3xl"
+            className="break-all font-titulo text-2xl font-bold text-texto underline-offset-4 hover:text-marca-200 hover:underline sm:text-3xl"
           >
             {EMAIL_CONTATO}
           </a>
-          <p className="mx-auto mt-4 max-w-xl text-sm text-gray-300">
-            Se a mensagem for sobre a sua conta, escreva do e-mail cadastrado nela. Assim conseguimos identificar
-            você sem pedir outros dados.
-          </p>
+          <Alerta tipo="aviso" className="mt-2 text-left">
+            Este é um endereço fictício da versão de demonstração: as mensagens enviadas para ele não chegam a
+            ninguém.
+          </Alerta>
         </Cartao>
 
-        <section className="space-y-4">
-          <h2 className={ESTILO_TITULO_SECAO}>Sobre o que falar com a gente</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <section className="space-y-5">
+          <h2 className={ESTILO_TITULO_DA_SECAO}>Sobre o que falar com a gente</h2>
+          <div className="grid gap-4 sm:grid-cols-2">
             {ASSUNTOS.map((assunto) => (
               <Cartao key={assunto.titulo}>
-                <h3 className="font-titulo font-bold text-lg text-white">{assunto.titulo}</h3>
-                <p className="mt-1 text-sm text-gray-300">{assunto.texto}</p>
+                <h3 className="font-titulo text-lg font-bold text-texto">{assunto.titulo}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-texto-suave">{assunto.texto}</p>
               </Cartao>
             ))}
           </div>
         </section>
 
         <section className="space-y-4">
-          <h2 className={ESTILO_TITULO_SECAO}>Resolva pela sua conta</h2>
-          <p className={ESTILO_PARAGRAFO}>
+          <h2 className={ESTILO_TITULO_DA_SECAO}>Resolva pela sua conta</h2>
+          <p className="leading-relaxed text-texto-suave">
             Em{" "}
             <Link to="/minha-conta" className={ESTILO_LINK}>
               Minha conta
             </Link>{" "}
             você corrige os seus dados, troca a senha e o e-mail, baixa uma cópia de tudo o que a plataforma
-            guarda sobre você e pede a exclusão da conta, sem precisar escrever para a equipe.
+            guarda sobre você e pede a exclusão da conta.
           </p>
         </section>
 
-        <div className="flex gap-4 rounded-xl border border-red-500 bg-red-500/10 p-5">
-          <TriangleAlert className="shrink-0 text-red-500" size={22} aria-hidden="true" />
-          <p className="text-sm text-gray-300">
-            <strong className="text-white">A equipe nunca pede a sua senha nem o código de verificação por e-mail.</strong>{" "}
-            Esses dados só são digitados nas telas do próprio MenteForte.
-          </p>
-        </div>
+        <Alerta tipo="info" titulo="Cuidado com a sua senha">
+          O MenteForte nunca pede a sua senha por e-mail. Nesta demonstração, use uma senha que você não usa em
+          nenhum outro serviço.
+        </Alerta>
       </div>
-    </div>
+    </Container>
   );
 }
 
