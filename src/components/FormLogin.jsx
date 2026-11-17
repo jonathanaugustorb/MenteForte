@@ -1,120 +1,114 @@
-import { NavLink } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Alerta from "./ui/Alerta";
+import Botao from "./ui/Botao";
+import Campo from "./ui/Campo";
+import CampoSenha from "./ui/CampoSenha";
+import { ESTILO_ENTRADA } from "./ui/estiloDeCampo";
 import { login } from "../services/authService";
-import CampoSenha from "./CampoSenha";
+import { CONTAS_DE_TESTE, SENHA_DE_TESTE } from "../demo/contasDeTeste";
 import { LIMITE_EMAIL } from "../utils/limites";
 
-const ESTILO_CAMPO =
-  "text-2xl text-white font-light border p-1 bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20";
-
-const LOGIN_VAZIO = { email: "", senha: ""};
-const FALHAS_PARA_DICA = 3;
-const STATUS_DE_CREDENCIAL = [401, 429];
-
-function FormLogin({ emailInicial, aoFechar, aoCodigoEnviado, aoEsqueciSenha }) {
-  const [form, setForm] = useState({ ...LOGIN_VAZIO, email: emailInicial ?? "" });
+function FormLogin({ aoEntrar, aoFechar }) {
+  const [form, setForm] = useState({ email: "", senha: "" });
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState(null);
-  const [falhas, setFalhas] = useState(0);
 
-  function handleChange(evento) {
+  function alterar(evento) {
     const { name, value } = evento.target;
     setForm((anterior) => ({ ...anterior, [name]: value }));
   }
 
-  async function entrar(evento) {
-    evento.preventDefault();
+  async function entrarCom(email, senha) {
     setEnviando(true);
     setErro(null);
-
     try {
-      const resposta = await login(form.email, form.senha);
-      aoCodigoEnviado(form.email, resposta.expiraEmSegundos);
-    } catch (error) {
-      setErro(error.mensagem || "Não foi possivel entrar. Tente novamente");
-      if (STATUS_DE_CREDENCIAL.includes(error.status)) {
-        setFalhas((anterior) => anterior + 1);
-      }
+      aoEntrar(await login(email, senha));
+    } catch (falha) {
+      setErro(falha.mensagem || "Não foi possível entrar. Tente novamente.");
     } finally {
       setEnviando(false);
     }
   }
+
+  function enviar(evento) {
+    evento.preventDefault();
+    entrarCom(form.email, form.senha);
+  }
+
   return (
-    <form onSubmit={entrar} className="flex flex-col gap-3 items-center">
-      <h2 className="font-titulo font-bold text-center text-4xl">LOGIN</h2>
-
-      <div className="flex flex-col self-stretch">
-        <label htmlFor="email" className="text-2xl font-light">
-          E-mail
-        </label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={form.email}
-          onChange={handleChange}
-          required
-          maxLength={LIMITE_EMAIL}
-          placeholder="nome@example.com"
-          className={ESTILO_CAMPO}
-        />
+    <div className="space-y-6">
+      <div className="text-center">
+        <h2 className="font-titulo text-2xl font-bold text-texto">Entrar no MenteForte</h2>
+        <p className="mt-1 text-sm text-texto-suave">
+          Versão de demonstração: use uma conta de teste ou a conta que você criou.
+        </p>
       </div>
 
-      <div className="flex flex-col self-stretch">
-        <label htmlFor="senha" className="text-2xl font-light">
-          Senha
-        </label>
-        <CampoSenha
-          id="senha"
-          name="senha"
-          valor={form.senha}
-          aoAlterar={handleChange}
-          autoComplete="current-password"
-          required
-          placeholder="Digite a senha"
-          className={ESTILO_CAMPO}
-        />
-      </div>
+      <form onSubmit={enviar} className="space-y-4">
+        <Campo id="login-email" rotulo="E-mail">
+          <input
+            id="login-email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={alterar}
+            autoComplete="email"
+            maxLength={LIMITE_EMAIL}
+            required
+            placeholder="voce@exemplo.com"
+            className={ESTILO_ENTRADA}
+          />
+        </Campo>
 
-      <div className="flex text-sm font-medium gap-20">
-        <button
-          type="button"
-          onClick={aoEsqueciSenha}
-          className="hover:underline hover:text-red-300 cursor-pointer"
-        >
-          Esqueceu a senha?
-        </button>
-        <NavLink
-          to="/cadastro"
-          className="font-light hover:underline hover:text-red-300"
-          onClick={aoFechar}
-        >
-          Cadastre-se
-        </NavLink>
-      </div>
+        <Campo id="login-senha" rotulo="Senha">
+          <CampoSenha
+            id="login-senha"
+            name="senha"
+            valor={form.senha}
+            aoAlterar={alterar}
+            autoComplete="current-password"
+            required
+            placeholder="Sua senha"
+          />
+        </Campo>
 
-      {erro && <p className="text-sm text-center text-red-500">{erro}</p>}
-            {falhas >= FALHAS_PARA_DICA && (
-        <div className="flex flex-col items-center gap-1 text-sm text-center text-red-200">
-          <p>Muitas tentativas? Aguarde alguns minutos ou redefina a senha.</p>
-          <button
-            type="button"
-            onClick={aoEsqueciSenha}
-            className="text-base p-4 my-2 rounded-xl border border-red-500 text-red-200 hover:bg-red-500 hover:text-white cursor-pointer"
-          >
-            Redefinir senha
-          </button>
+        {erro && <Alerta tipo="erro">{erro}</Alerta>}
+
+        <Botao type="submit" larguraTotal disabled={enviando}>
+          {enviando ? "Entrando..." : "Entrar"}
+        </Botao>
+      </form>
+
+      <div className="rounded-xl border border-borda bg-fundo/60 p-4">
+        <p className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+          Entrar com uma conta de teste
+        </p>
+        <div className="mt-3 grid grid-cols-3 gap-2">
+          {CONTAS_DE_TESTE.map((conta) => (
+            <Botao
+              key={conta.email}
+              variante="secundario"
+              tamanho="pequeno"
+              disabled={enviando}
+              onClick={() => entrarCom(conta.email, SENHA_DE_TESTE)}
+            >
+              {conta.rotulo}
+            </Botao>
+          ))}
         </div>
-      )}
+        <p className="mt-3 text-xs text-texto-fraco">
+          Senha das contas de teste: <span className="font-mono text-texto-suave">{SENHA_DE_TESTE}</span>
+        </p>
+      </div>
 
-      <button
-        type="submit"
-        disabled = {enviando}
-        className="hover:text-white p-4 my-2 bg-red-500 text-red-200 rounded-xl hover:bg-red-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {enviando ? "Entrando..." : "Entrar"}
-      </button>
-    </form>
+      <p className="text-center text-sm text-texto-suave">
+        Ainda não tem conta?{" "}
+        <Link to="/cadastro" onClick={aoFechar} className="font-semibold text-marca-300 hover:text-marca-200">
+          Cadastre-se
+        </Link>
+      </p>
+    </div>
   );
 }
 

@@ -16,12 +16,12 @@ const PAPEIS = [
   {
     titulo: "Professor",
     texto:
-      "Com o CREF validado, escreve artigos, quizzes e exercícios e revisa o conteúdo dos colegas antes de ele chegar ao site.",
+      "Escreve artigos, quizzes e exercícios e revisa o conteúdo dos colegas antes de ele chegar ao site.",
   },
   {
     titulo: "Administrador",
     texto:
-      "Valida o CREF dos professores, decide a publicação do conteúdo e cuida das contas e dos pedidos sobre dados pessoais.",
+      "Decide a publicação do conteúdo e cuida das contas e dos pedidos sobre dados pessoais.",
   },
 ];
 

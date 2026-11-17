@@ -6,7 +6,7 @@ import Modal from "../components/ui/Modal";
 import Botao from "../components/ui/Botao";
 import Container from "../components/ui/Container";
 import { estiloDeBotao } from "../components/ui/estiloDeBotao";
-import Autenticacao from "../components/Autenticacao";
+import FormLogin from "../components/FormLogin";
 import AvisoLogin from "./AvisoLogin";
 import MenuDaConta from "./MenuDaConta";
 import { PAPEIS_EDITORES, PAPEIS_VALIDADORES, rotuloDoPapel } from "../utils/papeis";
@@ -186,9 +186,12 @@ function Navegacao({ usuario, aoEntrar, aoSair }) {
       )}
 
       <Modal aberto={loginAberto} aoFechar={() => setLoginAberto(false)} largura="estreita">
-        <Autenticacao
+        <FormLogin
           aoFechar={() => setLoginAberto(false)}
-          aoEntrar={(sessao) => aoEntrar(sessao, destinoDoLogin)}
+          aoEntrar={(sessao) => {
+            setLoginAberto(false);
+            aoEntrar(sessao, destinoDoLogin);
+          }}
         />
       </Modal>
 

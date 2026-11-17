@@ -6,11 +6,10 @@ import PedidosDeExclusao from "../components/AdminComponents/PedidosDeExclusao";
 import FilaDeArtigos from "../components/AdminComponents/FilaDeArtigos";
 import FilaDeQuizzes from "../components/AdminComponents/FilaDeQuizzes";
 import FilaDeExercicios from "../components/AdminComponents/FilaDeExercicios";
-import VerificacoesCref from "../components/AdminComponents/VerificacoesCref";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 import { SUBTITULOS_DA_ADMINISTRACAO } from "../utils/subtitulosDasPaginas";
 
-const TIPOS_FILTRADOS = ["artigos", "quizzes", "exercicios", "professores", "exclusoes"];
+const TIPOS_FILTRADOS = ["artigos", "quizzes", "exercicios", "exclusoes"];
 
 function ItensPendentesPages() {
   const [parametros, setParametros] = useSearchParams();
@@ -40,7 +39,6 @@ function ItensPendentesPages() {
         {mostrar("artigos") && <FilaDeArtigos />}
         {mostrar("quizzes") && <FilaDeQuizzes />}
         {mostrar("exercicios") && <FilaDeExercicios />}
-        {mostrar("professores") && <VerificacoesCref />}
         {mostrar("exclusoes") && <PedidosDeExclusao />}
       </div>
     </div>

@@ -1,157 +1,78 @@
+import Botao from "../ui/Botao";
+import Etiqueta from "../ui/Etiqueta";
 import { formatarDataCurta } from "../../utils/formatar";
 import { rotuloDoPapel } from "../../utils/papeis";
 
-const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-red-200 whitespace-nowrap";
-const ESTILO_CELULA = "py-2 pr-4 text-gray-300 align-top";
-const ESTILO_ETIQUETA = "rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap";
-const ETIQUETAS_CREF = {
-  PENDENTE: {
-    texto: "CREF pendente",
-    cores: "border-yellow-500 bg-yellow-500/15 text-yellow-200",
-  },
-  REJEITADO: {
-    texto: "CREF rejeitado",
-    cores: "border-red-500 bg-red-500/15 text-red-300",
-  },
-};
+const ESTILO_CABECALHO = "px-4 py-3 text-xs font-semibold tracking-wider text-texto-fraco uppercase whitespace-nowrap";
+const ESTILO_CELULA = "px-4 py-3 align-top text-texto-suave";
 
-const ESTILO_ACAO =
-  "rounded-md border border-gray-600 px-3 py-1 text-xs text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
-
-const ESTILO_ACAO_GRAVE =
-  "rounded-md border border-red-500 bg-red-500/10 px-3 py-1 text-xs font-medium text-red-300 hover:bg-red-500/25 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
-
-function descricaoDaFormacao(codigo, formacoes) {
-  if (!codigo) return null;
-  return formacoes.find((opcao) => opcao.codigo === codigo)?.descricao ?? codigo;
-}
-
-function TabelaUsuarios({
-  usuarios,
-  formacoes,
-  aoEditar,
-  aoAlternarAtivo,
-  aoAnonimizar,
-  idEmOperacao,
-  idDoLogado,
-}) {
+function TabelaUsuarios({ usuarios, aoEditar, aoAlternarAtivo, aoAnonimizar, idEmOperacao, idDoLogado }) {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-4xl border-collapse text-left text-sm">
-        <thead>
-          <tr className="border-b border-gray-700">
+    <div className="overflow-x-auto rounded-2xl border border-borda bg-superficie">
+      <table className="w-full min-w-3xl border-collapse text-left text-sm">
+        <thead className="border-b border-borda bg-superficie-alta/60">
+          <tr>
             <th className={ESTILO_CABECALHO}>Usuário</th>
             <th className={ESTILO_CABECALHO}>Perfil</th>
-            <th className={ESTILO_CABECALHO}>Habilitação</th>
             <th className={ESTILO_CABECALHO}>Situação</th>
             <th className={ESTILO_CABECALHO}>Desde</th>
             <th className={ESTILO_CABECALHO}>Ações</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="divide-y divide-borda">
           {usuarios.map((usuario) => {
             const anonimizada = Boolean(usuario.anonimizadoEm);
             const ocupada = idEmOperacao === usuario.id;
-
             const ehAPropriaConta = usuario.id === idDoLogado;
             const naoPodeInativar = anonimizada || (ehAPropriaConta && usuario.ativo);
             const pediuExclusao = Boolean(usuario.anonimizacaoSolicitadaEm) && !anonimizada;
-            const etiquetaCref = ETIQUETAS_CREF[usuario.situacaoCref];
 
             return (
-              <tr key={usuario.id} className="border-b border-gray-700">
+              <tr key={usuario.id} className="hover:bg-white/[0.02]">
                 <td className={`${ESTILO_CELULA} wrap-anywhere`}>
-                  <span className="block text-white">{usuario.nomeCompleto}</span>
-                  <span className="block text-xs text-gray-400">{usuario.email}</span>
+                  <span className="block font-medium text-texto">{usuario.nomeCompleto}</span>
+                  <span className="block text-xs text-texto-fraco">{usuario.email}</span>
                 </td>
-
                 <td className={ESTILO_CELULA}>
-                  <span className={`${ESTILO_ETIQUETA} bg-red-500 text-white`}>
-                    {rotuloDoPapel(usuario.papel)}
-                  </span>
+                  <Etiqueta tom="marca">{rotuloDoPapel(usuario.papel)}</Etiqueta>
                 </td>
-
                 <td className={ESTILO_CELULA}>
-                  {usuario.cref ? (
-                    <>
-                      <span className="block text-white">{usuario.cref}</span>
-                      <span className="block text-xs text-gray-400">
-                        {descricaoDaFormacao(usuario.formacao, formacoes)}
-                      </span>
-                      {etiquetaCref && (
-                        <span
-                          className={`mt-1 inline-block border ${ESTILO_ETIQUETA} ${etiquetaCref.cores}`}
-                        >
-                          {etiquetaCref.texto}
-                        </span>
-                      )}
-                    </>
-                  ) : (
-                    <span className="text-gray-500">—</span>
-                  )}
-                </td>
-
-                <td className={ESTILO_CELULA}>
-                  <span
-                    className={`${ESTILO_ETIQUETA} border ${
-                      usuario.ativo
-                        ? "border-green-600 bg-green-600/20 text-green-300"
-                        : "border-gray-500 bg-gray-600/20 text-gray-300"
-                    }`}
-                  >
-                    {usuario.ativo ? "Ativo" : "Inativo"}
-                  </span>
-
+                  <Etiqueta tom={usuario.ativo ? "sucesso" : "neutra"}>{usuario.ativo ? "Ativa" : "Inativa"}</Etiqueta>
                   {anonimizada && (
-                    <span className="mt-1 block text-xs text-gray-500">
+                    <span className="mt-1.5 block text-xs text-texto-fraco">
                       Anonimizada em {formatarDataCurta(usuario.anonimizadoEm)}
                     </span>
                   )}
-
-                  {!anonimizada && usuario.anonimizacaoSolicitadaEm && (
-                    <span className="mt-1 block text-xs text-red-300">
-                      Exclusão pedida em{" "}
-                      {formatarDataCurta(usuario.anonimizacaoSolicitadaEm)}
+                  {pediuExclusao && (
+                    <span className="mt-1.5 block text-xs text-aviso">
+                      Exclusão pedida em {formatarDataCurta(usuario.anonimizacaoSolicitadaEm)}
                     </span>
                   )}
                 </td>
-
-                <td className={`${ESTILO_CELULA} whitespace-nowrap`}>
-                  {formatarDataCurta(usuario.criadoEm)}
-                </td>
-
+                <td className={`${ESTILO_CELULA} whitespace-nowrap`}>{formatarDataCurta(usuario.criadoEm)}</td>
                 <td className={ESTILO_CELULA}>
                   <div className="flex flex-wrap gap-2">
-                    <button
-                      type="button"
+                    <Botao
+                      variante="secundario"
+                      tamanho="pequeno"
                       onClick={() => aoEditar(usuario)}
                       disabled={anonimizada || ocupada}
-                      className={ESTILO_ACAO}
                     >
                       Editar
-                    </button>
-                    <button
-                      type="button"
+                    </Botao>
+                    <Botao
+                      variante="secundario"
+                      tamanho="pequeno"
                       onClick={() => aoAlternarAtivo(usuario)}
                       disabled={naoPodeInativar || ocupada}
-                      title={
-                        ehAPropriaConta && usuario.ativo
-                          ? "Você não pode inativar a própria conta"
-                          : undefined
-                      }
-                      className={ESTILO_ACAO}
+                      title={ehAPropriaConta && usuario.ativo ? "Você não pode inativar a própria conta" : undefined}
                     >
                       {ocupada ? "Salvando..." : usuario.ativo ? "Inativar" : "Reativar"}
-                    </button>
+                    </Botao>
                     {pediuExclusao && (
-                      <button
-                        type="button"
-                        onClick={() => aoAnonimizar(usuario)}
-                        disabled={ocupada}
-                        className={ESTILO_ACAO_GRAVE}
-                      >
+                      <Botao variante="perigo" tamanho="pequeno" onClick={() => aoAnonimizar(usuario)} disabled={ocupada}>
                         Anonimizar
-                      </button>
+                      </Botao>
                     )}
                   </div>
                 </td>

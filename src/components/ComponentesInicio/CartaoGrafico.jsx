@@ -6,7 +6,6 @@ const ESTILO_CELULA = "border-b border-gray-700 py-1 pr-3 align-top";
 function CartaoGrafico({
   titulo,
   descricao,
-  simulado = false,
   carregando,
   erro,
   dados,
@@ -23,11 +22,6 @@ function CartaoGrafico({
       <div>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="font-titulo font-bold text-lg text-white">{titulo}</h3>
-          {simulado && (
-            <span className="rounded-md border border-yellow-500 bg-yellow-500/15 px-2 py-1 text-xs font-medium text-yellow-200">
-              Dados de exemplo
-            </span>
-          )}
         </div>
         <p className="mt-1 text-sm text-gray-400">{descricao}</p>
       </div>

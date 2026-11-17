@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Logo from "../components/ui/Logo";
 import Container from "../components/ui/Container";
+import RestaurarDemonstracao from "./RestaurarDemonstracao";
 
 const GRUPOS = [
   {
@@ -29,8 +30,8 @@ function Rodape() {
         <div className="max-w-sm space-y-4">
           <Logo />
           <p className="text-sm leading-relaxed text-texto-suave">
-            Mais que músculos, conhecimento. Conteúdo sobre musculação revisado por profissionais
-            de Educação Física, de uso gratuito.
+            Mais que músculos, conhecimento. Conteúdo educativo sobre musculação: não substitui a
+            avaliação de um profissional de Educação Física ou de saúde.
           </p>
         </div>
 
@@ -57,8 +58,8 @@ function Rodape() {
           largura="larga"
           className="flex flex-col gap-2 py-6 text-xs text-texto-fraco md:flex-row md:items-center md:justify-between"
         >
-          <p>&copy; 2026 MenteForte.</p>
-          <p>Conteúdo educativo: não substitui a avaliação de um profissional de Educação Física ou de saúde.</p>
+          <p>&copy; 2026 MenteForte. Versão de demonstração: os dados ficam só neste navegador.</p>
+          <RestaurarDemonstracao />
         </Container>
       </div>
     </footer>

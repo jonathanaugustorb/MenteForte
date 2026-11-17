@@ -13,7 +13,6 @@ import {
 import { listarQuizzes, listarQuizzesPendentes } from "../services/quizService";
 import {
   listarAnonimizacoesPendentes,
-  listarVerificacoesPendentes,
 } from "../services/usuarioService";
 import { podeEditar } from "../utils/papeis";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
@@ -56,12 +55,11 @@ function numerosDoProfessor(artigos, quizzes, exercicios) {
   ];
 }
 
-function numerosDoAdministrador(artigos, quizzes, professores, pedidos, exercicios) {
+function numerosDoAdministrador(artigos, quizzes, pedidos, exercicios) {
   return [
     { rotulo: "Artigos para revisar", valor: artigos.length },
     { rotulo: "Quizzes para revisar", valor: quizzes.length },
     ...(exercicios ? [{ rotulo: "Exercícios para revisar", valor: exercicios.length }] : []),
-    { rotulo: "Professores a verificar", valor: professores.length },
     { rotulo: "Pedidos de exclusão", valor: pedidos.length },
   ];
 }
@@ -73,7 +71,6 @@ function buscarDados(papel) {
       listarGruposMusculares(),
       listarArtigosPendentes(),
       listarQuizzesPendentes(),
-      listarVerificacoesPendentes(),
       listarAnonimizacoesPendentes(),
       listarExerciciosPendentes(),
     ]).then(([exercicios, grupos, ...pendencias]) => ({ exercicios, grupos, pendencias }));

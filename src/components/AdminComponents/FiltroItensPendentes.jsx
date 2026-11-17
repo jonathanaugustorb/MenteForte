@@ -3,7 +3,6 @@ const FILTROS = [
   { valor: "artigos", rotulo: "Artigos" },
   { valor: "quizzes", rotulo: "Quizzes" },
   { valor: "exercicios", rotulo: "Exercícios" },
-  { valor: "professores", rotulo: "Professores" },
   { valor: "exclusoes", rotulo: "Pedidos de exclusão" },
 ];
 
