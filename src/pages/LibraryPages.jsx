@@ -3,14 +3,12 @@ import { useOutletContext, useSearchParams } from "react-router-dom";
 import FilterLibrary from "../components/LibraryComponents/FilterLibrary";
 import CardsLibrary from "../components/LibraryComponents/CardsLibrary";
 import LibraryHead from "../components/LibraryComponents/LibraryHead";
-import AvisoDeSimulacao from "../components/LibraryComponents/AvisoDeSimulacao";
 import LimiteDeCriacao from "../components/LimiteDeCriacao";
 import FiltroParaAprovar from "../components/FiltroParaAprovar";
 import {
   listarExercicios,
   listarGruposMusculares,
   listarNiveis,
-  MODERACAO_DE_EXERCICIOS_SIMULADA,
 } from "../services/exercicioService";
 import { PAPEIS_EDITORES } from "../utils/papeis";
 import { limiteDeCriacao } from "../utils/limiteCriacao";
@@ -62,7 +60,7 @@ function LibraryPages() {
     if (exercicioNoEndereco) setParametros({}, { replace: true, preventScrollReset: true });
   }
 
-  const criacaoBloqueada = MODERACAO_DE_EXERCICIOS_SIMULADA && limiteDeCriacao(exercicios, usuario).bloqueado;
+  const criacaoBloqueada = limiteDeCriacao(exercicios, usuario).bloqueado;
 
   useEffect(() => {
     let ativo = true;
@@ -158,7 +156,7 @@ function LibraryPages() {
   }
 
   return (
-    <div>
+    <div className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
       <LibraryHead
         gruposMusculares={gruposMusculares}
         niveis={niveis}
@@ -169,15 +167,8 @@ function LibraryPages() {
         podeEditar={podeEditar}
         papel={usuario?.papel}
       />
-      {MODERACAO_DE_EXERCICIOS_SIMULADA && !carregando && !erro && (
-        <div className="px-4">
-          <LimiteDeCriacao itens={exercicios} usuario={usuario} tipo="exercícios" />
-        </div>
-      )}
-      {MODERACAO_DE_EXERCICIOS_SIMULADA && (
-        <div className="mb-4 px-4">
-          <AvisoDeSimulacao />
-        </div>
+      {podeEditar && !carregando && !erro && (
+        <LimiteDeCriacao itens={exercicios} usuario={usuario} tipo="exercícios" />
       )}
       {usuario?.papel === "PROFESSOR" && (
         <FiltroParaAprovar
@@ -188,6 +179,7 @@ function LibraryPages() {
       )}
 
       <FilterLibrary
+        grupos={gruposMusculares}
         grupoSelecionado={grupoSelecionado}
         aoSelecionar={setGrupoSelecionado}
       />

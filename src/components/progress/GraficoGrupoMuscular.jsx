@@ -7,22 +7,22 @@ function GraficoGrupoMuscular({ grupos }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-xs tracking-widest text-gray-300">
-        VOLUME POR GRUPO MUSCULAR
+      <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+        Volume por grupo muscular
       </span>
 
       <ul className="flex flex-col gap-3">
         {grupos.map((grupo) => (
           <li key={grupo.grupoMuscular} className="flex flex-col gap-1">
             <div className="flex justify-between gap-4 text-sm">
-              <span className="text-gray-300">{grupo.descricao}</span>
-              <span className="text-red-200">
+              <span className="text-texto-suave">{grupo.descricao}</span>
+              <span className="text-marca-200">
                 {formatarNumero(grupo.volumeKg)} kg
               </span>
             </div>
-            <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
+            <div className="h-2 w-full overflow-hidden rounded-full bg-superficie-alta">
               <div
-                className="h-full rounded-full bg-red-500"
+                className="h-full rounded-full bg-marca-600"
                 style={{
                   width: maiorVolume
                     ? `${(grupo.volumeKg / maiorVolume) * 100}%`

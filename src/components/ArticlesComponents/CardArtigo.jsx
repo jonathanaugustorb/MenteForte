@@ -1,38 +1,32 @@
 import { Link } from "react-router-dom";
-import Cartao from "../ComponentesHome/Cartao";
+import Etiqueta from "../ui/Etiqueta";
 import { etiquetaDoArtigo } from "./artigoCampos";
 
 function CardArtigo({ artigo }) {
   const { id, categoria, titulo, resumo, tipoEstudo, ano } = artigo;
   const etiquetaStatus = etiquetaDoArtigo(artigo);
+  const detalhes = [tipoEstudo, ano].filter(Boolean).join(" · ");
 
   return (
-   <Link to={`/articles/${id}`} className="block h-full">
-    <Cartao className="flex h-full flex-col transition-colors hover:border-red-500">
-      <div className="flex items-start justify-between gap-2">
-        <span className="rounded-full border border-red-500 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-red-400">
-        {categoria.descricao}
-      </span>
-        {etiquetaStatus && (
-          <span className="rounded-md bg-gray-700 px-2 py-1 text-xs font-medium text-gray-200">
-            {etiquetaStatus}
-          </span>
-        )}
+    <Link
+      to={`/articles/${id}`}
+      className="group flex h-full flex-col rounded-2xl border border-borda bg-superficie p-6 shadow-cartao transition-colors hover:border-marca-500/60 focus-visible:border-marca-500"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <Etiqueta tom="marca">{categoria.descricao}</Etiqueta>
+        {etiquetaStatus && <Etiqueta>{etiquetaStatus}</Etiqueta>}
       </div>
 
-      <h3 className="mt-4 font-montserrat text-lg text-white">{titulo}</h3>
-      <p className="mt-2 text-sm text-gray-400">{resumo}</p>
+      <h3 className="mt-4 font-titulo text-lg font-bold text-texto group-hover:text-marca-100">{titulo}</h3>
+      <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-texto-suave">{resumo}</p>
 
-      <div className="mt-auto pt-4">
-        <div className="h-px bg-gray-700"></div>
-        <div className="mt-4 flex justify-between gap-2 text-xs uppercase tracking-[0.2em] text-gray-400">
-          <span className="min-w-0">{tipoEstudo}</span>
-          {ano && <span>Ano de publicação: {ano}</span>}
+      {detalhes && (
+        <div className="mt-auto pt-5">
+          <p className="border-t border-borda pt-4 text-xs text-texto-fraco">{detalhes}</p>
         </div>
-      </div>
-    </Cartao>
-  </Link>
-);
+      )}
+    </Link>
+  );
 }
 
 export default CardArtigo;

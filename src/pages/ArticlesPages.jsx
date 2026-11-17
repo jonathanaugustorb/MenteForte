@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import FilterArticles from "../components/ArticlesComponents/FilterArticles";
 import CardArtigo from "../components/ArticlesComponents/CardArtigo";
 import NovoArtigo from "../components/ArticlesComponents/NovoArtigo";
@@ -77,18 +77,13 @@ function ArticlesPages() {
   const aguardandoMinhaAprovacao = artigos.filter((artigo) => artigo.podeAprovar).length;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Artigos e revisões"
         subtitulo={subtituloPorPapel("artigos", usuario?.papel)}
         icone={ICONES_DAS_PAGINAS.artigos}
-      />
-
-      {podeEditar && (
-        <>
-          {!carregando && !erro && (
-            <LimiteDeCriacao itens={artigos} usuario={usuario} tipo="artigos" />
-          )}
+      >
+        {podeEditar && (
           <NovoArtigo
             categorias={categorias}
             carregandoOpcoes={carregando || Boolean(erro)}
@@ -96,7 +91,11 @@ function ArticlesPages() {
             aoCriar={adicionarArtigo}
             aoConferirLimite={setArtigos}
           />
-        </>
+        )}
+      </CabecalhoPagina>
+
+      {podeEditar && !carregando && !erro && (
+        <LimiteDeCriacao itens={artigos} usuario={usuario} tipo="artigos" />
       )}
 
       {usuario?.papel === "PROFESSOR" && (
@@ -126,7 +125,7 @@ function ArticlesPages() {
             : "Nenhum artigo encontrado."
         }
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {artigosVisiveis.map((artigo) => (
             <CardArtigo key={artigo.id} artigo={artigo} />
           ))}

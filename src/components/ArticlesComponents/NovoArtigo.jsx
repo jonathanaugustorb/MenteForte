@@ -1,8 +1,10 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import { Plus } from "lucide-react";
+import Modal from "../ui/Modal";
 import ArtigoForm from "./ArtigoForm";
 import { ARTIGO_VAZIO, artigoParaEnvio, validarArtigo } from "./artigoCampos";
 import { criarArtigo } from "../../services/artigoService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function NovoArtigo({ categorias, carregandoOpcoes, criacaoBloqueada = false, aoCriar, aoConferirLimite }) {
   const [modalAberto, setModalAberto] = useState(false);
@@ -50,19 +52,20 @@ function NovoArtigo({ categorias, carregandoOpcoes, criacaoBloqueada = false, ao
   }
 
   return (
-    <div className="mb-6 flex justify-end">
+    <>
       <button
         type="button"
         onClick={() => setModalAberto(true)}
         disabled={carregandoOpcoes || criacaoBloqueada}
-        className="bg-red-500 rounded-md py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        className={estiloDeBotao()}
       >
+        <Plus size={16} aria-hidden="true" />
         Novo artigo
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal} largo>
+      <Modal aberto={modalAberto} aoFechar={fecharModal} largura="larga">
         <ArtigoForm
-          titulo="NOVO ARTIGO"
+          titulo="Novo artigo"
           valores={form}
           aoAlterar={handleChange}
           aoEnviar={handleSubmit}
@@ -75,7 +78,7 @@ function NovoArtigo({ categorias, carregandoOpcoes, criacaoBloqueada = false, ao
           textoBotaoEnviando="Enviando..."
         />
       </Modal>
-    </div>
+    </>
   );
 }
 

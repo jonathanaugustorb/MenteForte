@@ -12,11 +12,11 @@ function ModeracaoExercicio({ exercicio, aoAprovar, aoDecidir }) {
   return (
     <>
       {exercicio.motivoRejeicao && (
-        <div className="rounded-xl border border-red-500 p-4">
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+        <div className="rounded-xl border border-marca-500 p-4">
+          <p className="text-sm font-semibold text-marca-400">
             Motivo da rejeição
           </p>
-          <p className="mt-1 text-sm text-gray-300 wrap-anywhere">{exercicio.motivoRejeicao}</p>
+          <p className="mt-1 text-sm text-texto-suave wrap-anywhere">{exercicio.motivoRejeicao}</p>
         </div>
       )}
 

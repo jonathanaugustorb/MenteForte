@@ -1,17 +1,17 @@
 import { formatarNumero } from "../../utils/formatar";
 
 function CardResultado({ rotulo, valor, unidade, rodape, variante, tamanho }) {
-  const corValor = variante === "neutro" ? "text-white" : "text-red-200";
+  const corValor = variante === "neutro" ? "text-white" : "text-marca-200";
   const tamanhoValor =
-    tamanho === "medio" ? "text-3xl lp:text-4xl" : "text-5xl lp:text-6xl";
+    tamanho === "medio" ? "text-3xl lg:text-4xl" : "text-5xl lg:text-6xl";
 
   return (
-    <div className="flex flex-1 min-w-0 flex-col gap-2 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20">
-      <span className="text-xs tracking-widest text-gray-300">{rotulo}</span>
+    <div className="flex flex-1 min-w-0 flex-col gap-2 p-7 border bg-superficie border-borda rounded-xl shadow-cartao">
+      <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">{rotulo}</span>
 
       <div className="flex items-end gap-2">
         <span
-          className={`font-montserrat ${tamanhoValor} ${corValor} break-all`}
+          className={`font-titulo font-bold ${tamanhoValor} ${corValor} break-all`}
         >
           {formatarNumero(valor)}
         </span>
@@ -20,8 +20,8 @@ function CardResultado({ rotulo, valor, unidade, rodape, variante, tamanho }) {
 
       {rodape ? (
         <>
-          <div className="w-full h-px bg-gray-500"></div>
-          <div className="text-gray-300 text-sm">{rodape}</div>
+          <div className="w-full h-px bg-borda"></div>
+          <div className="text-texto-suave text-sm">{rodape}</div>
         </>
       ) : null}
     </div>

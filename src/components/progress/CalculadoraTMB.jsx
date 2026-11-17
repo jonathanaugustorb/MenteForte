@@ -10,10 +10,11 @@ import CardResultado from "./CardResultado";
 import CampoNumero from "./CampoNumero";
 import MemoriaCalculo from "./MemoriaCalculo";
 import BlocoExplicacao from "./BlocoExplicacao";
-import EstadoRequisicao from "./EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import { EXPLICACAO_TMB, COMO_CALCULAMOS_TMB } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
 import ComoCalculamos from "./ComoCalculamos";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 const CONSTANTE_POR_SEXO = { MASCULINO: "+ 5", FEMININO: "− 161" };
 
@@ -95,9 +96,9 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
     >
       {resultado ? (
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-4 md:flex-row">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <CardResultado
-              rotulo="SUA TMB"
+              rotulo="Sua TMB"
               valor={resultado.tmb}
               unidade="kcal"
               tamanho="medio"
@@ -130,7 +131,7 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
   return (
     <SecaoCalculadora
       numero="02"
-      titulo="TAXA METABÓLICA BASAL"
+      titulo="Taxa metabólica basal"
       conceito={
         <>
           <span className="font-semibold text-white">O que é TMB? </span>É a
@@ -146,21 +147,21 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
     >
       <form
         onSubmit={aoEnviar}
-        className="flex flex-col gap-6 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20"
+        className="flex flex-col gap-6 p-7 border bg-superficie border-borda rounded-xl shadow-cartao"
       >
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-red-500"></span>
-          <span className="text-xs tracking-widest text-gray-300">
-            SEUS DADOS
+          <span className="h-2 w-2 rounded-full bg-marca-600"></span>
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Seus dados
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <CampoNumero
             id="peso-tmb"
             digitos={3}
             casas={2}
-            rotulo="PESO (KG)"
+            rotulo="Peso (kg)"
             valor={pesoKg}
             aoAlterar={aoAlterarPeso}
             decimal
@@ -169,7 +170,7 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
           <CampoNumero
             id="altura"
             digitos={3}
-            rotulo="ALTURA (CM)"
+            rotulo="Altura (cm)"
             valor={alturaCm}
             aoAlterar={setAlturaCm}
             placeholder="178"
@@ -177,19 +178,19 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
           <CampoNumero
             id="idade"
             digitos={3}
-            rotulo="IDADE"
+            rotulo="Idade"
             valor={idade}
             aoAlterar={setIdade}
             placeholder="27"
           />
 
           <div className="flex flex-col gap-1">
-            <span className="text-xs tracking-widest text-gray-300">
-              SEXO BIOLÓGICO
+            <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+              Sexo biológico
             </span>
-            <div className="flex gap-2 border-b border-gray-500 py-1">
+            <div className="flex gap-2 border-b border-borda-forte py-1">
               {carregandoOpcoes ? (
-                <span className="py-1 text-sm text-gray-300">
+                <span className="py-1 text-sm text-texto-suave">
                   Carregando...
                 </span>
               ) : null}
@@ -200,8 +201,8 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
                   onClick={() => setSexoBiologico(sexo.codigo)}
                   className={`rounded-md px-3 py-1 text-sm cursor-pointer ${
                     sexoBiologico === sexo.codigo
-                      ? "bg-red-500 text-white"
-                      : "text-gray-300 hover:text-red-200"
+                      ? "bg-marca-600 text-white"
+                      : "text-texto-suave hover:text-marca-200"
                   }`}
                 >
                   {sexo.descricao}
@@ -212,22 +213,22 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
         </div>
 
         <div className="flex flex-col gap-1">
-          <span className="text-xs tracking-widest text-gray-300">
-            NÍVEL DE ATIVIDADE
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Nível de atividade
           </span>
           <ul className="flex flex-col">
             {carregandoOpcoes ? (
-              <li className="py-2 text-sm text-gray-300">Carregando...</li>
+              <li className="py-2 text-sm text-texto-suave">Carregando...</li>
             ) : null}
             {niveis.map((nivel) => (
               <li key={nivel.codigo}>
                 <button
                   type="button"
                   onClick={() => setNivelAtividade(nivel.codigo)}
-                  className={`w-full border-b border-gray-700 py-2 text-left text-sm cursor-pointer ${
+                  className={`w-full border-b border-borda py-2 text-left text-sm cursor-pointer ${
                     nivelAtividade === nivel.codigo
-                      ? "font-semibold text-red-500"
-                      : "text-gray-300 hover:text-red-200"
+                      ? "font-semibold text-perigo"
+                      : "text-texto-suave hover:text-marca-200"
                   }`}
                 >
                   {nivel.descricao}
@@ -238,7 +239,7 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
         </div>
 
         {erroListas ? (
-          <p className="rounded-md border border-red-500 p-3 text-sm text-red-200">
+          <p className="rounded-xl border border-perigo/30 bg-perigo/10 p-3 text-sm text-red-100">
             {erroListas}
           </p>
         ) : null}
@@ -246,9 +247,9 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
         <button
           type="submit"
           disabled={!formularioValido || carregando}
-          className="self-start bg-red-500 py-1 px-4 font-medium text-white hover:bg-red-900 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+          className={estiloDeBotao({ className: "self-start" })}
         >
-          {carregando ? "CALCULANDO..." : "CALCULAR"}
+          {carregando ? "Calculando..." : "Calcular"}
         </button>
       </form>
     </SecaoCalculadora>

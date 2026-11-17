@@ -1,10 +1,5 @@
 import api from "./api";
-
-function limparParametros(parametros) {
-  return Object.fromEntries(
-    Object.entries(parametros).filter(([, valor]) => valor !== "" && valor != null),
-  );
-}
+import { limparParametros } from "./parametros";
 
 export async function buscarAuditoria(parametros) {
   const { data } = await api.get("/auditoria", {

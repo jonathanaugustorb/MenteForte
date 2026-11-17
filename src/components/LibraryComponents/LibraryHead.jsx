@@ -1,20 +1,22 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import { Plus } from "lucide-react";
+import Modal from "../ui/Modal";
 import ExercicioForm from "./ExercicioForm";
 import { EXERCICIO_VAZIO, exercicioParaEnvio, validarExercicio } from "./exercicioCampos";
 import { criarExercicio } from "../../services/exercicioService";
-import CabecalhoPagina from "../CabecalhoPagina";
+import CabecalhoPagina from "../ui/CabecalhoPagina";
 import { ICONES_DAS_PAGINAS } from "../../utils/iconesDasPaginas";
 import { subtituloPorPapel } from "../../utils/subtitulosDasPaginas";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function LibraryHead({ gruposMusculares, niveis, carregandoOpcoes, criacaoBloqueada = false, aoCriar, aoConferirLimite, podeEditar, papel }) {
-  const [openModal, setOpenModaL] = useState(false);
+  const [modalAberto, setModalAberto] = useState(false);
   const [form, setForm] = useState(EXERCICIO_VAZIO);
   const [enviando, setEnviando] = useState(false);
   const [erro, setErro] = useState(null);
 
   function fecharModal() {
-    setOpenModaL(false);
+    setModalAberto(false);
     setForm(EXERCICIO_VAZIO);
     setErro(null);
   }
@@ -49,25 +51,24 @@ function LibraryHead({ gruposMusculares, niveis, carregandoOpcoes, criacaoBloque
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
-      <CabecalhoPagina
+    <CabecalhoPagina
         titulo="Biblioteca de exercícios"
         subtitulo={subtituloPorPapel("biblioteca", papel)}
         icone={ICONES_DAS_PAGINAS.biblioteca}
       >
         {podeEditar && (
-          <div className="gap-2 flex px-2 py-3 font-bold">
+          <>
             <button
-              onClick={() => setOpenModaL(true)}
+              onClick={() => setModalAberto(true)}
               disabled={carregandoOpcoes || criacaoBloqueada}
-              className=" bg-red-500 text-red-200 rounded-md cursor-pointer hover:bg-red-900 hover:text-white p-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao()}
             >
-              {" "}
-              Adicionar exercicio
+              <Plus size={16} aria-hidden="true" />
+              Novo exercício
             </button>
-            <Modal isOpen={openModal} setCloseModal={fecharModal} largo>
+            <Modal aberto={modalAberto} aoFechar={fecharModal} largura="larga">
               <ExercicioForm
-                titulo="CRIAR EXERCICIO"
+                titulo="Criar exercício"
                 valores={form}
                 aoAlterar={handleChange}
                 aoEnviar={handleSubmit}
@@ -80,10 +81,9 @@ function LibraryHead({ gruposMusculares, niveis, carregandoOpcoes, criacaoBloque
                 textoBotaoEnviando="Cadastrando..."
               />
             </Modal>
-          </div>
+          </>
         )}
       </CabecalhoPagina>
-    </div>
   );
 }
 

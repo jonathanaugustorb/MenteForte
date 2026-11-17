@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
-import AvisoDeSimulacao from "../LibraryComponents/AvisoDeSimulacao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import ConteudoExercicio from "../LibraryComponents/ConteudoExercicio";
 import ValidacaoExercicio from "../LibraryComponents/ValidacaoExercicio";
 import { montarDicionario } from "../LibraryComponents/exercicioCampos";
@@ -10,19 +9,17 @@ import {
   listarExerciciosPendentes,
   listarGruposMusculares,
   listarNiveis,
-  MODERACAO_DE_EXERCICIOS_SIMULADA,
 } from "../../services/exercicioService";
 import { formatarDataCurta } from "../../utils/formatar";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-red-200 whitespace-nowrap";
-const ESTILO_CELULA = "py-2 pr-4 text-gray-300 align-top";
+const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-marca-200 whitespace-nowrap";
+const ESTILO_CELULA = "py-2 pr-4 text-texto-suave align-top";
 const ESTILO_ETIQUETA = "rounded-md border px-2 py-1 text-xs font-medium whitespace-nowrap";
-const ESTILO_VER =
-  "rounded-md border border-gray-600 px-3 py-1 text-xs text-red-200 hover:bg-white/10 cursor-pointer whitespace-nowrap";
 
 const CORES_DA_SITUACAO = {
-  PENDENTE: "border-yellow-500 bg-yellow-500/15 text-yellow-200",
-  APROVADO_PELOS_PROFESSORES: "border-green-600 bg-green-600/20 text-green-300",
+  PENDENTE: "border-aviso/50 bg-aviso/15 text-aviso",
+  APROVADO_PELOS_PROFESSORES: "border-sucesso/50 bg-emerald-600/20 text-sucesso",
 };
 
 function situacaoDoExercicio(exercicio) {
@@ -83,17 +80,15 @@ function FilaDeExercicios() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="text-sm font-semibold tracking-[0.25em] text-red-200 uppercase">
+        <h2 className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
           Exercícios para revisar
           {!carregando && !erro && ` (${exercicios.length})`}
         </h2>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-texto-fraco">
           Exercícios que esperam a decisão do administrador. Em "Ver +" aparecem a técnica e os
           botões de aprovar e rejeitar.
         </p>
       </div>
-
-      {MODERACAO_DE_EXERCICIOS_SIMULADA && <AvisoDeSimulacao />}
 
       <EstadoRequisicao
         carregando={carregando}
@@ -105,7 +100,7 @@ function FilaDeExercicios() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-gray-700">
+              <tr className="border-b border-borda">
                 <th className={ESTILO_CABECALHO}>Exercício</th>
                 <th className={ESTILO_CABECALHO}>Situação</th>
                 <th className={ESTILO_CABECALHO}>Enviado em</th>
@@ -118,17 +113,17 @@ function FilaDeExercicios() {
 
                 return (
                   <Fragment key={exercicio.id}>
-                    <tr className={aberto ? "" : "border-b border-gray-700"}>
+                    <tr className={aberto ? "" : "border-b border-borda"}>
                       <td className={`${ESTILO_CELULA} wrap-anywhere`}>
                         <span className="block text-white">{exercicio.nome}</span>
-                        <span className="block text-xs text-gray-400">
+                        <span className="block text-xs text-texto-fraco">
                           por {exercicio.autorNome}
                         </span>
                       </td>
                       <td className={ESTILO_CELULA}>
                         <span
                           className={`${ESTILO_ETIQUETA} ${
-                            CORES_DA_SITUACAO[exercicio.status] ?? "border-gray-600 text-gray-300"
+                            CORES_DA_SITUACAO[exercicio.status] ?? "border-borda-forte text-texto-suave"
                           }`}
                         >
                           {situacaoDoExercicio(exercicio)}
@@ -142,14 +137,14 @@ function FilaDeExercicios() {
                           type="button"
                           aria-expanded={aberto}
                           onClick={() => alternar(exercicio.id)}
-                          className={ESTILO_VER}
+                          className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno" })}
                         >
                           {aberto ? "Ver −" : "Ver +"}
                         </button>
                       </td>
                     </tr>
                     {aberto && (
-                      <tr className="border-b border-gray-700">
+                      <tr className="border-b border-borda">
                         <td colSpan={4} className="pr-4 pb-6">
                           <div className="flex flex-col gap-4 pt-1">
                             <ConteudoExercicio

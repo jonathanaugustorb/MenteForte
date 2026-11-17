@@ -3,7 +3,7 @@ import CardExercicio from "./CardExercicio";
 import CarrosselCards from "./CarrosselCards";
 import SeletorDeColunas from "./SeletorDeColunas";
 import useColunasDaGrade from "../../hooks/useColunasDaGrade";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import ExercicioForm from "./ExercicioForm";
 import DetalheExercicio from "./DetalheExercicio";
 import ModeracaoExercicio from "./ModeracaoExercicio";
@@ -18,8 +18,9 @@ import {
   atualizarExercicio,
   excluirExercicio,
 } from "../../services/exercicioService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const CHAVE_COLUNAS = "forcamente:colunas-da-biblioteca";
+const CHAVE_COLUNAS = "menteforte:colunas-da-biblioteca";
 
 const GRADE = {
   2: "grid-cols-2",
@@ -28,14 +29,14 @@ const GRADE = {
 };
 
 const ALTURA_DO_CARD = {
-  2: "h-[34rem]",
-  3: "h-[30rem]",
-  4: "h-[26rem]",
+  2: "h-[30rem]",
+  3: "h-[26rem]",
+  4: "h-[24rem]",
 };
 
 const ALTURA_DA_IMAGEM = {
-  2: "h-72",
-  3: "h-56",
+  2: "h-64",
+  3: "h-48",
   4: "h-40",
 };
 
@@ -67,11 +68,11 @@ function gravarColunas(colunas) {
 function Mensagem({ children, variante }) {
   const estilo =
     variante === "erro"
-      ? "rounded-md border border-red-500 p-3 text-red-200"
-      : "text-gray-300";
+      ? "rounded-md border border-marca-500 p-3 text-marca-200"
+      : "text-texto-suave";
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4">
+    <div className="py-10">
       <p className={`text-center ${estilo}`}>{children}</p>
     </div>
   );
@@ -282,7 +283,7 @@ function CardsLibrary({
           />
 
           <div
-            className={`mx-auto grid w-full max-w-[88rem] gap-6 px-10 pb-4 ${GRADE[colunas]}`}
+            className={`grid w-full gap-6 pb-4 ${GRADE[colunas]}`}
           >
             {exerciciosVisiveis.map((item) =>
               cartao(item, `w-full ${ALTURA_DO_CARD[colunas]}`, ALTURA_DA_IMAGEM[colunas]),
@@ -296,9 +297,9 @@ function CardsLibrary({
       )}
 
       <Modal
-        isOpen={Boolean(exercicioEmDetalhe)}
-        setCloseModal={fecharDetalhe}
-        largo
+        aberto={Boolean(exercicioEmDetalhe)}
+        aoFechar={fecharDetalhe}
+        largura="larga"
       >
         {exercicioEmDetalhe && (
           <DetalheExercicio
@@ -317,12 +318,12 @@ function CardsLibrary({
       </Modal>
 
       <Modal
-        isOpen={Boolean(exercicioEmEdicao)}
-        setCloseModal={fecharEdicao}
-        largo
+        aberto={Boolean(exercicioEmEdicao)}
+        aoFechar={fecharEdicao}
+        largura="larga"
       >
         <ExercicioForm
-          titulo="EDITAR EXERCICIO"
+          titulo="Editar exercício"
           valores={form}
           aoAlterar={handleChange}
           aoEnviar={salvarEdicao}
@@ -338,23 +339,23 @@ function CardsLibrary({
       </Modal>
 
       <Modal
-        isOpen={Boolean(exercicioParaExcluir)}
-        setCloseModal={fecharExclusao}
+        aberto={Boolean(exercicioParaExcluir)}
+        aoFechar={fecharExclusao}
       >
         <div className="p-4 max-w-md space-y-4">
-          <h2 className="text-red-200 text-center font-montserrat text-2xl">
-            EXCLUIR EXERCICIO
+          <h2 className="text-marca-200 text-center font-titulo font-bold text-2xl">
+            Excluir exercício
           </h2>
-          <div className="w-full h-px bg-gray-300"></div>
+          <div className="w-full h-px bg-borda"></div>
 
           <p className="text-white">
             Tem certeza que deseja excluir{" "}
-            <span className="text-red-200">{exercicioParaExcluir?.nome}</span>?
+            <span className="text-marca-200">{exercicioParaExcluir?.nome}</span>?
             Esta ação não pode ser desfeita.
           </p>
 
           {erroAcao && (
-            <p className="text-red-500 text-sm text-center">{erroAcao}</p>
+            <p className="text-perigo text-sm text-center">{erroAcao}</p>
           )}
 
           <div className="flex gap-3">
@@ -362,7 +363,7 @@ function CardsLibrary({
               type="button"
               onClick={fecharExclusao}
               disabled={enviando}
-              className="flex-1 rounded-md border border-gray-700 py-2 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao({ variante: "secundario", className: "flex-1" })}
             >
               Cancelar
             </button>
@@ -370,7 +371,7 @@ function CardsLibrary({
               type="button"
               onClick={confirmarExclusao}
               disabled={enviando}
-              className="flex-1 rounded-md bg-red-500 py-2 text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao({ className: "flex-1" })}
             >
               {enviando ? "Excluindo..." : "Excluir"}
             </button>

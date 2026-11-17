@@ -1,4 +1,5 @@
 import { mascaraDecimal, mascaraInteira } from "../../utils/formatar";
+import { ESTILO_ENTRADA } from "../ui/estiloDeCampo";
 
 function CampoNumero({
   id,
@@ -20,10 +21,10 @@ function CampoNumero({
   }
 
   return (
-    <div className="flex min-w-0 flex-col gap-1">
+    <div className="flex min-w-0 flex-col gap-1.5">
       <label
         htmlFor={id}
-        className={`text-xs tracking-widest text-gray-300 ${classeRotulo ?? ""}`}
+        className={`text-sm font-medium text-texto ${classeRotulo ?? ""}`}
       >
         {rotulo}
       </label>
@@ -36,7 +37,7 @@ function CampoNumero({
         value={valor}
         placeholder={placeholder}
         onChange={aoDigitar}
-        className="w-full min-w-0 bg-transparent border-b border-gray-500 py-2 text-lg text-white outline-none focus:border-red-500"
+        className={`${ESTILO_ENTRADA} min-w-0 text-base`}
       />
     </div>
   );

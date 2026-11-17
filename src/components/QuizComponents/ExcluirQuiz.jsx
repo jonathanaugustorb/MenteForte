@@ -1,6 +1,7 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import { excluirQuiz } from "../../services/quizService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function ExcluirQuiz({ quiz, aoExcluir }) {
   const [modalAberto, setModalAberto] = useState(false);
@@ -31,20 +32,20 @@ function ExcluirQuiz({ quiz, aoExcluir }) {
       <button
         type="button"
         onClick={() => setModalAberto(true)}
-        className="rounded-md border border-red-500 py-2 px-4 font-bold text-red-200 hover:bg-red-500 hover:text-white cursor-pointer"
+        className={estiloDeBotao({ variante: "contorno" })}
       >
         Excluir
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal}>
+      <Modal aberto={modalAberto} aoFechar={fecharModal}>
         <div className="max-w-md space-y-4 p-4">
           <h2 className="text-xl font-bold text-white">Excluir quiz</h2>
-          <p className="text-sm text-gray-300">
+          <p className="text-sm text-texto-suave">
             O quiz "{quiz.titulo}" e as notas de quem já respondeu serão apagados. Esta
             ação não tem volta.
           </p>
           {erro && (
-            <p role="alert" className="text-sm text-red-400">
+            <p role="alert" className="text-sm text-perigo">
               {erro}
             </p>
           )}
@@ -53,7 +54,7 @@ function ExcluirQuiz({ quiz, aoExcluir }) {
               type="button"
               onClick={fecharModal}
               disabled={enviando}
-              className="rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40"
+              className={estiloDeBotao({ variante: "secundario" })}
             >
               Cancelar
             </button>
@@ -61,7 +62,7 @@ function ExcluirQuiz({ quiz, aoExcluir }) {
               type="button"
               onClick={confirmarExclusao}
               disabled={enviando}
-              className="rounded-md bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-800 cursor-pointer disabled:opacity-50"
+              className={estiloDeBotao()}
             >
               {enviando ? "Excluindo..." : "Excluir quiz"}
             </button>

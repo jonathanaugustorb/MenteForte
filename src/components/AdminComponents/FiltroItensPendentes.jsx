@@ -3,7 +3,6 @@ const FILTROS = [
   { valor: "artigos", rotulo: "Artigos" },
   { valor: "quizzes", rotulo: "Quizzes" },
   { valor: "exercicios", rotulo: "Exercícios" },
-  { valor: "professores", rotulo: "Professores" },
   { valor: "exclusoes", rotulo: "Pedidos de exclusão" },
 ];
 
@@ -27,8 +26,8 @@ function FiltroItensPendentes({ tipo, aoMudar }) {
             onClick={() => aoMudar(filtro.valor)}
             className={`${ESTILO_FILTRO} ${
               ativo
-                ? "border-red-500 bg-red-500/20 text-white"
-                : "border-gray-600 text-gray-300 hover:bg-white/10"
+                ? "border-marca-500 bg-marca-600/20 text-white"
+                : "border-borda-forte text-texto-suave hover:bg-white/10"
             }`}
           >
             {filtro.rotulo}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { formatarNumero } from "../../utils/formatar";
 import CampoNumero from "./CampoNumero";
 import BarraProgresso from "./BarraProgresso";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 const ATALHOS = [250, 500, 1000];
 
@@ -17,16 +18,16 @@ function TrackerAgua({ habilitado, resumo, processando, erro, aoRegistrar }) {
   }
 
   return (
-    <div className="flex flex-col gap-6 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20">
+    <div className="flex flex-col gap-6 p-7 border bg-superficie border-borda rounded-xl shadow-cartao">
       <div className="flex items-center gap-2">
-        <span className="h-2 w-2 rounded-full bg-red-500"></span>
-        <span className="text-xs tracking-widest text-gray-300">
+        <span className="h-2 w-2 rounded-full bg-marca-600"></span>
+        <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
           QUANTO VOCÊ JÁ BEBEU?
         </span>
       </div>
 
       {habilitado ? null : (
-        <p className="text-sm text-gray-300">
+        <p className="text-sm text-texto-suave">
           Calcule sua meta ao lado para começar a registrar o que você bebeu.
         </p>
       )}
@@ -38,7 +39,7 @@ function TrackerAgua({ habilitado, resumo, processando, erro, aoRegistrar }) {
             type="button"
             disabled={!habilitado || processando}
             onClick={() => aoRegistrar(valor)}
-            className="text-red-200 border border-gray-500 p-2 rounded-md hover:bg-red-500 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:border-gray-700 disabled:text-gray-500 disabled:hover:bg-transparent disabled:hover:text-gray-500"
+            className="text-marca-200 border border-borda-forte p-2 rounded-md hover:bg-marca-600 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:border-borda disabled:text-texto-fraco disabled:hover:bg-transparent disabled:hover:text-texto-fraco"
           >
             + {formatarNumero(valor)} ml
           </button>
@@ -50,7 +51,7 @@ function TrackerAgua({ habilitado, resumo, processando, erro, aoRegistrar }) {
           <CampoNumero
             id="quantidade-agua"
             digitos={4}
-            rotulo="OUTRA QUANTIDADE (ML)"
+            rotulo="Outra quantidade (ml)"
             valor={quantidadeMl}
             aoAlterar={setQuantidadeMl}
             placeholder="350"
@@ -59,14 +60,14 @@ function TrackerAgua({ habilitado, resumo, processando, erro, aoRegistrar }) {
         <button
           type="submit"
           disabled={!habilitado || !quantidadeMl || processando}
-          className="bg-red-500 py-1 px-4 font-medium text-white hover:bg-red-900 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+          className={estiloDeBotao()}
         >
-          {processando ? "REGISTRANDO..." : "REGISTRAR"}
+          {processando ? "Registrando..." : "Registrar"}
         </button>
       </form>
 
       {erro ? (
-        <p className="rounded-md border border-red-500 p-3 text-sm text-red-200">
+        <p className="rounded-xl border border-perigo/30 bg-perigo/10 p-3 text-sm text-red-100">
           {erro}
         </p>
       ) : null}

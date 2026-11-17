@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import { ArrowLeft } from "lucide-react";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import ResponderQuiz from "../components/QuizComponents/ResponderQuiz";
 import GabaritoQuiz from "../components/QuizComponents/GabaritoQuiz";
 import AprovarQuiz from "../components/QuizComponents/AprovarQuiz";
@@ -12,7 +13,7 @@ import { buscarQuiz } from "../services/quizService";
 import { podeValidar } from "../utils/papeis";
 
 const ESTILO_CHIP =
-  "rounded-full border border-red-500 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-red-400";
+  "inline-flex items-center rounded-full bg-marca-600/15 px-2.5 py-0.5 text-xs font-semibold text-marca-300 ring-1 ring-inset ring-marca-500/30";
 
 function textoDaNota(nota) {
   if (nota.concluido) return `Concluído · melhor nota ${nota.percentual}%`;
@@ -93,9 +94,10 @@ function QuizPages() {
   const mostrarValidacao = Boolean(quiz) && podeValidar(usuario);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-10 lp:py-16">
-      <Link to="/quiz" className="text-sm text-red-200 hover:text-white hover:underline">
-        ← Voltar para os quizzes
+    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 pb-16">
+      <Link to="/quiz" className="mt-8 inline-flex items-center gap-1.5 text-sm text-texto-suave hover:text-texto">
+        <ArrowLeft size={16} aria-hidden="true" />
+        Voltar para os quizzes
       </Link>
 
       <div className="mt-6">
@@ -112,25 +114,25 @@ function QuizPages() {
                 <span className={ESTILO_CHIP}>{quiz.categoria.descricao}</span>
                 <span className={ESTILO_CHIP}>{quiz.nivel.descricao}</span>
                 {etiquetaStatus && (
-                  <span className="rounded-md bg-gray-700 px-2 py-1 text-xs font-medium text-gray-200">
+                  <span className="rounded-md bg-superficie-alta px-2 py-1 text-xs font-medium text-texto">
                     {etiquetaStatus}
                   </span>
                 )}
               </div>
 
-              <h1 className="font-montserrat text-3xl text-white md:text-4xl">{quiz.titulo}</h1>
-              <p className="text-sm text-gray-400">
-                por <span className="font-semibold text-red-200">{quiz.autorNome}</span>
+              <h1 className="font-titulo font-bold text-3xl text-white sm:text-4xl">{quiz.titulo}</h1>
+              <p className="text-sm text-texto-fraco">
+                por <span className="font-semibold text-marca-200">{quiz.autorNome}</span>
               </p>
-              <p className="text-lg leading-relaxed text-gray-300">{quiz.descricao}</p>
+              <p className="text-lg leading-relaxed text-texto-suave">{quiz.descricao}</p>
 
-              <div className="flex flex-wrap justify-between gap-2 text-xs uppercase tracking-[0.2em] text-gray-400">
+              <div className="flex flex-wrap justify-between gap-2 text-xs text-texto-fraco">
                 <span>
                   {quiz.totalQuestoes} perguntas · nota mínima {quiz.notaMinima}%
                 </span>
                 {quiz.melhorTentativa && (
                   <span
-                    className={quiz.melhorTentativa.concluido ? "text-green-400" : "text-gray-300"}
+                    className={quiz.melhorTentativa.concluido ? "text-sucesso" : "text-texto-suave"}
                   >
                     {textoDaNota(quiz.melhorTentativa)}
                   </span>
@@ -138,8 +140,8 @@ function QuizPages() {
               </div>
 
               {quiz.artigos.length > 0 && (
-                <div className="rounded-xl border border-gray-700 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+                <div className="rounded-xl border border-borda p-4">
+                  <p className="text-sm font-semibold text-marca-400">
                     Leitura sugerida
                   </p>
                   <ul className="mt-2 flex flex-col gap-1 text-sm">
@@ -147,7 +149,7 @@ function QuizPages() {
                       <li key={artigo.id}>
                         <Link
                           to={`/articles/${artigo.id}`}
-                          className="text-red-200 hover:text-white hover:underline"
+                          className="text-marca-200 hover:text-white hover:underline"
                         >
                           {artigo.titulo}
                         </Link>
@@ -158,11 +160,11 @@ function QuizPages() {
               )}
 
               {quiz.motivoRejeicao && (
-                <div className="rounded-xl border border-red-500 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+                <div className="rounded-xl border border-marca-500 p-4">
+                  <p className="text-sm font-semibold text-marca-400">
                     Motivo da rejeição
                   </p>
-                  <p className="mt-1 text-sm text-gray-300">{quiz.motivoRejeicao}</p>
+                  <p className="mt-1 text-sm text-texto-suave">{quiz.motivoRejeicao}</p>
                 </div>
               )}
 
@@ -171,7 +173,7 @@ function QuizPages() {
                 <div className="flex flex-wrap gap-3">
                   <Link
                     to={`/quiz/${quiz.id}/editar`}
-                    className="rounded-md border border-gray-700 py-2 px-4 font-bold text-red-200 hover:bg-white/10"
+                    className="rounded-md border border-borda py-2 px-4 font-bold text-marca-200 hover:bg-white/10"
                   >
                     Editar
                   </Link>
@@ -190,7 +192,7 @@ function QuizPages() {
                 <ValidacaoQuiz quiz={quiz} aoAlterarStatus={aoAlterarStatus} />
               )}
 
-              <div className="h-px bg-gray-700"></div>
+              <div className="h-px bg-superficie-alta"></div>
 
               {quiz.gabarito ? (
                 <GabaritoQuiz quiz={quiz} />

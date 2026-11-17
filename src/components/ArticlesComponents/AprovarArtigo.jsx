@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { aprovarArtigo } from "../../services/artigoService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function AprovarArtigo({ artigo, aoAprovar }) {
   const { avisar } = useOutletContext();
@@ -24,11 +25,11 @@ function AprovarArtigo({ artigo, aoAprovar }) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-700 bg-white/5 p-4 backdrop-blur-xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+    <div className="rounded-xl border border-borda bg-superficie p-4">
+      <p className="text-sm font-semibold text-marca-400">
         Aprovação dos professores
       </p>
-      <p className="mt-1 text-sm text-gray-300">
+      <p className="mt-1 text-sm text-texto-suave">
         Este artigo tem {artigo.aprovacoesDeProfessores} de{" "}
         {artigo.aprovacoesNecessarias} aprovações. Ele entra no site quando
         completar as {artigo.aprovacoesNecessarias} ou quando o administrador
@@ -39,7 +40,7 @@ function AprovarArtigo({ artigo, aoAprovar }) {
         type="button"
         onClick={aprovar}
         disabled={enviando}
-        className="mt-3 rounded-md bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        className={estiloDeBotao({ variante: "sucesso", className: "mt-3" })}
       >
         {enviando ? "Aprovando..." : "Aprovar"}
       </button>

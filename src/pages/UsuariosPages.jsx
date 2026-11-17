@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
-import Modal from "../components/Modal";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
+import Container from "../components/ui/Container";
+import Alerta from "../components/ui/Alerta";
+import Modal from "../components/ui/Modal";
 import FiltroUsuarios from "../components/AdminComponents/FiltroUsuarios";
 import TabelaUsuarios from "../components/AdminComponents/TabelaUsuarios";
 import FormEdicaoUsuario from "../components/AdminComponents/FormEdicaoUsuario";
@@ -19,7 +21,6 @@ import {
   atualizarUsuario,
   buscarDadosCompletos,
   buscarUsuarios,
-  listarFormacoes,
 } from "../services/usuarioService";
 
 const TAMANHO_PAGINA = 20;
@@ -35,7 +36,6 @@ function UsuariosPages() {
   const [buscaAplicada, setBuscaAplicada] = useState("");
   const [pagina, setPagina] = useState(0);
   const [resultado, setResultado] = useState(null);
-  const [formacoes, setFormacoes] = useState([]);
   const [consultaConcluida, setConsultaConcluida] = useState(null);
   const [erro, setErro] = useState(null);
   const [usuarioEmEdicao, setUsuarioEmEdicao] = useState(null);
@@ -48,22 +48,6 @@ function UsuariosPages() {
   const [versao, setVersao] = useState(0);
   const consultaAtual = JSON.stringify([pagina, buscaAplicada, filtros.papel, filtros.ativo, versao]);
   const carregando = consultaAtual !== consultaConcluida || filtros.busca.trim() !== buscaAplicada;
-
-  useEffect(() => {
-    let ativo = true;
-
-    listarFormacoes()
-      .then((lista) => {
-        if (ativo) setFormacoes(lista);
-      })
-      .catch(() => {
-        if (ativo) setFormacoes([]);
-      });
-
-    return () => {
-      ativo = false;
-    };
-  }, []);
 
   useEffect(() => {
     const relogio = setTimeout(() => {
@@ -184,7 +168,7 @@ function UsuariosPages() {
   const usuarios = resultado?.conteudo ?? [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <Container className="pb-16">
       <CabecalhoPagina
         titulo="Gestão de usuários"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.usuarios}
@@ -193,11 +177,10 @@ function UsuariosPages() {
 
       <AbasAdministracao />
 
-      <p className="mb-6 rounded-md border border-gray-700 p-3 text-sm text-gray-400">
-        <strong className="text-gray-300">Inativar não é excluir.</strong> Inativar
-        tranca o acesso e preserva os dados; a exclusão do art. 18 da LGPD é a
-        anonimização, é irreversível e nasce de um pedido da própria pessoa.
-      </p>
+      <Alerta tipo="info" titulo="Inativar não é excluir" className="mb-6">
+        Inativar tranca o acesso e preserva os dados. A exclusão do art. 18 da LGPD é a anonimização: é
+        irreversível e nasce de um pedido da própria pessoa.
+      </Alerta>
 
       <FiltroUsuarios
         filtros={filtros}
@@ -214,7 +197,6 @@ function UsuariosPages() {
       >
         <TabelaUsuarios
           usuarios={usuarios}
-          formacoes={formacoes}
           aoEditar={setUsuarioAguardandoJustificativa}
           aoAlternarAtivo={setUsuarioEmAlteracao}
           aoAnonimizar={setUsuarioEmAnonimizacao}
@@ -240,14 +222,14 @@ function UsuariosPages() {
       )}
 
       <Modal
-        isOpen={usuarioEmEdicao !== null}
-        setCloseModal={() => setUsuarioEmEdicao(null)}
+        aberto={usuarioEmEdicao !== null}
+        aoFechar={() => setUsuarioEmEdicao(null)}
+        largura="estreita"
       >
         {usuarioEmEdicao && (
           <FormEdicaoUsuario
             key={usuarioEmEdicao.id}
             usuario={usuarioEmEdicao}
-            formacoes={formacoes}
             aoSalvar={salvar}
             aoCancelar={() => setUsuarioEmEdicao(null)}
           />
@@ -255,8 +237,8 @@ function UsuariosPages() {
       </Modal>
 
       <Modal
-        isOpen={usuarioEmAnonimizacao !== null}
-        setCloseModal={() => setUsuarioEmAnonimizacao(null)}
+        aberto={usuarioEmAnonimizacao !== null}
+        aoFechar={() => setUsuarioEmAnonimizacao(null)}
       >
         {usuarioEmAnonimizacao && (
           <ConfirmarAnonimizacao
@@ -269,8 +251,8 @@ function UsuariosPages() {
       </Modal>
 
       <Modal
-        isOpen={usuarioEmAlteracao !== null}
-        setCloseModal={() => setUsuarioEmAlteracao(null)}
+        aberto={usuarioEmAlteracao !== null}
+        aoFechar={() => setUsuarioEmAlteracao(null)}
       >
         {usuarioEmAlteracao && (
           <ConfirmarSituacao
@@ -281,7 +263,7 @@ function UsuariosPages() {
           />
         )}
       </Modal>
-    </div>
+    </Container>
   );
 }
 

@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import CardFuncionalidade from "../components/ComponentesInicio/CardFuncionalidade";
 import NumeroRapido from "../components/ComponentesInicio/NumeroRapido";
 import { FUNCIONALIDADES, SAUDACOES } from "../components/ComponentesInicio/dadosInicio";
@@ -13,14 +13,13 @@ import {
 import { listarQuizzes, listarQuizzesPendentes } from "../services/quizService";
 import {
   listarAnonimizacoesPendentes,
-  listarVerificacoesPendentes,
 } from "../services/usuarioService";
 import { podeEditar } from "../utils/papeis";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 
 const SecaoGraficos = lazy(() => import("../components/ComponentesInicio/SecaoGraficos"));
 
-const ESTILO_TITULO_SECAO = "mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-red-200";
+const ESTILO_TITULO_SECAO = "mb-4 text-xs font-semibold tracking-wider text-texto-fraco uppercase";
 
 function numerosDoAluno(quizzes) {
   const feitos = quizzes.filter((quiz) => quiz.melhorTentativa);
@@ -56,12 +55,11 @@ function numerosDoProfessor(artigos, quizzes, exercicios) {
   ];
 }
 
-function numerosDoAdministrador(artigos, quizzes, professores, pedidos, exercicios) {
+function numerosDoAdministrador(artigos, quizzes, pedidos, exercicios) {
   return [
     { rotulo: "Artigos para revisar", valor: artigos.length },
     { rotulo: "Quizzes para revisar", valor: quizzes.length },
     ...(exercicios ? [{ rotulo: "Exercícios para revisar", valor: exercicios.length }] : []),
-    { rotulo: "Professores a verificar", valor: professores.length },
     { rotulo: "Pedidos de exclusão", valor: pedidos.length },
   ];
 }
@@ -73,7 +71,6 @@ function buscarDados(papel) {
       listarGruposMusculares(),
       listarArtigosPendentes(),
       listarQuizzesPendentes(),
-      listarVerificacoesPendentes(),
       listarAnonimizacoesPendentes(),
       listarExerciciosPendentes(),
     ]).then(([exercicios, grupos, ...pendencias]) => ({ exercicios, grupos, pendencias }));
@@ -127,7 +124,7 @@ function InicioPages() {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo={`Olá, ${primeiroNome}`}
         subtitulo={SAUDACOES[papel]}
@@ -140,20 +137,20 @@ function InicioPages() {
         </h2>
         {numeros ? (
           <div
-            className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${numeros.length === 4 ? "lp:grid-cols-4" : "lp:grid-cols-3"}`}
+            className={`grid grid-cols-2 gap-3 sm:gap-4 ${numeros.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
           >
             {numeros.map((numero) => (
               <NumeroRapido key={numero.rotulo} {...numero} />
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-texto-fraco">
             {erro ? "Não foi possível carregar os seus números agora." : "Carregando os seus números..."}
           </p>
         )}
       </section>
 
-      <Suspense fallback={<p className="mb-12 text-sm text-gray-400">Carregando os gráficos...</p>}>
+      <Suspense fallback={<p className="mb-12 text-sm text-texto-fraco">Carregando os gráficos...</p>}>
         <SecaoGraficos
           papel={papel}
           dados={dados}
@@ -165,7 +162,7 @@ function InicioPages() {
 
       <section>
         <h2 className={ESTILO_TITULO_SECAO}>O que você pode fazer</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lp:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {funcionalidades.map((funcionalidade) => (
             <CardFuncionalidade
               key={funcionalidade.para}

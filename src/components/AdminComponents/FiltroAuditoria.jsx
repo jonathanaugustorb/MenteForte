@@ -1,6 +1,6 @@
-const ESTILO_CAMPO =
-  "rounded-xl border border-gray-600 bg-slate-800 p-2 text-white neon-suave-red-500 focus:border-red-500 focus:neon-red-500 focus:outline-none";
-const ESTILO_ROTULO = "text-sm text-gray-300";
+import { ESTILO_ENTRADA } from "../ui/estiloDeCampo";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
+const ESTILO_ROTULO = "text-sm text-texto-suave";
 
 function FiltroAuditoria({ filtros, acoes, aoAlterar, aoLimpar }) {
   function handleChange(evento) {
@@ -20,7 +20,7 @@ function FiltroAuditoria({ filtros, acoes, aoAlterar, aoLimpar }) {
           name="de"
           value={filtros.de}
           onChange={handleChange}
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         />
       </div>
 
@@ -34,7 +34,7 @@ function FiltroAuditoria({ filtros, acoes, aoAlterar, aoLimpar }) {
           name="ate"
           value={filtros.ate}
           onChange={handleChange}
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         />
       </div>
 
@@ -47,7 +47,7 @@ function FiltroAuditoria({ filtros, acoes, aoAlterar, aoLimpar }) {
           name="acao"
           value={filtros.acao}
           onChange={handleChange}
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         >
           <option value="">Todas</option>
           {acoes.map((opcao) => (
@@ -61,7 +61,7 @@ function FiltroAuditoria({ filtros, acoes, aoAlterar, aoLimpar }) {
       <button
         type="button"
         onClick={aoLimpar}
-        className="rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer"
+        className={estiloDeBotao({ variante: "secundario" })}
       >
         Limpar
       </button>

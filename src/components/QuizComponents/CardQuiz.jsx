@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import Cartao from "../ComponentesHome/Cartao";
+import { CircleCheck } from "lucide-react";
+import Etiqueta from "../ui/Etiqueta";
 import { etiquetaDoArtigo } from "../ArticlesComponents/artigoCampos";
 
 function CardQuiz({ quiz }) {
@@ -7,36 +8,34 @@ function CardQuiz({ quiz }) {
   const nota = quiz.melhorTentativa;
 
   return (
-    <Link to={`/quiz/${quiz.id}`} className="block h-full">
-      <Cartao className="flex h-full flex-col transition-colors hover:border-red-500">
-        <div className="flex items-start justify-between gap-2">
-          <span className="rounded-full border border-red-500 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-red-400">
-            {quiz.categoria.descricao}
+    <Link
+      to={`/quiz/${quiz.id}`}
+      className="group flex h-full flex-col rounded-2xl border border-borda bg-superficie p-6 shadow-cartao transition-colors hover:border-marca-500/60 focus-visible:border-marca-500"
+    >
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <Etiqueta tom="marca">{quiz.categoria.descricao}</Etiqueta>
+        {etiquetaStatus && <Etiqueta>{etiquetaStatus}</Etiqueta>}
+      </div>
+
+      <h3 className="mt-4 font-titulo text-lg font-bold text-texto group-hover:text-marca-100">{quiz.titulo}</h3>
+      <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-texto-suave">{quiz.descricao}</p>
+
+      <div className="mt-auto pt-5">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-borda pt-4 text-xs text-texto-fraco">
+          <span>
+            {quiz.nivel.descricao} · {quiz.totalQuestoes} perguntas
           </span>
-          {etiquetaStatus && (
-            <span className="rounded-md bg-gray-700 px-2 py-1 text-xs font-medium text-gray-200">
-              {etiquetaStatus}
-            </span>
-          )}
+          {nota &&
+            (nota.concluido ? (
+              <Etiqueta tom="sucesso">
+                <CircleCheck size={12} aria-hidden="true" />
+                Concluído · {nota.percentual}%
+              </Etiqueta>
+            ) : (
+              <span className="text-texto-suave">Melhor nota: {nota.percentual}%</span>
+            ))}
         </div>
-
-        <h3 className="mt-4 font-montserrat text-lg text-white">{quiz.titulo}</h3>
-        <p className="mt-2 text-sm text-gray-400">{quiz.descricao}</p>
-
-        <div className="mt-auto pt-4">
-          <div className="h-px bg-gray-700"></div>
-          <div className="mt-4 flex justify-between gap-2 text-xs uppercase tracking-[0.2em] text-gray-400">
-            <span>
-              {quiz.nivel.descricao} · {quiz.totalQuestoes} perguntas
-            </span>
-            {nota && (
-              <span className={nota.concluido ? "text-green-400" : "text-gray-300"}>
-                {nota.concluido ? "Concluído" : `Melhor nota: ${nota.percentual}%`}
-              </span>
-            )}
-          </div>
-        </div>
-      </Cartao>
+      </div>
     </Link>
   );
 }

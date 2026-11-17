@@ -7,11 +7,12 @@ import CardResultado from "./CardResultado";
 import CampoNumero from "./CampoNumero";
 import BarraComposicao from "./BarraComposicao";
 import BlocoExplicacao from "./BlocoExplicacao";
-import EstadoRequisicao from "./EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import TrackerAgua from "./TrackerAgua";
 import { EXPLICACAO_HIDRATACAO, COMO_CALCULAMOS_HIDRATACAO } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
 import ComoCalculamos from "./ComoCalculamos";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 const EXIBIR_REGISTRO_DE_AGUA = true;
 
@@ -73,27 +74,27 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
         {resultado ? (
           <div className="flex flex-col gap-6">
             <CardResultado
-              rotulo="SUA META DIÁRIA"
+              rotulo="Sua meta diária"
               valor={resultado.litrosPorDia}
               unidade="litros"
               rodape={`${formatarNumero(resultado.mlPorDia)} ml por dia`}
             />
 
             <BarraComposicao
-              titulo="COMPOSIÇÃO DA META"
+              titulo="Composição da meta"
               total={resultado.mlPorDia}
               segmentos={[
                 {
                   rotulo: "Base corporal (peso)",
                   valor: resultado.baseCorporalMl,
                   texto: `${formatarNumero(resultado.baseCorporalMl)} ml`,
-                  cor: "bg-red-500",
+                  cor: "bg-marca-600",
                 },
                 {
                   rotulo: "Adicional de treino",
                   valor: resultado.adicionalTreinoMl,
                   texto: `${formatarNumero(resultado.adicionalTreinoMl)} ml`,
-                  cor: "bg-red-200",
+                  cor: "bg-marca-200",
                 },
               ]}
             />
@@ -105,7 +106,7 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
 
       {EXIBIR_REGISTRO_DE_AGUA && resumo ? (
         <CardResultado
-          rotulo="ÁGUA CONSUMIDA HOJE"
+          rotulo="Água consumida hoje"
           valor={resumo.totalConsumidoMl}
           unidade="ml"
           variante="neutro"
@@ -118,7 +119,7 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
   return (
     <SecaoCalculadora
       numero="03"
-      titulo="META DE HIDRATAÇÃO"
+      titulo="Meta de hidratação"
       conceito={
         <>
           <span className="font-semibold text-white">O que é a meta? </span>É
@@ -136,28 +137,28 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
       <div className="flex flex-col gap-6">
         <form
           onSubmit={aoEnviar}
-          className="flex flex-col gap-6 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20"
+          className="flex flex-col gap-6 p-7 border bg-superficie border-borda rounded-xl shadow-cartao"
         >
           <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-red-500"></span>
-            <span className="text-xs tracking-widest text-gray-300">
-              SEU DIA DE TREINO
+            <span className="h-2 w-2 rounded-full bg-marca-600"></span>
+            <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+              Seu dia de treino
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-1">
               <CampoNumero
                 id="peso-hidratacao"
                 digitos={3}
                 casas={2}
-                rotulo="PESO (KG)"
+                rotulo="Peso (kg)"
                 valor={pesoKg}
                 aoAlterar={aoAlterarPeso}
                 decimal
                 placeholder="82,5"
               />
-              <span className="text-xs text-gray-300">
+              <span className="text-xs text-texto-suave">
                 É o mesmo peso da calculadora de TMB.
               </span>
             </div>
@@ -166,12 +167,12 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
               <CampoNumero
                 id="minutos-treino"
                 digitos={3}
-                rotulo="TREINO POR DIA (MIN)"
+                rotulo="Treino por dia (min)"
                 valor={minutosTreinoPorDia}
                 aoAlterar={setMinutosTreinoPorDia}
                 placeholder="60"
               />
-              <span className="text-xs text-gray-300">
+              <span className="text-xs text-texto-suave">
                 Use 0 se for dia de descanso.
               </span>
             </div>
@@ -180,9 +181,9 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
           <button
             type="submit"
             disabled={!formularioValido || carregando}
-            className="self-start bg-red-500 py-1 px-4 font-medium text-white hover:bg-red-900 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+            className={estiloDeBotao({ className: "self-start" })}
           >
-            {carregando ? "CALCULANDO..." : "CALCULAR"}
+            {carregando ? "Calculando..." : "Calcular"}
           </button>
         </form>
       {EXIBIR_REGISTRO_DE_AGUA && (

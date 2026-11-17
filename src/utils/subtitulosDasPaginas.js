@@ -22,7 +22,7 @@ export const SUBTITULOS_POR_PAPEL = {
 
 export const SUBTITULOS_DA_ADMINISTRACAO = {
   usuarios: "Aqui você consulta as contas, corrige dados e bloqueia ou libera o acesso.",
-  pendentes: "Aqui você decide o conteúdo enviado pelos professores, verifica o CREF e atende os pedidos de exclusão de conta.",
+  pendentes: "Aqui você decide o conteúdo enviado pelos professores e atende os pedidos de exclusão de conta.",
   auditoria: "Aqui você acompanha as ações sobre dados pessoais e conteúdo, e exporta a trilha em CSV.",
 };
 

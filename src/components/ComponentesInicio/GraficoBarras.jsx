@@ -8,11 +8,10 @@ import {
   YAxis,
 } from "recharts";
 import DicaDoGrafico from "./DicaDoGrafico";
+import { CORES_DOS_GRAFICOS } from "./coresDosGraficos";
 
 const ALTURA_POR_BARRA = 56;
 const LIMITE_DO_ROTULO = 42;
-const COR_DA_BARRA = "var(--color-red-500)";
-const COR_DO_TEXTO = "var(--color-gray-300)";
 
 function encurtar(texto, limite) {
   if (texto.length <= limite) return texto;
@@ -29,7 +28,7 @@ function textoDoRotulo(rotulo, detalhe) {
 function GraficoBarras({ dados, sufixo = "", maximo, detalheNoRotulo = false }) {
   function rotuloAcimaDaBarra({ x, y, value, index }) {
     return (
-      <text x={x} y={y - 6} fill={COR_DO_TEXTO} fontSize={13}>
+      <text x={x} y={y - 6} fill={CORES_DOS_GRAFICOS.texto} fontSize={13}>
         {textoDoRotulo(value, detalheNoRotulo ? dados[index]?.detalhe : null)}
       </text>
     );
@@ -41,12 +40,12 @@ function GraficoBarras({ dados, sufixo = "", maximo, detalheNoRotulo = false }) 
         <XAxis type="number" hide domain={[0, maximo ?? "dataMax"]} />
         <YAxis type="category" dataKey="rotulo" hide />
         <Tooltip
-          cursor={{ fill: "rgba(255, 255, 255, 0.05)" }}
+          cursor={{ fill: CORES_DOS_GRAFICOS.cursor }}
           content={<DicaDoGrafico sufixo={sufixo} />}
         />
         <Bar
           dataKey="valor"
-          fill={COR_DA_BARRA}
+          fill={CORES_DOS_GRAFICOS.dado}
           barSize={18}
           radius={[0, 4, 4, 0]}
           isAnimationActive={false}
@@ -55,7 +54,7 @@ function GraficoBarras({ dados, sufixo = "", maximo, detalheNoRotulo = false }) 
           <LabelList
             dataKey="valor"
             position="right"
-            fill={COR_DO_TEXTO}
+            fill={CORES_DOS_GRAFICOS.texto}
             fontSize={13}
             formatter={(valor) => `${valor}${sufixo}`}
           />

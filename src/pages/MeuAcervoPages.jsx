@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import { ArrowRight } from "lucide-react";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import Cartao from "../components/ui/Cartao";
+import Etiqueta from "../components/ui/Etiqueta";
+import { estiloDeBotao } from "../components/ui/estiloDeBotao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import { etiquetaDoArtigo, STATUS_ARTIGO } from "../components/ArticlesComponents/artigoCampos";
 import { listarArtigos } from "../services/artigoService";
 import { listarExercicios } from "../services/exercicioService";
@@ -48,35 +51,37 @@ function normalizar(lista, usuario, tipo, endereco) {
     }));
 }
 
-const ESTILO_ETIQUETA = "rounded-md px-2 py-1 text-xs font-medium whitespace-nowrap";
+const TOM_DA_SITUACAO = {
+  PENDENTE: "aviso",
+  APROVADO: "sucesso",
+  APROVADO_PELOS_PROFESSORES: "sucesso",
+  REJEITADO: "perigo",
+};
 
 function Item({ item }) {
   return (
     <Cartao className="flex h-full flex-col gap-3">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <span className={`${ESTILO_ETIQUETA} bg-red-500 text-white`}>{item.tipo}</span>
-        <span className={`${ESTILO_ETIQUETA} bg-gray-700 text-gray-200`}>
+        <Etiqueta tom="marca">{item.tipo}</Etiqueta>
+        <Etiqueta tom={TOM_DA_SITUACAO[item.status] ?? "neutra"}>
           {etiquetaDoArtigo(item) ?? STATUS_ARTIGO[item.status]?.descricao}
-        </span>
+        </Etiqueta>
       </div>
 
-      <p className="font-montserrat text-red-200 wrap-break-word">{item.titulo}</p>
+      <h3 className="font-titulo text-lg leading-snug font-bold text-texto wrap-break-word">{item.titulo}</h3>
+      <p className="text-xs text-texto-fraco">Criado em {formatarDataCurta(item.criadoEm)}</p>
 
-      <p className="text-sm text-gray-400">Criado em {formatarDataCurta(item.criadoEm)}</p>
-
-      {item.motivoRejeicao ? (
-        <p className="text-sm text-gray-300 wrap-break-word">
-          <span className="font-semibold text-red-200">Motivo da recusa: </span>
+      {item.motivoRejeicao && (
+        <p className="rounded-lg bg-perigo/10 p-3 text-sm text-red-100 wrap-break-word">
+          <span className="font-semibold">Motivo da recusa: </span>
           {item.motivoRejeicao}
         </p>
-      ) : null}
+      )}
 
       <div className="mt-auto pt-2">
-        <Link
-          to={item.endereco}
-          className="inline-block bg-red-500 px-4 py-1 font-medium text-white hover:bg-red-900"
-        >
-          ABRIR
+        <Link to={item.endereco} className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno" })}>
+          Abrir
+          <ArrowRight size={14} aria-hidden="true" />
         </Link>
       </div>
     </Cartao>
@@ -88,18 +93,19 @@ function Grupo({ grupo, itens }) {
 
   return (
     <section>
-      <h2 className="font-montserrat text-xl text-red-200">
-        {grupo.titulo} ({doGrupo.length})
+      <h2 className="flex items-center gap-2 font-titulo text-xl font-bold text-texto">
+        {grupo.titulo}
+        <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs font-semibold text-texto-suave">{doGrupo.length}</span>
       </h2>
 
       {doGrupo.length ? (
-        <div className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {doGrupo.map((item) => (
             <Item key={item.chave} item={item} />
           ))}
         </div>
       ) : (
-        <p className="mt-2 text-sm text-gray-400">{grupo.vazio}</p>
+        <p className="mt-3 text-sm text-texto-fraco">{grupo.vazio}</p>
       )}
     </section>
   );
@@ -144,7 +150,7 @@ function MeuAcervoPages() {
     : [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Meu acervo"
         subtitulo={subtituloPorPapel("meuAcervo", usuario?.papel)}

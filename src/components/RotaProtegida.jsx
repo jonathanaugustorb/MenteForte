@@ -1,11 +1,11 @@
-import { Navigate, useOutletContext } from "react-router-dom";
+import { Navigate, Outlet, useOutletContext } from "react-router-dom";
 
-function RotaProtegida({ children }) {
-    const { usuario } = useOutletContext();
+function RotaProtegida() {
+  const contexto = useOutletContext();
 
-    if (!usuario) return <Navigate to="/" replace />;
+  if (!contexto.usuario) return <Navigate to="/" replace />;
 
-    return children;
+  return <Outlet context={contexto} />;
 }
 
 export default RotaProtegida;

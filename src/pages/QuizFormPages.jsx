@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import { ArrowLeft } from "lucide-react";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import QuizForm from "../components/QuizComponents/QuizForm";
 import LimiteDeCriacao from "../components/LimiteDeCriacao";
 import { novoQuiz, SITUACOES_PUBLICADAS } from "../components/QuizComponents/quizCampos";
@@ -139,7 +140,7 @@ function QuizFormPages() {
       : "Enviar quiz";
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo={editando ? "Editar quiz" : "Novo quiz"}
         subtitulo="O quiz de um professor passa pela moderação antes de aparecer no site, como os artigos."
@@ -148,9 +149,10 @@ function QuizFormPages() {
 
       <Link
         to={destinoAoCancelar}
-        className="text-sm text-red-200 hover:text-white hover:underline"
+        className="inline-flex items-center gap-1.5 text-sm text-texto-suave hover:text-texto"
       >
-        {editando ? "← Voltar para o quiz" : "← Voltar para os quizzes"}
+        <ArrowLeft size={16} aria-hidden="true" />
+        {editando ? "Voltar para o quiz" : "Voltar para os quizzes"}
       </Link>
 
       <div className="mt-6">
@@ -169,7 +171,7 @@ function QuizFormPages() {
               {voltaParaModeracao && (
                 <p
                   role="note"
-                  className="mb-6 rounded-xl border border-yellow-500 bg-yellow-500/10 p-4 text-sm text-yellow-100"
+                  className="mb-6 rounded-xl border border-aviso/50 bg-aviso/10 p-4 text-sm text-amber-50"
                 >
                   Ao salvar, o quiz volta para pendente e precisa ser aprovado de novo. Se ele já
                   estava no site, sai até a nova aprovação, e as aprovações que ele tinha são

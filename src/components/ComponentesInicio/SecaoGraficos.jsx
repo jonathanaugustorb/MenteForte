@@ -12,7 +12,6 @@ import {
   notasNoTempo,
 } from "./graficosInicio";
 import {
-  GRAFICOS_SIMULADOS,
   listarAtividadePorDia,
   listarContasPorPapel,
   listarDesempenhoDosMeusQuizzes,
@@ -55,7 +54,6 @@ function GraficosDoAluno({ quizzes, carregando, erro }) {
       <CartaoGrafico
         titulo="Minhas notas ao longo do tempo"
         descricao="A nota de cada tentativa, da mais antiga para a mais recente."
-        simulado={GRAFICOS_SIMULADOS}
         carregando={tentativas.carregando}
         erro={tentativas.erro}
         dados={dadosDasTentativas}
@@ -104,7 +102,6 @@ function GraficosDoProfessor({ artigos, quizzes, carregando, erro }) {
       <CartaoGrafico
         titulo="Desempenho dos alunos nos meus quizzes"
         descricao="A nota média de quem respondeu cada quiz seu, do mais difícil para o mais fácil."
-        simulado={GRAFICOS_SIMULADOS}
         carregando={desempenho.carregando}
         erro={desempenho.erro}
         dados={dadosDoDesempenho}
@@ -130,7 +127,6 @@ function GraficosDoAdministrador({ exercicios, grupos, carregando, erro }) {
       <CartaoGrafico
         titulo="Atividade por dia"
         descricao="Ações registradas na trilha de auditoria nos últimos 7 dias, sem contar as leituras."
-        simulado={GRAFICOS_SIMULADOS}
         carregando={atividade.carregando}
         erro={atividade.erro}
         dados={dadosDaAtividade}
@@ -144,7 +140,6 @@ function GraficosDoAdministrador({ exercicios, grupos, carregando, erro }) {
       <CartaoGrafico
         titulo="Contas por perfil"
         descricao="Quantas contas a plataforma tem em cada perfil."
-        simulado={GRAFICOS_SIMULADOS}
         carregando={contas.carregando}
         erro={contas.erro}
         dados={dadosDasContas}
@@ -174,8 +169,8 @@ function SecaoGraficos({ papel, dados, carregando, erro, estiloTitulo }) {
 
   return (
     <section className="mb-12">
-      <h2 className={estiloTitulo}>Dashboard</h2>
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <h2 className={estiloTitulo}>Seus gráficos</h2>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         {papel === "ADMINISTRADOR" && (
           <GraficosDoAdministrador
             exercicios={dados?.exercicios ?? []}

@@ -2,7 +2,7 @@ import { Children, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const ESTILO_SETA =
-  "absolute top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-gray-700 bg-white/5 backdrop-blur-xl shadow-lg shadow-black/20 text-red-200 hover:bg-red-500 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:text-gray-600 disabled:hover:bg-white/5 disabled:hover:text-gray-600";
+  "absolute top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-borda bg-superficie shadow-cartao text-marca-200 hover:bg-marca-600 hover:text-white cursor-pointer disabled:cursor-not-allowed disabled:text-texto-fraco disabled:hover:bg-superficie disabled:hover:text-texto-fraco";
 
 function CarrosselCards({ children }) {
   const faixa = useRef(null);

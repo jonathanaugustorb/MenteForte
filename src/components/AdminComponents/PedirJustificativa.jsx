@@ -1,5 +1,8 @@
 import { useState } from "react";
-import Dialogo from "../Dialogo";
+import Modal from "../ui/Modal";
+import Campo from "../ui/Campo";
+import Botao from "../ui/Botao";
+import { ESTILO_ENTRADA } from "../ui/estiloDeCampo";
 
 const MINIMO = 10;
 const MAXIMO = 255;
@@ -21,26 +24,27 @@ export default function PedirJustificativa({
   }
 
   return (
-    <Dialogo
-      isOpen
-      setCloseModal={aoCancelar}
-      className="w-[min(32rem,92vw)] rounded-2xl bg-neutral-900 p-6 text-gray-200"
-      classeFechar="text-gray-400 hover:text-white"
-    >
-      <form onSubmit={enviar} className="flex flex-col gap-4">
-        <h2 className="font-montserrat text-2xl">Por que abrir os dados completos?</h2>
+    <Modal aberto aoFechar={aoCancelar} largura="estreita">
+      <form onSubmit={enviar} className="flex flex-col gap-5">
+        <div className="space-y-2">
+          <h2 className="font-titulo text-xl font-bold">Por que abrir os dados completos?</h2>
+          <p className="text-sm text-texto-suave">
+            Abrir os dados de{" "}
+            <span className="font-semibold text-texto">{nomeDaPessoa}</span> sem
+            máscara fica registrado na trilha de auditoria, junto com esta
+            justificativa.
+          </p>
+        </div>
 
-        <p className="text-sm text-gray-300">
-          Abrir os dados de{" "}
-          <span className="font-semibold text-red-200">{nomeDaPessoa}</span> sem
-          máscara fica registrado na trilha de auditoria, junto com esta
-          justificativa.
-        </p>
-
-        <div className="flex flex-col gap-1">
-          <label htmlFor="justificativa" className="text-lg font-light">
-            Justificativa
-          </label>
+        <Campo
+          id="justificativa"
+          rotulo="Justificativa"
+          dica={
+            texto.length < MINIMO
+              ? `Escreva pelo menos ${MINIMO} caracteres.`
+              : `${justificativa.length} de ${MAXIMO} caracteres.`
+          }
+        >
           <textarea
             id="justificativa"
             name="justificativa"
@@ -48,33 +52,21 @@ export default function PedirJustificativa({
             maxLength={MAXIMO}
             value={justificativa}
             onChange={(evento) => setJustificativa(evento.target.value)}
-            placeholder="Ex.: conferir o CREF enviado pelo professor"
-            className="rounded-xl border border-gray-700 bg-neutral-800 px-3 py-2 text-gray-100 placeholder:text-gray-500"
+            placeholder="Ex.: conferir o e-mail informado pela pessoa"
+            aria-describedby="justificativa-dica"
+            className={ESTILO_ENTRADA}
           />
-          <span className="text-xs text-gray-400">
-            {texto.length < MINIMO
-              ? `Escreva pelo menos ${MINIMO} caracteres.`
-              : `${justificativa.length} de ${MAXIMO} caracteres.`}
-          </span>
-        </div>
+        </Campo>
 
         <div className="flex justify-end gap-3">
-          <button
-            type="button"
-            onClick={aoCancelar}
-            className="rounded-xl border border-gray-700 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer"
-          >
+          <Botao variante="secundario" onClick={aoCancelar}>
             Cancelar
-          </button>
-          <button
-            type="submit"
-            disabled={!podeConfirmar}
-            className="rounded-xl bg-red-500 px-4 py-2 font-bold text-red-100 hover:bg-red-900 hover:text-white cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          </Botao>
+          <Botao type="submit" disabled={!podeConfirmar}>
             {enviando ? "Abrindo..." : "Abrir dados"}
-          </button>
+          </Botao>
         </div>
       </form>
-    </Dialogo>
+    </Modal>
   );
 }
