@@ -3,9 +3,9 @@ function BarraComposicao({ titulo, total, segmentos }) {
 
   return (
     <div className="flex flex-col gap-3">
-      <span className="text-xs tracking-widest text-gray-300">{titulo}</span>
+      <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">{titulo}</span>
 
-      <div className="flex h-2 w-full overflow-hidden rounded-full bg-gray-700">
+      <div className="flex h-2 w-full overflow-hidden rounded-full bg-superficie-alta">
         {segmentos.map((segmento) => (
           <div
             key={segmento.rotulo}
@@ -19,15 +19,15 @@ function BarraComposicao({ titulo, total, segmentos }) {
         {segmentos.map((segmento) => (
           <li
             key={segmento.rotulo}
-            className="flex items-center justify-between gap-4 border-b border-gray-700 py-2 text-sm"
+            className="flex items-center justify-between gap-4 border-b border-borda py-2 text-sm"
           >
-            <span className="flex items-center gap-2 text-gray-300">
+            <span className="flex items-center gap-2 text-texto-suave">
               <span
                 className={`h-2 w-2 shrink-0 rounded-full ${segmento.cor}`}
               ></span>
               {segmento.rotulo}
             </span>
-            <span className="text-red-200">{segmento.texto}</span>
+            <span className="text-marca-200">{segmento.texto}</span>
           </li>
         ))}
       </ul>

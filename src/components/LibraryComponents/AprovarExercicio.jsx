@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { aprovarExercicio } from "../../services/exercicioService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function AprovarExercicio({ exercicio, aoAprovar }) {
   const [enviando, setEnviando] = useState(false);
@@ -20,17 +21,17 @@ function AprovarExercicio({ exercicio, aoAprovar }) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-700 bg-white/5 p-4 backdrop-blur-xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+    <div className="rounded-xl border border-borda bg-superficie p-4">
+      <p className="text-sm font-semibold text-marca-400">
         Aprovação dos professores
       </p>
-      <p className="mt-1 text-sm text-gray-300">
+      <p className="mt-1 text-sm text-texto-suave">
         Este exercício tem {exercicio.aprovacoesDeProfessores} de{" "}
         {exercicio.aprovacoesNecessarias} aprovações. Confira a técnica acima antes de aprovar.
       </p>
 
       {erro && (
-        <p role="alert" className="mt-2 text-sm text-red-500">
+        <p role="alert" className="mt-2 text-sm text-perigo">
           {erro}
         </p>
       )}
@@ -39,7 +40,7 @@ function AprovarExercicio({ exercicio, aoAprovar }) {
         type="button"
         onClick={aprovar}
         disabled={enviando}
-        className="mt-3 rounded-md bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+        className={estiloDeBotao({ variante: "sucesso", className: "mt-3" })}
       >
         {enviando ? "Aprovando..." : "Aprovar"}
       </button>

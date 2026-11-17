@@ -7,6 +7,7 @@ const VARIANTES = {
   contorno: "border border-marca-500/70 text-marca-100 hover:border-marca-500 hover:bg-marca-600 hover:text-white",
   fantasma: "text-texto-suave hover:bg-white/5 hover:text-texto",
   perigo: "border border-perigo/40 bg-perigo/10 text-perigo hover:bg-perigo hover:text-fundo",
+  sucesso: "bg-emerald-600 text-white hover:bg-emerald-500 active:bg-emerald-700",
 };
 
 const TAMANHOS = {

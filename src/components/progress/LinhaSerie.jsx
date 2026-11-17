@@ -1,5 +1,6 @@
 import { X } from "lucide-react";
 import CampoNumero from "./CampoNumero";
+import { ESTILO_ENTRADA } from "../ui/estiloDeCampo";
 
 function LinhaSerie({
   grade,
@@ -12,28 +13,28 @@ function LinhaSerie({
 }) {
   return (
     <div className={grade}>
-      <div className="flex min-w-0 flex-col gap-1">
+      <div className="flex min-w-0 flex-col gap-1.5">
         <label
           htmlFor={`exercicio-${linha.id}`}
-          className="text-xs tracking-widest text-gray-300 sm:sr-only"
+          className="text-sm font-medium text-texto sm:sr-only"
         >
-          EXERCÍCIO
+          Exercício
         </label>
         <select
           id={`exercicio-${linha.id}`}
           value={linha.exercicioId}
           disabled={carregandoExercicios}
           onChange={(evento) => aoAlterar("exercicioId", evento.target.value)}
-          className="w-full min-w-0 bg-transparent border-b border-gray-500 py-2 text-white outline-none focus:border-red-500 disabled:text-gray-500"
+          className={`${ESTILO_ENTRADA} min-w-0`}
         >
-          <option value="" className="bg-slate-950">
+          <option value="" className="bg-fundo">
             {carregandoExercicios ? "Carregando..." : "Selecione"}
           </option>
           {exercicios.map((exercicio) => (
             <option
               key={exercicio.id}
               value={exercicio.id}
-              className="bg-slate-950"
+              className="bg-fundo"
             >
               {exercicio.nome}
             </option>
@@ -44,7 +45,7 @@ function LinhaSerie({
       <CampoNumero
         id={`series-${linha.id}`}
         digitos={2}
-        rotulo="SÉRIES"
+        rotulo="Séries"
         valor={linha.series}
         aoAlterar={(valor) => aoAlterar("series", valor)}
         placeholder="4"
@@ -54,7 +55,7 @@ function LinhaSerie({
       <CampoNumero
         id={`reps-${linha.id}`}
         digitos={2}
-        rotulo="REPS"
+        rotulo="Repetições"
         valor={linha.repeticoes}
         aoAlterar={(valor) => aoAlterar("repeticoes", valor)}
         placeholder="10"
@@ -65,7 +66,7 @@ function LinhaSerie({
         id={`carga-${linha.id}`}
         digitos={3}
         casas={1}
-        rotulo="CARGA (KG)"
+        rotulo="Carga (kg)"
         valor={linha.cargaKg}
         aoAlterar={(valor) => aoAlterar("cargaKg", valor)}
         decimal
@@ -78,7 +79,7 @@ function LinhaSerie({
         onClick={aoRemover}
         disabled={!podeRemover}
         aria-label="Remover exercício"
-        className="self-end py-2 text-gray-300 hover:text-red-200 cursor-pointer disabled:cursor-not-allowed disabled:text-gray-700"
+        className="self-end py-2 text-texto-suave hover:text-marca-200 cursor-pointer disabled:cursor-not-allowed disabled:text-texto-fraco"
       >
         <X size={18} />
       </button>

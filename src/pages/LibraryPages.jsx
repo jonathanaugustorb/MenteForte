@@ -156,7 +156,7 @@ function LibraryPages() {
   }
 
   return (
-    <div>
+    <div className="mx-auto w-full max-w-6xl px-4 pb-16 sm:px-6 lg:px-8">
       <LibraryHead
         gruposMusculares={gruposMusculares}
         niveis={niveis}
@@ -168,9 +168,7 @@ function LibraryPages() {
         papel={usuario?.papel}
       />
       {podeEditar && !carregando && !erro && (
-        <div className="px-4">
-          <LimiteDeCriacao itens={exercicios} usuario={usuario} tipo="exercícios" />
-        </div>
+        <LimiteDeCriacao itens={exercicios} usuario={usuario} tipo="exercícios" />
       )}
       {usuario?.papel === "PROFESSOR" && (
         <FiltroParaAprovar
@@ -181,6 +179,7 @@ function LibraryPages() {
       )}
 
       <FilterLibrary
+        grupos={gruposMusculares}
         grupoSelecionado={grupoSelecionado}
         aoSelecionar={setGrupoSelecionado}
       />

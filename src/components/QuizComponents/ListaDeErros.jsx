@@ -4,7 +4,7 @@ function ListaDeErros({ erro, campos }) {
   if (!erro && campos.length === 0) return null;
 
   return (
-    <div role="alert" className="text-sm text-red-400">
+    <div role="alert" className="text-sm text-perigo">
       {erro && <p>{erro}</p>}
       {campos.length > 0 && (
         <ul className="mt-1 list-disc pl-6">

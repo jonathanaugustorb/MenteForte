@@ -19,7 +19,7 @@ import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 
 const SecaoGraficos = lazy(() => import("../components/ComponentesInicio/SecaoGraficos"));
 
-const ESTILO_TITULO_SECAO = "mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-red-200";
+const ESTILO_TITULO_SECAO = "mb-4 text-xs font-semibold tracking-wider text-texto-fraco uppercase";
 
 function numerosDoAluno(quizzes) {
   const feitos = quizzes.filter((quiz) => quiz.melhorTentativa);
@@ -124,7 +124,7 @@ function InicioPages() {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo={`Olá, ${primeiroNome}`}
         subtitulo={SAUDACOES[papel]}
@@ -137,20 +137,20 @@ function InicioPages() {
         </h2>
         {numeros ? (
           <div
-            className={`grid grid-cols-1 gap-4 xs:grid-cols-2 ${numeros.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
+            className={`grid grid-cols-2 gap-3 sm:gap-4 ${numeros.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
           >
             {numeros.map((numero) => (
               <NumeroRapido key={numero.rotulo} {...numero} />
             ))}
           </div>
         ) : (
-          <p className="text-sm text-gray-400">
+          <p className="text-sm text-texto-fraco">
             {erro ? "Não foi possível carregar os seus números agora." : "Carregando os seus números..."}
           </p>
         )}
       </section>
 
-      <Suspense fallback={<p className="mb-12 text-sm text-gray-400">Carregando os gráficos...</p>}>
+      <Suspense fallback={<p className="mb-12 text-sm text-texto-fraco">Carregando os gráficos...</p>}>
         <SecaoGraficos
           papel={papel}
           dados={dados}

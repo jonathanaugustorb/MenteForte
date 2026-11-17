@@ -1,9 +1,9 @@
 function NumeroRapido({ rotulo, valor, detalhe }) {
   return (
-    <div className="rounded-xl border border-gray-700 bg-white/5 p-5 text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-200">{rotulo}</p>
-      <p className="mt-2 font-titulo font-bold text-4xl text-white">{valor}</p>
-      {detalhe && <p className="mt-1 text-xs text-gray-400">{detalhe}</p>}
+    <div className="rounded-2xl border border-borda bg-superficie p-5 shadow-cartao">
+      <p className="text-sm font-medium text-texto-suave">{rotulo}</p>
+      <p className="mt-2 font-titulo text-4xl font-extrabold tracking-tight text-texto">{valor}</p>
+      {detalhe && <p className="mt-1 text-xs text-texto-fraco">{detalhe}</p>}
     </div>
   );
 }

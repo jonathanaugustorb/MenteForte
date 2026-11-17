@@ -1,7 +1,7 @@
 import Cartao from "../ui/Cartao";
 import EstadoRequisicao from "../ui/EstadoRequisicao";
 
-const ESTILO_CELULA = "border-b border-gray-700 py-1 pr-3 align-top";
+const ESTILO_CELULA = "border-b border-borda py-1 pr-3 align-top";
 
 function CartaoGrafico({
   titulo,
@@ -23,7 +23,7 @@ function CartaoGrafico({
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="font-titulo font-bold text-lg text-white">{titulo}</h3>
         </div>
-        <p className="mt-1 text-sm text-gray-400">{descricao}</p>
+        <p className="mt-1 text-sm text-texto-fraco">{descricao}</p>
       </div>
 
       <EstadoRequisicao
@@ -35,9 +35,9 @@ function CartaoGrafico({
       >
         {children}
 
-        <details className="text-sm text-gray-400">
+        <details className="text-sm text-texto-fraco">
           <summary className="cursor-pointer hover:text-white">Ver em tabela</summary>
-          <table className="mt-2 w-full text-left text-gray-300">
+          <table className="mt-2 w-full text-left text-texto-suave">
             <thead>
               <tr>
                 <th className={`${ESTILO_CELULA} font-semibold`}>{colunas[0]}</th>

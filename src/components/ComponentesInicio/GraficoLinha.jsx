@@ -9,12 +9,9 @@ import {
   YAxis,
 } from "recharts";
 import DicaDoGrafico from "./DicaDoGrafico";
+import { CORES_DOS_GRAFICOS } from "./coresDosGraficos";
 
 const ALTURA = 224;
-const COR_DA_LINHA_DO_DADO = "var(--color-red-500)";
-const COR_DO_TEXTO = "var(--color-gray-300)";
-const COR_DA_GRADE = "var(--color-gray-700)";
-const COR_DO_FUNDO = "#0e1223";
 
 function GraficoLinha({ dados, sufixo = "", maximo }) {
   const ultimoIndice = dados.length - 1;
@@ -23,7 +20,7 @@ function GraficoLinha({ dados, sufixo = "", maximo }) {
     if (index !== ultimoIndice) return null;
 
     return (
-      <text x={x} y={y - 12} fill={COR_DO_TEXTO} fontSize={13} textAnchor="middle">
+      <text x={x} y={y - 12} fill={CORES_DOS_GRAFICOS.texto} fontSize={13} textAnchor="middle">
         {`${value}${sufixo}`}
       </text>
     );
@@ -32,13 +29,13 @@ function GraficoLinha({ dados, sufixo = "", maximo }) {
   return (
     <ResponsiveContainer width="100%" height={ALTURA}>
       <LineChart data={dados} margin={{ top: 24, right: 24, bottom: 0, left: 0 }}>
-        <CartesianGrid vertical={false} stroke={COR_DA_GRADE} />
+        <CartesianGrid vertical={false} stroke={CORES_DOS_GRAFICOS.grade} />
         <XAxis
           dataKey="rotulo"
           tickLine={false}
           tickMargin={8}
-          axisLine={{ stroke: COR_DA_GRADE }}
-          tick={{ fill: COR_DO_TEXTO, fontSize: 13 }}
+          axisLine={{ stroke: CORES_DOS_GRAFICOS.grade }}
+          tick={{ fill: CORES_DOS_GRAFICOS.texto, fontSize: 13 }}
           minTickGap={16}
         />
         <YAxis
@@ -47,20 +44,20 @@ function GraficoLinha({ dados, sufixo = "", maximo }) {
           allowDecimals={false}
           tickLine={false}
           axisLine={false}
-          tick={{ fill: COR_DO_TEXTO, fontSize: 13 }}
+          tick={{ fill: CORES_DOS_GRAFICOS.texto, fontSize: 13 }}
           tickFormatter={(valor) => `${valor}${sufixo}`}
         />
         <Tooltip
-          cursor={{ stroke: COR_DA_GRADE }}
+          cursor={{ stroke: CORES_DOS_GRAFICOS.grade }}
           content={<DicaDoGrafico sufixo={sufixo} />}
         />
         <Line
           type="linear"
           dataKey="valor"
-          stroke={COR_DA_LINHA_DO_DADO}
+          stroke={CORES_DOS_GRAFICOS.dado}
           strokeWidth={2}
-          dot={{ r: 5, fill: COR_DA_LINHA_DO_DADO, stroke: COR_DO_FUNDO, strokeWidth: 2 }}
-          activeDot={{ r: 7, fill: COR_DA_LINHA_DO_DADO, stroke: COR_DO_FUNDO, strokeWidth: 2 }}
+          dot={{ r: 5, fill: CORES_DOS_GRAFICOS.dado, stroke: CORES_DOS_GRAFICOS.fundo, strokeWidth: 2 }}
+          activeDot={{ r: 7, fill: CORES_DOS_GRAFICOS.dado, stroke: CORES_DOS_GRAFICOS.fundo, strokeWidth: 2 }}
           isAnimationActive={false}
         >
           <LabelList dataKey="valor" content={rotuloDoUltimoPonto} />

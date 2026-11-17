@@ -2,17 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import ListaDeErros from "./ListaDeErros";
 import { responderQuiz } from "../../services/quizService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const ESTILO_BOTAO_PRIMARIO =
-  "rounded-md bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
-const ESTILO_BOTAO_SECUNDARIO =
-  "rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer";
 
 function estiloDaAlternativa(correcao, alternativaId) {
-  if (!correcao) return "border-gray-700 hover:border-red-500";
-  if (alternativaId === correcao.alternativaCorretaId) return "border-green-600 bg-green-600/15";
-  if (alternativaId === correcao.alternativaEscolhidaId) return "border-red-500 bg-red-500/15";
-  return "border-gray-700 opacity-70";
+  if (!correcao) return "border-borda hover:border-marca-500";
+  if (alternativaId === correcao.alternativaCorretaId) return "border-sucesso/50 bg-emerald-600/15";
+  if (alternativaId === correcao.alternativaEscolhidaId) return "border-marca-500 bg-marca-600/15";
+  return "border-borda opacity-70";
 }
 
 function ResponderQuiz({ quiz, aoResponder }) {
@@ -71,8 +68,8 @@ function ResponderQuiz({ quiz, aoResponder }) {
           role="status"
           className={`rounded-xl border p-4 ${
             resultado.concluido
-              ? "border-green-600 bg-green-600/10 text-green-100"
-              : "border-yellow-500 bg-yellow-500/10 text-yellow-100"
+              ? "border-sucesso/50 bg-emerald-600/10 text-emerald-50"
+              : "border-aviso/50 bg-aviso/10 text-amber-50"
           }`}
         >
           <p className="font-semibold">
@@ -97,7 +94,7 @@ function ResponderQuiz({ quiz, aoResponder }) {
             {questao.alternativas.map((alternativa) => (
               <label
                 key={alternativa.id}
-                className={`flex items-center gap-3 rounded-lg border p-3 text-sm text-gray-200 ${
+                className={`flex items-center gap-3 rounded-lg border p-3 text-sm text-texto ${
                   resultado ? "" : "cursor-pointer"
                 } ${estiloDaAlternativa(correcao, alternativa.id)}`}
               >
@@ -108,22 +105,22 @@ function ResponderQuiz({ quiz, aoResponder }) {
                   checked={respostas[questao.id] === alternativa.id}
                   onChange={() => escolher(questao.id, alternativa.id)}
                   disabled={Boolean(resultado)}
-                  className="accent-red-500"
+                  className="accent-marca-600"
                 />
                 <span className="min-w-0 flex-1">{alternativa.texto}</span>
                 {correcao && alternativa.id === correcao.alternativaCorretaId && (
-                  <Check size={18} className="text-green-400" aria-label="Alternativa correta" />
+                  <Check size={18} className="text-sucesso" aria-label="Alternativa correta" />
                 )}
                 {correcao &&
                   alternativa.id === correcao.alternativaEscolhidaId &&
                   !correcao.acertou && (
-                    <X size={18} className="text-red-400" aria-label="Sua resposta" />
+                    <X size={18} className="text-perigo" aria-label="Sua resposta" />
                   )}
               </label>
             ))}
 
             {correcao?.explicacao && (
-              <p className="rounded-lg bg-white/5 p-3 text-sm text-gray-300">
+              <p className="rounded-lg bg-superficie p-3 text-sm text-texto-suave">
                 {correcao.explicacao}
               </p>
             )}
@@ -135,14 +132,14 @@ function ResponderQuiz({ quiz, aoResponder }) {
 
       <div className="flex flex-wrap justify-end gap-3">
         {resultado ? (
-          <button type="button" onClick={tentarDeNovo} className={ESTILO_BOTAO_SECUNDARIO}>
+          <button type="button" onClick={tentarDeNovo} className={estiloDeBotao({ variante: "secundario" })}>
             Tentar de novo
           </button>
         ) : (
           <button
             type="submit"
             disabled={!todasRespondidas || enviando}
-            className={ESTILO_BOTAO_PRIMARIO}
+            className={estiloDeBotao()}
           >
             {enviando ? "Corrigindo..." : "Enviar respostas"}
           </button>

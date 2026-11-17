@@ -3,6 +3,7 @@ import Modal from "../ui/Modal";
 import ArtigoForm from "./ArtigoForm";
 import { artigoParaEnvio, validarArtigo } from "./artigoCampos";
 import { editarArtigo } from "../../services/artigoService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function valoresDoArtigo(artigo) {
   return {
@@ -71,14 +72,14 @@ function EditarArtigo({ artigo, categorias, carregandoOpcoes, aoEditar }) {
       <button
         type="button"
         onClick={abrirModal}
-        className="rounded-md border border-gray-700 py-2 px-4 font-bold text-red-200 hover:bg-white/10 cursor-pointer"
+        className={estiloDeBotao({ variante: "secundario" })}
       >
         Editar
       </button>
 
       <Modal aberto={modalAberto} aoFechar={fecharModal} largura="larga">
         <ArtigoForm
-          titulo="EDITAR ARTIGO"
+          titulo="Editar artigo"
           valores={form}
           aoAlterar={handleChange}
           aoEnviar={handleSubmit}

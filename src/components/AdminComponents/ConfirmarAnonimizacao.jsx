@@ -1,12 +1,9 @@
 import { useState } from "react";
 import { formatarDataCurta } from "../../utils/formatar";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const ESTILO_LISTA = "mt-2 list-disc pl-5 text-sm text-gray-300 space-y-1";
-const ESTILO_SUBTITULO = "text-sm font-semibold tracking-[0.25em] text-red-200 uppercase";
-const ESTILO_BOTAO_GRAVE =
-  "rounded-md bg-red-600 py-2 px-4 font-bold text-white hover:bg-red-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed";
-const ESTILO_BOTAO_SECUNDARIO =
-  "rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
+const ESTILO_LISTA = "mt-2 list-disc pl-5 text-sm text-texto-suave space-y-1";
+const ESTILO_SUBTITULO = "text-xs font-semibold tracking-wider text-texto-fraco uppercase";
 
 function ConfirmarAnonimizacao({ usuario, aoConfirmar, aoCancelar }) {
   const [enviando, setEnviando] = useState(false);
@@ -27,20 +24,20 @@ function ConfirmarAnonimizacao({ usuario, aoConfirmar, aoCancelar }) {
   return (
     <div className="w-full max-w-xl pr-8">
       <h2 className="mb-1 text-xl font-bold text-white">Anonimizar conta</h2>
-      <p className="mb-5 text-sm text-gray-400">
+      <p className="mb-5 text-sm text-texto-fraco">
         Cumprimento do pedido de exclusão previsto no art. 18 da LGPD.
       </p>
-      <div className="mb-5 rounded-xl border border-red-500 p-4">
-        <p className="text-sm text-red-200">
+      <div className="mb-5 rounded-xl border border-marca-500 p-4">
+        <p className="text-sm text-marca-200">
           <strong>Esta ação não tem volta.</strong> Os dados pessoais são apagados
           do banco e não há como recuperá-los.
         </p>
       </div>
-      <div className="mb-5 rounded-xl border border-gray-700 p-4">
-        <span className="block text-xs text-gray-400">Conta</span>
+      <div className="mb-5 rounded-xl border border-borda p-4">
+        <span className="block text-xs text-texto-fraco">Conta</span>
         <span className="block text-white">{usuario.nomeCompleto}</span>
-        <span className="block text-sm text-gray-400">{usuario.email}</span>
-        <span className="mt-2 block text-xs text-gray-400">
+        <span className="block text-sm text-texto-fraco">{usuario.email}</span>
+        <span className="mt-2 block text-xs text-texto-fraco">
           Exclusão pedida em {formatarDataCurta(usuario.anonimizacaoSolicitadaEm)}
         </span>
       </div>
@@ -55,12 +52,12 @@ function ConfirmarAnonimizacao({ usuario, aoConfirmar, aoCancelar }) {
         <li>Os artigos publicados, sem identificar o autor</li>
         <li>O registro desta anonimização na trilha de auditoria</li>
       </ul>
-      {erro && <p className="mt-5 text-sm text-red-400">{erro}</p>}
+      {erro && <p className="mt-5 text-sm text-perigo">{erro}</p>}
       <div className="mt-6 flex flex-wrap justify-end gap-3">
-        <button type="button" onClick={aoCancelar} disabled={enviando} className={ESTILO_BOTAO_SECUNDARIO}>
+        <button type="button" onClick={aoCancelar} disabled={enviando} className={estiloDeBotao({ variante: "secundario" })}>
           Cancelar
         </button>
-        <button type="button" onClick={confirmar} disabled={enviando} className={ESTILO_BOTAO_GRAVE}>
+        <button type="button" onClick={confirmar} disabled={enviando} className={estiloDeBotao({ variante: "perigo" })}>
           {enviando ? "Anonimizando..." : "Anonimizar definitivamente"}
         </button>
       </div>

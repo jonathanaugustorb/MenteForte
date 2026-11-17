@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import { Plus } from "lucide-react";
 import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import { estiloDeBotao } from "../components/ui/estiloDeBotao";
 import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import FiltroQuizzes from "../components/QuizComponents/FiltroQuizzes";
 import CardQuiz from "../components/QuizComponents/CardQuiz";
@@ -64,37 +66,28 @@ function QuizzesPages() {
   const aguardandoMinhaAprovacao = quizzes.filter((quiz) => quiz.podeAprovar).length;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Teste o que você aprendeu"
         subtitulo={subtituloPorPapel("quiz", usuario?.papel)}
         icone={ICONES_DAS_PAGINAS.quiz}
-      />
+      >
+        {podeCriar &&
+          (carregando || erro || bloqueado ? (
+            <button type="button" disabled className={estiloDeBotao()}>
+              <Plus size={16} aria-hidden="true" />
+              Novo quiz
+            </button>
+          ) : (
+            <Link to="/quiz/novo" className={estiloDeBotao()}>
+              <Plus size={16} aria-hidden="true" />
+              Novo quiz
+            </Link>
+          ))}
+      </CabecalhoPagina>
 
-      {podeCriar && (
-        <>
-          {!carregando && !erro && (
-            <LimiteDeCriacao itens={quizzes} usuario={usuario} tipo="quizzes" />
-          )}
-          <div className="mb-6 flex justify-end">
-            {carregando || erro || bloqueado ? (
-              <button
-                type="button"
-                disabled
-                className="bg-red-500 rounded-md py-2 px-4 font-bold text-white opacity-50 cursor-not-allowed"
-              >
-                Novo quiz
-              </button>
-            ) : (
-              <Link
-                to="/quiz/novo"
-                className="bg-red-500 rounded-md py-2 px-4 font-bold text-white hover:bg-red-900"
-              >
-                Novo quiz
-              </Link>
-            )}
-          </div>
-        </>
+      {podeCriar && !carregando && !erro && (
+        <LimiteDeCriacao itens={quizzes} usuario={usuario} tipo="quizzes" />
       )}
 
       {usuario?.papel === "PROFESSOR" && (

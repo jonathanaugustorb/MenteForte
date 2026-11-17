@@ -1,8 +1,8 @@
 function ComoCalculamos({ formulas, variaveis, arredondamento, seuCalculo }) {
   return (
-    <div className="flex flex-col gap-4 rounded-xl border border-gray-700 p-5">
-      <span className="text-xs tracking-widest text-red-200">
-        COMO CALCULAMOS
+    <div className="flex flex-col gap-4 rounded-xl border border-borda p-5">
+      <span className="text-xs font-semibold tracking-wider text-marca-300 uppercase">
+        Como calculamos
       </span>
 
       <ul className="flex flex-col gap-1">
@@ -18,8 +18,8 @@ function ComoCalculamos({ formulas, variaveis, arredondamento, seuCalculo }) {
 
       <ul className="flex flex-col gap-2 text-sm">
         {variaveis.map((variavel) => (
-          <li key={variavel.simbolo} className="text-gray-300 wrap-break-word">
-            <span className="font-semibold text-red-200">
+          <li key={variavel.simbolo} className="text-texto-suave wrap-break-word">
+            <span className="font-semibold text-marca-200">
               {variavel.simbolo}:
             </span>{" "}
             {variavel.descricao}
@@ -27,12 +27,12 @@ function ComoCalculamos({ formulas, variaveis, arredondamento, seuCalculo }) {
         ))}
       </ul>
 
-      <p className="text-xs text-gray-300">{arredondamento}</p>
+      <p className="text-xs text-texto-suave">{arredondamento}</p>
 
       {seuCalculo ? (
-        <div className="flex flex-col gap-1 border-t border-gray-700 pt-4">
-          <span className="text-xs tracking-widest text-gray-300">
-            SEU CÁLCULO
+        <div className="flex flex-col gap-1 border-t border-borda pt-4">
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Seu cálculo
           </span>
           {seuCalculo.map((linha) => (
             <p key={linha} className="text-sm text-white wrap-break-word">

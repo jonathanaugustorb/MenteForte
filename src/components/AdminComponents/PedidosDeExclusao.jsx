@@ -9,12 +9,11 @@ import {
 } from "../../services/usuarioService";
 import { rotuloDoPapel } from "../../utils/papeis";
 import { formatarDataCurta } from "../../utils/formatar";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-red-200 whitespace-nowrap";
-const ESTILO_CELULA = "py-2 pr-4 text-gray-300 align-top";
+const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-marca-200 whitespace-nowrap";
+const ESTILO_CELULA = "py-2 pr-4 text-texto-suave align-top";
 
-const ESTILO_ACAO_GRAVE =
-  "rounded-md border border-red-500 bg-red-500/10 px-3 py-1 text-xs font-medium text-red-300 hover:bg-red-500/25 cursor-pointer";
 
 function PedidosDeExclusao() {
   const { avisar } = useOutletContext();
@@ -61,11 +60,11 @@ function PedidosDeExclusao() {
   return (
     <section className="flex flex-col gap-4">
       <div>
-        <h2 className="text-sm font-semibold tracking-[0.25em] text-red-200 uppercase">
+        <h2 className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
           Pedidos de exclusão de conta
             {!carregando && !erro && ` (${pedidos.length})`}
         </h2>
-        <p className="mt-1 text-sm text-gray-400">
+        <p className="mt-1 text-sm text-texto-fraco">
           Contas cujo dono pediu a exclusão. Anonimizar apaga os dados pessoais
           e não pode ser desfeito.
         </p>
@@ -81,7 +80,7 @@ function PedidosDeExclusao() {
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-left text-sm">
             <thead>
-              <tr className="border-b border-gray-700">
+              <tr className="border-b border-borda">
                 <th className={ESTILO_CABECALHO}>Usuário</th>
                 <th className={ESTILO_CABECALHO}>Perfil</th>
                 <th className={ESTILO_CABECALHO}>Pedido em</th>
@@ -90,10 +89,10 @@ function PedidosDeExclusao() {
             </thead>
             <tbody>
               {pedidos.map((pedido) => (
-                <tr key={pedido.id} className="border-b border-gray-700">
+                <tr key={pedido.id} className="border-b border-borda">
                   <td className={`${ESTILO_CELULA} wrap-anywhere`}>
                     <span className="block text-white">{pedido.nomeCompleto}</span>
-                    <span className="block text-xs text-gray-400">{pedido.email}</span>
+                    <span className="block text-xs text-texto-fraco">{pedido.email}</span>
                   </td>
                   <td className={ESTILO_CELULA}>{rotuloDoPapel(pedido.papel)}</td>
                   <td className={ESTILO_CELULA}>
@@ -103,7 +102,7 @@ function PedidosDeExclusao() {
                     <button
                       type="button"
                       onClick={() => setPedidoEmAnonimizacao(pedido)}
-                      className={ESTILO_ACAO_GRAVE}
+                      className={estiloDeBotao({ variante: "perigo", tamanho: "pequeno" })}
                     >
                       Anonimizar
                     </button>
