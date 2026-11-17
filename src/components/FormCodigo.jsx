@@ -43,7 +43,7 @@ function FormCodigo({ email, expiraEmSegundos, aoEntrar, aoVoltar }) {
 
   return (
     <form onSubmit={confirmar} className="flex flex-col gap-3 items-center">
-      <h2 className="font-montserrat text-center text-4xl">VERIFICAÇÃO</h2>
+      <h2 className="font-titulo font-bold text-center text-4xl">VERIFICAÇÃO</h2>
 
       <p className="max-w-sm text-center text-sm text-gray-300">
         Enviamos um código de 6 dígitos para{" "}

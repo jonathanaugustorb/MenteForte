@@ -104,7 +104,7 @@ function BaixarMeusDados({ formacoes, className }) {
       ]);
 
       const copia = {
-        documento: "Cópia dos seus dados na ForçaMente",
+        documento: "Cópia dos seus dados no MenteForte",
         baseLegal: "Lei nº 13.709/2018 (LGPD), art. 18, inciso V: portabilidade dos dados",
         geradoEm: new Date().toISOString(),
         conta: dadosDaConta(conta, formacoes),
@@ -115,7 +115,7 @@ function BaixarMeusDados({ formacoes, className }) {
         }),
       };
 
-      const nomeArquivo = `forcamente-meus-dados-${new Date().toISOString().slice(0, 10)}.json`;
+      const nomeArquivo = `menteforte-meus-dados-${new Date().toISOString().slice(0, 10)}.json`;
       baixarArquivo(
         nomeArquivo,
         new Blob([JSON.stringify(copia, null, 2)], { type: "application/json;charset=utf-8" }),

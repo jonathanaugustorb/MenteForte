@@ -1,14 +1,12 @@
 import { useState } from "react";
 import { resumirConsumoAgua } from "../services/metricasService";
-import {
-  dataDeHoje,
-  lerCacheConsumo,
-  gravarCacheConsumo,
-} from "../utils/cacheConsumoAgua";
+import { dataDeHoje, lerCacheConsumo, gravarCacheConsumo } from "../utils/cacheConsumoAgua";
+import { lerSessao } from "../utils/sessao";
 
 function useConsumoAgua() {
+  const usuarioId = lerSessao()?.id;
   const data = dataDeHoje();
-  const [resumo, setResumo] = useState(() => lerCacheConsumo(data));
+  const [resumo, setResumo] = useState(() => lerCacheConsumo(usuarioId, data));
   const [processando, setProcessando] = useState(false);
   const [erro, setErro] = useState(null);
 
@@ -23,7 +21,7 @@ function useConsumoAgua() {
         quantidadeMl,
       });
       setResumo(resposta);
-      gravarCacheConsumo(data, resposta);
+      gravarCacheConsumo(usuarioId, data, resposta);
       return resposta;
     } catch (falha) {
       setErro(

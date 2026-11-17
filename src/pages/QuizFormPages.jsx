@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import QuizForm from "../components/QuizComponents/QuizForm";
 import LimiteDeCriacao from "../components/LimiteDeCriacao";
 import { novoQuiz, SITUACOES_PUBLICADAS } from "../components/QuizComponents/quizCampos";
@@ -139,7 +139,7 @@ function QuizFormPages() {
       : "Enviar quiz";
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo={editando ? "Editar quiz" : "Novo quiz"}
         subtitulo="O quiz de um professor passa pela moderação antes de aparecer no site, como os artigos."

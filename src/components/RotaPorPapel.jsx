@@ -1,13 +1,13 @@
-import { Navigate, useOutletContext } from "react-router-dom";
+import { Navigate, Outlet, useOutletContext } from "react-router-dom";
 
-function RotaPorPapel({ papeis, children }) {
-  const { usuario } = useOutletContext();
+function RotaPorPapel({ papeis }) {
+  const contexto = useOutletContext();
 
-  if (!usuario || !papeis.includes(usuario.papel)) {
+  if (!papeis.includes(contexto.usuario?.papel)) {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <Outlet context={contexto} />;
 }
 
 export default RotaPorPapel;

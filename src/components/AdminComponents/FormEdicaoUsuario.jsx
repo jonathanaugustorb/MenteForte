@@ -119,7 +119,7 @@ function FormEdicaoUsuario({ usuario, formacoes, aoSalvar, aoCancelar }) {
         A abertura e as alterações entram na trilha de auditoria.
       </p>
 
-      <div className="mb-5 grid grid-cols-2 gap-4 rounded-xl border border-gray-700 p-4 lp:grid-cols-4">
+      <div className="mb-5 grid grid-cols-2 gap-4 rounded-xl border border-gray-700 p-4 lg:grid-cols-4">
         <Leitura rotulo="Perfil" valor={rotuloDoPapel(usuario.papel)} />
         <Leitura
           rotulo="Nascimento"
@@ -129,7 +129,7 @@ function FormEdicaoUsuario({ usuario, formacoes, aoSalvar, aoCancelar }) {
         <Leitura rotulo="Situação" valor={usuario.ativo ? "Ativo" : "Inativo"} />
       </div>
 
-      <div className="mb-4 grid gap-4 md:grid-cols-2">
+      <div className="mb-4 grid gap-4 sm:grid-cols-2">
         <Campo id="edicao-nome" rotulo="Nome completo *">
           <input
             type="text"
@@ -163,7 +163,7 @@ function FormEdicaoUsuario({ usuario, formacoes, aoSalvar, aoCancelar }) {
             Habilitação
           </h3>
 
-          <div className="mb-4 grid gap-4 md:grid-cols-2">
+          <div className="mb-4 grid gap-4 sm:grid-cols-2">
             <Campo id="edicao-cref" rotulo="CREF *">
               <input
                 type="text"
@@ -204,7 +204,7 @@ function FormEdicaoUsuario({ usuario, formacoes, aoSalvar, aoCancelar }) {
             Endereço profissional
           </h3>
 
-          <div className="mb-4 grid gap-4 md:grid-cols-2 lp:grid-cols-3">
+          <div className="mb-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <Campo id="edicao-cep" rotulo="CEP *">
               <input
                 type="text"

@@ -9,13 +9,13 @@ import CardResultado from "./CardResultado";
 import LinhaSerie from "./LinhaSerie";
 import GraficoGrupoMuscular from "./GraficoGrupoMuscular";
 import BlocoExplicacao from "./BlocoExplicacao";
-import EstadoRequisicao from "./EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import { EXPLICACAO_VOLUME, COMO_CALCULAMOS_VOLUME } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
 import ComoCalculamos from "./ComoCalculamos";
 
 
-const GRADE = "grid grid-cols-1 gap-3 md:grid-cols-[2fr_1fr_1fr_1fr_auto]";
+const GRADE = "grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]";
 
 function linhaVazia() {
   return {
@@ -194,7 +194,7 @@ function VolumeTreino() {
           </span>
         </div>
 
-        <div className={`${GRADE} hidden md:grid`}>
+        <div className={`${GRADE} hidden sm:grid`}>
           <span className="text-xs tracking-widest text-gray-300">
             EXERCÍCIO
           </span>
@@ -206,7 +206,7 @@ function VolumeTreino() {
           <span className="w-[18px]"></span>
         </div>
 
-        <div className="flex flex-col gap-6 md:gap-3">
+        <div className="flex flex-col gap-6 sm:gap-3">
           {linhas.map((linha) => (
             <LinhaSerie
               key={linha.id}

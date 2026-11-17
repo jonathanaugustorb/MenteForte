@@ -34,7 +34,7 @@ function politicaDeSeguranca(origemDaApi, emDesenvolvimento) {
 
 function cabecalhoDeSeguranca(politica) {
   return {
-    name: 'forcamente-csp',
+    name: 'menteforte-csp',
     transformIndexHtml() {
       return {
         tags: [

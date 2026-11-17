@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import ArtigoNaFila from "./ArtigoNaFila";
 import { STATUS_ARTIGO } from "../ArticlesComponents/artigoCampos";
 import { listarArtigosPendentes } from "../../services/artigoService";

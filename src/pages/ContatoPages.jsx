@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
 import { TriangleAlert } from "lucide-react";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import Cartao from "../components/ComponentesHome/Cartao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import Cartao from "../components/ui/Cartao";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 import { EMAIL_CONTATO } from "../utils/contato";
 
-const ESTILO_TITULO_SECAO = "font-montserrat text-2xl text-white lp:text-3xl";
+const ESTILO_TITULO_SECAO = "font-titulo font-bold text-2xl text-white lg:text-3xl";
 const ESTILO_PARAGRAFO = "text-base leading-relaxed text-gray-300";
 const ESTILO_LINK = "font-semibold text-red-200 underline hover:text-white";
 
@@ -35,10 +35,10 @@ const ASSUNTOS = [
 
 function ContatoPages() {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Contato"
-        subtitulo="Fale com a equipe do ForçaMente pelo e-mail abaixo. Respondemos em até 15 dias."
+        subtitulo="Fale com a equipe do MenteForte pelo e-mail abaixo. Respondemos em até 15 dias."
         icone={ICONES_DAS_PAGINAS.contato}
       />
 
@@ -47,7 +47,7 @@ function ContatoPages() {
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-200">E-mail</p>
           <a
             href={`mailto:${EMAIL_CONTATO}`}
-            className="mt-2 inline-block break-all font-montserrat text-2xl text-white underline hover:text-red-200 md:text-3xl"
+            className="mt-2 inline-block break-all font-titulo font-bold text-2xl text-white underline hover:text-red-200 sm:text-3xl"
           >
             {EMAIL_CONTATO}
           </a>
@@ -59,10 +59,10 @@ function ContatoPages() {
 
         <section className="space-y-4">
           <h2 className={ESTILO_TITULO_SECAO}>Sobre o que falar com a gente</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {ASSUNTOS.map((assunto) => (
               <Cartao key={assunto.titulo}>
-                <h3 className="font-montserrat text-lg text-white">{assunto.titulo}</h3>
+                <h3 className="font-titulo font-bold text-lg text-white">{assunto.titulo}</h3>
                 <p className="mt-1 text-sm text-gray-300">{assunto.texto}</p>
               </Cartao>
             ))}
@@ -85,7 +85,7 @@ function ContatoPages() {
           <TriangleAlert className="shrink-0 text-red-500" size={22} aria-hidden="true" />
           <p className="text-sm text-gray-300">
             <strong className="text-white">A equipe nunca pede a sua senha nem o código de verificação por e-mail.</strong>{" "}
-            Esses dados só são digitados nas telas do próprio ForçaMente.
+            Esses dados só são digitados nas telas do próprio MenteForte.
           </p>
         </div>
       </div>

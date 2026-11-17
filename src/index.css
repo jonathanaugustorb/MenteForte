@@ -1,5 +1,54 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-titulo: "Montserrat Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --breakpoint-xs: 25rem;
+
+  --color-marca-50: #fff1f2;
+  --color-marca-100: #ffe0e2;
+  --color-marca-200: #ffc5ca;
+  --color-marca-300: #ff9ca4;
+  --color-marca-400: #ff6470;
+  --color-marca-500: #f8323f;
+  --color-marca-600: #df1028;
+  --color-marca-700: #bb0a20;
+  --color-marca-800: #9a0c1f;
+  --color-marca-900: #800f20;
+  --color-marca-950: #47020b;
+
+  --color-fundo: #090c13;
+  --color-superficie: #10141f;
+  --color-superficie-alta: #171c2a;
+  --color-borda: #232a3a;
+  --color-borda-forte: #323b4f;
+
+  --color-texto: #f4f5f7;
+  --color-texto-suave: #b6bdcb;
+  --color-texto-fraco: #8790a3;
+
+  --color-sucesso: #34d399;
+  --color-aviso: #fbbf24;
+  --color-perigo: #f87171;
+
+  --shadow-cartao: 0 1px 0 0 rgb(255 255 255 / 0.04) inset, 0 16px 40px -20px rgb(0 0 0 / 0.7);
+  --shadow-marca: 0 12px 32px -12px rgb(223 16 40 / 0.55);
+
+  --animate-surgir: surgir 0.25s ease-out;
+
+  @keyframes surgir {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 @utility scrollbar-oculta {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -19,19 +68,36 @@
   box-shadow: 0 0 6px --alpha(--value(--color-*) / 35%);
 }
 
-@theme {
-  --font-montserrat: 'Montserrat', sans-serif;
-  --breakpoint-*: initial;
-  --breakpoint-sm: 25rem;
-  --breakpoint-md: 40rem;
-  --breakpoint-lp: 64rem;
-  --breakpoint-lg: 80rem;
-  --breakpoint-xl: 96rem;
-}
-
 @layer base {
+  html {
+    color-scheme: dark;
+    scrollbar-color: var(--color-borda-forte) transparent;
+  }
+
   body {
+    background-color: var(--color-fundo);
+    color: var(--color-texto);
+    font-family: var(--font-sans);
     overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background-color: var(--color-marca-600);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-marca-400);
+    outline-offset: 2px;
   }
 
   input[type="password"]::-ms-reveal {

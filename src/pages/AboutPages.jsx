@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import IconeDaPagina from "../components/IconeDaPagina";
-import Cartao from "../components/ComponentesHome/Cartao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import IconeDaPagina from "../components/ui/IconeDaPagina";
+import Cartao from "../components/ui/Cartao";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 
-const ESTILO_TITULO_SECAO = "font-montserrat text-2xl text-white lp:text-3xl";
+const ESTILO_TITULO_SECAO = "font-titulo font-bold text-2xl text-white lg:text-3xl";
 const ESTILO_PARAGRAFO = "text-base leading-relaxed text-gray-300";
 const ESTILO_LINK = "font-semibold text-red-200 underline hover:text-white";
 
@@ -55,7 +55,7 @@ const EQUIPE = [
 
 function AboutPages() {
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Quem somos"
         subtitulo="Um projeto acadêmico voltado para iniciantes na musculação que querem treinar com informação de qualidade."
@@ -64,13 +64,13 @@ function AboutPages() {
 
       <div className="space-y-12">
         <section className="space-y-4">
-          <h2 className={ESTILO_TITULO_SECAO}>Por que o ForçaMente existe</h2>
+          <h2 className={ESTILO_TITULO_SECAO}>Por que o MenteForte existe</h2>
           <p className={ESTILO_PARAGRAFO}>
             Muita gente começa a treinar sem orientação qualificada e aprende a execução dos exercícios por
             tentativa e erro. Isso aumenta o risco de lesão e reduz o resultado do treino.
           </p>
           <p className={ESTILO_PARAGRAFO}>
-            O ForçaMente é uma plataforma voltada para iniciantes: reúne, num só lugar, conteúdo escrito e
+            O MenteForte é uma plataforma voltada para iniciantes: reúne, num só lugar, conteúdo escrito e
             revisado por profissionais de Educação Física, para que eles entendam o que estão fazendo antes de
             fazer. Daí o lema: mais que músculos, conhecimento.
           </p>
@@ -78,12 +78,12 @@ function AboutPages() {
 
         <section className="space-y-4">
           <h2 className={ESTILO_TITULO_SECAO}>O que você encontra aqui</h2>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {RECURSOS.map((recurso) => (
               <Cartao key={recurso.titulo} className="flex items-start gap-4">
                 <IconeDaPagina icone={recurso.icone} />
                 <div>
-                  <h3 className="font-montserrat text-xl text-white">{recurso.titulo}</h3>
+                  <h3 className="font-titulo font-bold text-xl text-white">{recurso.titulo}</h3>
                   <p className="mt-1 text-sm text-gray-300">{recurso.texto}</p>
                 </div>
               </Cartao>
@@ -97,10 +97,10 @@ function AboutPages() {
             A plataforma tem três perfis. O conteúdo enviado por um professor passa pela revisão de outros
             professores e pela decisão do administrador antes de aparecer no site.
           </p>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {PAPEIS.map((papel) => (
               <Cartao key={papel.titulo}>
-                <h3 className="font-montserrat text-xl text-white">{papel.titulo}</h3>
+                <h3 className="font-titulo font-bold text-xl text-white">{papel.titulo}</h3>
                 <p className="mt-2 text-sm text-gray-300">{papel.texto}</p>
               </Cartao>
             ))}
@@ -111,7 +111,7 @@ function AboutPages() {
           <h2 className={ESTILO_TITULO_SECAO}>Nossos compromissos</h2>
           <ul className="list-disc space-y-3 pl-6 text-gray-300">
             <li>
-              <strong className="text-white">Conteúdo educativo.</strong> O ForçaMente ensina, mas não substitui a
+              <strong className="text-white">Conteúdo educativo.</strong> O MenteForte ensina, mas não substitui a
               avaliação nem o acompanhamento de um profissional de Educação Física ou de saúde.
             </li>
             <li>
@@ -131,13 +131,13 @@ function AboutPages() {
         <section className="space-y-4">
           <h2 className={ESTILO_TITULO_SECAO}>Quem faz</h2>
           <p className={ESTILO_PARAGRAFO}>
-            O ForçaMente é o Projeto Final de Curso do Bacharelado em Sistemas de Informação da Universidade de
+            O MenteForte é o Projeto Final de Curso do Bacharelado em Sistemas de Informação da Universidade de
             Mogi das Cruzes (UMC), desenvolvido em 2026.
           </p>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {EQUIPE.map((pessoa) => (
               <Cartao key={pessoa.nome}>
-                <h3 className="font-montserrat text-lg text-white">{pessoa.nome}</h3>
+                <h3 className="font-titulo font-bold text-lg text-white">{pessoa.nome}</h3>
                 <p className="mt-1 text-sm text-gray-300">{pessoa.papel}</p>
               </Cartao>
             ))}

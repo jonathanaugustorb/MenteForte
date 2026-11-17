@@ -1,6 +1,11 @@
 import axios from "axios";
-import { expirarSessao } from "../utils/sessao";
+import { expirarSessao, lerToken } from "../utils/sessao";
 
+const MENSAGEM_PADRAO = "Não foi possível concluir a operação. Tente novamente.";
+
+function ehRotaDeAutenticacao(config) {
+  return (config?.url ?? "").startsWith("/auth/");
+}
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -11,12 +16,11 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const caminho = config.url ?? "";
-  if (caminho.startsWith("/auth/")) {
+  if (ehRotaDeAutenticacao(config)) {
     return config;
   }
 
-  const token = localStorage.getItem("token");
+  const token = lerToken();
   config.tokenDaSessao = token;
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -28,22 +32,19 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     const status = error.response?.status;
-    const caminho = error.config?.url ?? "";
-    const ehAutenticacao = caminho.startsWith("/auth/");
+    const sessaoAindaAtual = error.config?.tokenDaSessao === lerToken();
 
-    if (status === 401 && !ehAutenticacao &&
-        error.config?.tokenDaSessao === localStorage.getItem("token")) {
+    if (status === 401 && !ehRotaDeAutenticacao(error.config) && sessaoAindaAtual) {
       expirarSessao();
     }
 
-    const mensagem =
-      error.response?.data?.message ||
-      "Não foi possível concluir a operação. Tente novamente.";
-
-    const campos = error.response?.data?.campos ?? [];
-
-    return Promise.reject({ status, mensagem, campos, original: error });
-  }
+    return Promise.reject({
+      status,
+      mensagem: error.response?.data?.message || MENSAGEM_PADRAO,
+      campos: error.response?.data?.campos ?? [],
+      original: error,
+    });
+  },
 );
 
 export default api;

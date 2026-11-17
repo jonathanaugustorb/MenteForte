@@ -11,7 +11,7 @@ function CardFuncionalidade({ para, icone: Icone, titulo, texto }) {
       <span className="flex h-14 w-14 items-center justify-center rounded-full bg-red-500/15 text-red-400">
         <Icone size={28} aria-hidden="true" />
       </span>
-      <h3 className="font-montserrat text-xl text-white">{titulo}</h3>
+      <h3 className="font-titulo font-bold text-xl text-white">{titulo}</h3>
       <p className="flex-1 text-sm text-gray-300">{texto}</p>
       <span className="flex items-center gap-1 text-sm font-semibold text-red-200 group-hover:text-white">
         Acessar

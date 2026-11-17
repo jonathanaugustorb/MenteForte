@@ -1,5 +1,5 @@
 import { useSearchParams } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import AbasAdministracao from "../components/AdminComponents/AbasAdministracao";
 import FiltroItensPendentes from "../components/AdminComponents/FiltroItensPendentes";
 import PedidosDeExclusao from "../components/AdminComponents/PedidosDeExclusao";
@@ -26,7 +26,7 @@ function ItensPendentesPages() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Itens pendentes"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.pendentes}

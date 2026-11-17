@@ -45,7 +45,7 @@ function RenovarCref({ crefAtual, formacaoAtual, formacoes, aoRenovar, aoCancela
         de novo.
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <div className="flex flex-col gap-1">
           <label htmlFor="renovacao-cref" className={ESTILO_ROTULO}>
             CREF

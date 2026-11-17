@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Play } from "lucide-react";
 
 const ENDERECO_DO_PLAYER = "https://www.youtube-nocookie.com/embed/";
-const ESTILO_TITULO = "font-montserrat text-lg text-red-200";
+const ESTILO_TITULO = "font-titulo font-bold text-lg text-red-200";
 
 function VideoExercicio({ videoYoutubeId, nome }) {
   const [tocando, setTocando] = useState(false);
@@ -18,7 +18,7 @@ function VideoExercicio({ videoYoutubeId, nome }) {
         <button
           type="button"
           onClick={() => setTocando(true)}
-          className="mt-1 flex h-56 w-full items-center justify-center gap-3 rounded-md border border-gray-700 bg-white/5 text-red-200 hover:bg-red-500 hover:text-white md:h-72"
+          className="mt-1 flex h-56 w-full items-center justify-center gap-3 rounded-md border border-gray-700 bg-white/5 text-red-200 hover:bg-red-500 hover:text-white sm:h-72"
         >
           <Play size={32} />
           <span className="font-semibold">Assistir à demonstração</span>

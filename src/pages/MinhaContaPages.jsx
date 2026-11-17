@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
-import Modal from "../components/Modal";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
+import Modal from "../components/ui/Modal";
 import ConfirmarExclusaoConta from "../components/ConfirmarExclusaoConta";
 import AvisoCref from "../components/AvisoCref";
 import RenovarCref from "../components/RenovarCref";
@@ -166,7 +166,7 @@ function MinhaContaPages() {
     conta?.formacao;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Minha conta"
         subtitulo="Os dados que a plataforma guarda sobre você, e o que fazer com eles."
@@ -189,7 +189,7 @@ function MinhaContaPages() {
               <Cartao className="space-y-5">
                 <h2 className={ESTILO_SUBTITULO}>Seus dados</h2>
 
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lp:grid-cols-3">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   <Dado rotulo="Nome completo" valor={conta.nomeCompleto} />
                   <Dado rotulo="E-mail" valor={conta.email} />
                   <Dado rotulo="Perfil" valor={rotuloDoPapel(conta.papel)} />
@@ -210,7 +210,7 @@ function MinhaContaPages() {
                 {professor && (
                   <>
                     <h2 className={`${ESTILO_SUBTITULO} pt-2`}>Habilitação</h2>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <Dado rotulo="CREF" valor={conta.cref} />
                       <Dado rotulo="Formação" valor={descricaoFormacao} />
                       {conta.situacaoCref && (<Dado rotulo="Verificação do CREF"
@@ -231,7 +231,7 @@ function MinhaContaPages() {
                     <h2 className={`${ESTILO_SUBTITULO} pt-2`}>
                       Endereço profissional
                     </h2>
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lp:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                       <Dado rotulo="CEP" valor={formatarCep(conta.cep ?? "")} />
                       <Dado rotulo="Logradouro" valor={conta.logradouro} />
                       <Dado rotulo="Número" valor={conta.numero} />
@@ -365,14 +365,14 @@ function MinhaContaPages() {
         .
       </p>
 
-      <Modal isOpen={modalAberto} setCloseModal={() => setModalAberto(false)}>
+      <Modal aberto={modalAberto} aoFechar={() => setModalAberto(false)}>
         <ConfirmarExclusaoConta
           aoConfirmar={solicitar}
           aoCancelar={() => setModalAberto(false)}
         />
       </Modal>
             
-      <Modal isOpen={renovacaoAberta} setCloseModal={() => setRenovacaoAberta(false)}>
+      <Modal aberto={renovacaoAberta} aoFechar={() => setRenovacaoAberta(false)}>
         {conta && (
           <RenovarCref
             crefAtual={conta.cref}
@@ -383,7 +383,7 @@ function MinhaContaPages() {
           />
         )}
       </Modal>
-      <Modal isOpen={edicaoAberta} setCloseModal={() => setEdicaoAberta(false)}>
+      <Modal aberto={edicaoAberta} aoFechar={() => setEdicaoAberta(false)}>
         {conta && (
           <EditarMeusDados
             conta={conta}
@@ -392,13 +392,13 @@ function MinhaContaPages() {
           />
         )}
       </Modal>
-            <Modal isOpen={senhaAberta} setCloseModal={() => setSenhaAberta(false)}>
+            <Modal aberto={senhaAberta} aoFechar={() => setSenhaAberta(false)}>
         <AlterarSenha
           aoAlterar={alterarMinhaSenha}
           aoFechar={() => setSenhaAberta(false)}
         />
       </Modal>
-      <Modal isOpen={emailAberto} setCloseModal={() => setEmailAberto(false)}>
+      <Modal aberto={emailAberto} aoFechar={() => setEmailAberto(false)}>
         {conta && (
           <AlterarEmail
             emailAtual={conta.email}

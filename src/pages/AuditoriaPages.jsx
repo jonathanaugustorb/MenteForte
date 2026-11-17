@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import FiltroAuditoria from "../components/AdminComponents/FiltroAuditoria";
 import TabelaAuditoria from "../components/AdminComponents/TabelaAuditoria";
 import Paginacao from "../components/AdminComponents/Paginacao";
@@ -98,7 +98,7 @@ function AuditoriaPages() {
   const registros = resultado?.conteudo ?? [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Trilha de auditoria"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.auditoria}

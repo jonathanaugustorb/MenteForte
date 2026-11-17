@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import { createBrowserRouter, Navigate, redirect, RouterProvider } from "react-router-dom";
 import HomePages from "./pages/HomePages.jsx";
-import Layout from "./Layout/Layout.jsx";
+import Layout from "./layout/Layout.jsx";
 import RotaProtegida from "./components/RotaProtegida.jsx";
 import RotaPorPapel from "./components/RotaPorPapel.jsx";
 import { PAPEIS_EDITORES, PAPEIS_VALIDADORES } from "./utils/papeis.js";
@@ -31,61 +31,41 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { path: "/", element: <HomePages />, loader: () => (lerSessao() ? redirect("/inicio") : null) },
-      { path: "/inicio", element: <RotaProtegida><InicioPages /></RotaProtegida> },
       { path: "/cadastro", element: <Cadastro /> },
       { path: "/termos-de-uso", element: <TermosPages /> },
       { path: "/politica-de-privacidade", element: <PoliticaPages /> },
       { path: "/about", element: <AboutPages /> },
-      { path: "/articles", element: <RotaProtegida><ArticlesPages /></RotaProtegida> },
-      { path: "/articles/:id", element: <RotaProtegida><ArticlePages /></RotaProtegida> },
-      { path: "/quiz", element: <RotaProtegida><QuizzesPages /></RotaProtegida> },
-      {
-        path: "/quiz/novo",
-        element: (
-          <RotaPorPapel papeis={PAPEIS_EDITORES}>
-            <QuizFormPages />
-          </RotaPorPapel>
-        ),
-      },
-      { path: "/quiz/:id", element: <RotaProtegida><QuizPages /></RotaProtegida> },
-      { path: "/quiz/:id/editar", element: <RotaProtegida><QuizFormPages /></RotaProtegida> },
-      { path: "/library", element: <RotaProtegida><LibraryPages /></RotaProtegida> },
-      { path: "/progress", element: <RotaProtegida><ProgressPages /></RotaProtegida> },
-      { path: "/minha-conta", element: <RotaProtegida><MinhaContaPages /></RotaProtegida> },
       { path: "/contato", element: <ContatoPages /> },
       {
-        path: "/meu-acervo",
-        element: (
-          <RotaPorPapel papeis={PAPEIS_EDITORES}>
-            <MeuAcervoPages />
-          </RotaPorPapel>
-        ),
+        element: <RotaProtegida />,
+        children: [
+          { path: "/inicio", element: <InicioPages /> },
+          { path: "/articles", element: <ArticlesPages /> },
+          { path: "/articles/:id", element: <ArticlePages /> },
+          { path: "/quiz", element: <QuizzesPages /> },
+          { path: "/quiz/:id", element: <QuizPages /> },
+          { path: "/library", element: <LibraryPages /> },
+          { path: "/progress", element: <ProgressPages /> },
+          { path: "/minha-conta", element: <MinhaContaPages /> },
+        ],
       },
       {
-        path: "/admin/auditoria",
-        element: (
-          <RotaPorPapel papeis={PAPEIS_VALIDADORES}>
-            <AuditoriaPages />
-          </RotaPorPapel>
-        ),
+        element: <RotaPorPapel papeis={PAPEIS_EDITORES} />,
+        children: [
+          { path: "/quiz/novo", element: <QuizFormPages /> },
+          { path: "/quiz/:id/editar", element: <QuizFormPages /> },
+          { path: "/meu-acervo", element: <MeuAcervoPages /> },
+        ],
       },
       {
-        path: "/admin/usuarios",
-        element: (
-          <RotaPorPapel papeis={PAPEIS_VALIDADORES}>
-            <UsuariosPages />
-          </RotaPorPapel>
-        ),
+        element: <RotaPorPapel papeis={PAPEIS_VALIDADORES} />,
+        children: [
+          { path: "/admin", element: <Navigate to="/admin/usuarios" replace /> },
+          { path: "/admin/usuarios", element: <UsuariosPages /> },
+          { path: "/admin/auditoria", element: <AuditoriaPages /> },
+          { path: "/admin/pendentes", element: <ItensPendentesPages /> },
+        ],
       },
-            {
-        path: "/admin/pendentes",
-        element: (
-          <RotaPorPapel papeis={PAPEIS_VALIDADORES}>
-            <ItensPendentesPages />
-          </RotaPorPapel>
-        ),
-      },
-      { path: "/admin", element: <Navigate to="/admin/usuarios" replace /> },
     ],
   },
 ]);

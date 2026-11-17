@@ -3,7 +3,7 @@ import { formatarNumero } from "../../utils/formatar";
 function CardResultado({ rotulo, valor, unidade, rodape, variante, tamanho }) {
   const corValor = variante === "neutro" ? "text-white" : "text-red-200";
   const tamanhoValor =
-    tamanho === "medio" ? "text-3xl lp:text-4xl" : "text-5xl lp:text-6xl";
+    tamanho === "medio" ? "text-3xl lg:text-4xl" : "text-5xl lg:text-6xl";
 
   return (
     <div className="flex flex-1 min-w-0 flex-col gap-2 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20">
@@ -11,7 +11,7 @@ function CardResultado({ rotulo, valor, unidade, rodape, variante, tamanho }) {
 
       <div className="flex items-end gap-2">
         <span
-          className={`font-montserrat ${tamanhoValor} ${corValor} break-all`}
+          className={`font-titulo font-bold ${tamanhoValor} ${corValor} break-all`}
         >
           {formatarNumero(valor)}
         </span>

@@ -15,7 +15,7 @@ function PainelDeFiltros({ id, rotulo, resumo, children }) {
         aria-expanded={aberto}
         aria-controls={id}
         onClick={() => setAberto((atual) => !atual)}
-        className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-md border border-gray-500 p-3 text-red-200 hover:bg-red-500 hover:text-white xl:hidden"
+        className="flex w-full cursor-pointer items-center justify-between gap-3 rounded-md border border-gray-500 p-3 text-red-200 hover:bg-red-500 hover:text-white 2xl:hidden"
       >
         <span className="flex items-center gap-2 font-medium">
           {aberto ? <X size={20} /> : <Menu size={20} />}
@@ -24,7 +24,7 @@ function PainelDeFiltros({ id, rotulo, resumo, children }) {
         <span className="text-sm">{resumo}</span>
       </button>
 
-      <div id={id} className={`${aberto ? "flex" : "hidden"} flex-col gap-4 xl:flex`}>
+      <div id={id} className={`${aberto ? "flex" : "hidden"} flex-col gap-4 2xl:flex`}>
         {typeof children === "function" ? children({ fechar }) : children}
       </div>
     </>

@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import ValidacaoQuiz from "../QuizComponents/ValidacaoQuiz";
 import { STATUS_ARTIGO } from "../ArticlesComponents/artigoCampos";
 import { listarQuizzesPendentes } from "../../services/quizService";

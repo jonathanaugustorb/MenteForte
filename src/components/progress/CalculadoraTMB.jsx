@@ -10,7 +10,7 @@ import CardResultado from "./CardResultado";
 import CampoNumero from "./CampoNumero";
 import MemoriaCalculo from "./MemoriaCalculo";
 import BlocoExplicacao from "./BlocoExplicacao";
-import EstadoRequisicao from "./EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import { EXPLICACAO_TMB, COMO_CALCULAMOS_TMB } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
 import ComoCalculamos from "./ComoCalculamos";
@@ -95,7 +95,7 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
     >
       {resultado ? (
         <div className="flex flex-col gap-6">
-          <div className="flex flex-col gap-4 md:flex-row">
+          <div className="flex flex-col gap-4 sm:flex-row">
             <CardResultado
               rotulo="SUA TMB"
               valor={resultado.tmb}
@@ -155,7 +155,7 @@ function CalculadoraTMB({ pesoKg, aoAlterarPeso, consentiu }) {
           </span>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <CampoNumero
             id="peso-tmb"
             digitos={3}

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import { etiquetaDoArtigo, STATUS_ARTIGO } from "../components/ArticlesComponents/artigoCampos";
 import { listarArtigos } from "../services/artigoService";
 import { listarExercicios } from "../services/exercicioService";
@@ -60,7 +60,7 @@ function Item({ item }) {
         </span>
       </div>
 
-      <p className="font-montserrat text-red-200 wrap-break-word">{item.titulo}</p>
+      <p className="font-titulo font-bold text-red-200 wrap-break-word">{item.titulo}</p>
 
       <p className="text-sm text-gray-400">Criado em {formatarDataCurta(item.criadoEm)}</p>
 
@@ -88,12 +88,12 @@ function Grupo({ grupo, itens }) {
 
   return (
     <section>
-      <h2 className="font-montserrat text-xl text-red-200">
+      <h2 className="font-titulo font-bold text-xl text-red-200">
         {grupo.titulo} ({doGrupo.length})
       </h2>
 
       {doGrupo.length ? (
-        <div className="mt-4 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
           {doGrupo.map((item) => (
             <Item key={item.chave} item={item} />
           ))}
@@ -144,7 +144,7 @@ function MeuAcervoPages() {
     : [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Meu acervo"
         subtitulo={subtituloPorPapel("meuAcervo", usuario?.papel)}

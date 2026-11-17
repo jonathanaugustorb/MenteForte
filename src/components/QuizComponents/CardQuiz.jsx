@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Cartao from "../ComponentesHome/Cartao";
+import Cartao from "../ui/Cartao";
 import { etiquetaDoArtigo } from "../ArticlesComponents/artigoCampos";
 
 function CardQuiz({ quiz }) {
@@ -20,7 +20,7 @@ function CardQuiz({ quiz }) {
           )}
         </div>
 
-        <h3 className="mt-4 font-montserrat text-lg text-white">{quiz.titulo}</h3>
+        <h3 className="mt-4 font-titulo font-bold text-lg text-white">{quiz.titulo}</h3>
         <p className="mt-2 text-sm text-gray-400">{quiz.descricao}</p>
 
         <div className="mt-auto pt-4">

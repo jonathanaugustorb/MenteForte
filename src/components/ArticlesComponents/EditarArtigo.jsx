@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import ArtigoForm from "./ArtigoForm";
 import { artigoParaEnvio, validarArtigo } from "./artigoCampos";
 import { editarArtigo } from "../../services/artigoService";
@@ -76,7 +76,7 @@ function EditarArtigo({ artigo, categorias, carregandoOpcoes, aoEditar }) {
         Editar
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal} largo>
+      <Modal aberto={modalAberto} aoFechar={fecharModal} largura="larga">
         <ArtigoForm
           titulo="EDITAR ARTIGO"
           valores={form}

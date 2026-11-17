@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
-import Modal from "../components/Modal";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
+import Modal from "../components/ui/Modal";
 import FiltroUsuarios from "../components/AdminComponents/FiltroUsuarios";
 import TabelaUsuarios from "../components/AdminComponents/TabelaUsuarios";
 import FormEdicaoUsuario from "../components/AdminComponents/FormEdicaoUsuario";
@@ -184,7 +184,7 @@ function UsuariosPages() {
   const usuarios = resultado?.conteudo ?? [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Gestão de usuários"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.usuarios}
@@ -240,8 +240,8 @@ function UsuariosPages() {
       )}
 
       <Modal
-        isOpen={usuarioEmEdicao !== null}
-        setCloseModal={() => setUsuarioEmEdicao(null)}
+        aberto={usuarioEmEdicao !== null}
+        aoFechar={() => setUsuarioEmEdicao(null)}
       >
         {usuarioEmEdicao && (
           <FormEdicaoUsuario
@@ -255,8 +255,8 @@ function UsuariosPages() {
       </Modal>
 
       <Modal
-        isOpen={usuarioEmAnonimizacao !== null}
-        setCloseModal={() => setUsuarioEmAnonimizacao(null)}
+        aberto={usuarioEmAnonimizacao !== null}
+        aoFechar={() => setUsuarioEmAnonimizacao(null)}
       >
         {usuarioEmAnonimizacao && (
           <ConfirmarAnonimizacao
@@ -269,8 +269,8 @@ function UsuariosPages() {
       </Modal>
 
       <Modal
-        isOpen={usuarioEmAlteracao !== null}
-        setCloseModal={() => setUsuarioEmAlteracao(null)}
+        aberto={usuarioEmAlteracao !== null}
+        aoFechar={() => setUsuarioEmAlteracao(null)}
       >
         {usuarioEmAlteracao && (
           <ConfirmarSituacao

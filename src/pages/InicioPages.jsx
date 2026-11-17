@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import CardFuncionalidade from "../components/ComponentesInicio/CardFuncionalidade";
 import NumeroRapido from "../components/ComponentesInicio/NumeroRapido";
 import { FUNCIONALIDADES, SAUDACOES } from "../components/ComponentesInicio/dadosInicio";
@@ -127,7 +127,7 @@ function InicioPages() {
   );
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo={`Olá, ${primeiroNome}`}
         subtitulo={SAUDACOES[papel]}
@@ -140,7 +140,7 @@ function InicioPages() {
         </h2>
         {numeros ? (
           <div
-            className={`grid grid-cols-1 gap-4 sm:grid-cols-2 ${numeros.length === 4 ? "lp:grid-cols-4" : "lp:grid-cols-3"}`}
+            className={`grid grid-cols-1 gap-4 xs:grid-cols-2 ${numeros.length === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"}`}
           >
             {numeros.map((numero) => (
               <NumeroRapido key={numero.rotulo} {...numero} />
@@ -165,7 +165,7 @@ function InicioPages() {
 
       <section>
         <h2 className={ESTILO_TITULO_SECAO}>O que você pode fazer</h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lp:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {funcionalidades.map((funcionalidade) => (
             <CardFuncionalidade
               key={funcionalidade.para}

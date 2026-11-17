@@ -1,24 +1,19 @@
 import SecaoProposta from "../components/ComponentesHome/SecaoProposta";
+import Container from "../components/ui/Container";
 import { proposta } from "../components/ComponentesHome/dadosHome";
 
 function HomePages() {
   return (
-    <div className="flex flex-col items-center p-1">
-      <img src="/images/logo_oficial.png" alt="Logo" />
+    <Container className="pt-20 pb-16 text-center">
+      <h1 className="font-titulo text-4xl font-extrabold tracking-tight text-texto sm:text-6xl">
+        Mais que músculos, <span className="text-marca-500">conhecimento</span>.
+      </h1>
+      <p className="mt-5 text-lg text-texto-suave">
+        Treine com propósito. Estude com disciplina. Evolua com conhecimento.
+      </p>
 
-      <div className="text-center font-montserrat text-white text-5xl">
-        <h1>
-          Mais que músculos, <span className="text-red-500">conhecimento</span>.
-        </h1>
-        <p className="text-lg mt-4 text-red-200">
-          Treine com propósito. Estude com disciplina. Evolua com conhecimento.
-        </p>
-      </div>
-
-      <div className="w-full max-w-6xl px-4">
-        <SecaoProposta proposta={proposta} />
-      </div>
-    </div>
+      <SecaoProposta proposta={proposta} />
+    </Container>
   );
 }
 

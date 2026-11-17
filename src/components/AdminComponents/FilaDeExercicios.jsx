@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import AvisoDeSimulacao from "../LibraryComponents/AvisoDeSimulacao";
 import ConteudoExercicio from "../LibraryComponents/ConteudoExercicio";
 import ValidacaoExercicio from "../LibraryComponents/ValidacaoExercicio";

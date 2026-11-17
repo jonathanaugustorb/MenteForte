@@ -3,7 +3,7 @@ import CardExercicio from "./CardExercicio";
 import CarrosselCards from "./CarrosselCards";
 import SeletorDeColunas from "./SeletorDeColunas";
 import useColunasDaGrade from "../../hooks/useColunasDaGrade";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import ExercicioForm from "./ExercicioForm";
 import DetalheExercicio from "./DetalheExercicio";
 import ModeracaoExercicio from "./ModeracaoExercicio";
@@ -19,7 +19,7 @@ import {
   excluirExercicio,
 } from "../../services/exercicioService";
 
-const CHAVE_COLUNAS = "forcamente:colunas-da-biblioteca";
+const CHAVE_COLUNAS = "menteforte:colunas-da-biblioteca";
 
 const GRADE = {
   2: "grid-cols-2",
@@ -296,9 +296,9 @@ function CardsLibrary({
       )}
 
       <Modal
-        isOpen={Boolean(exercicioEmDetalhe)}
-        setCloseModal={fecharDetalhe}
-        largo
+        aberto={Boolean(exercicioEmDetalhe)}
+        aoFechar={fecharDetalhe}
+        largura="larga"
       >
         {exercicioEmDetalhe && (
           <DetalheExercicio
@@ -317,9 +317,9 @@ function CardsLibrary({
       </Modal>
 
       <Modal
-        isOpen={Boolean(exercicioEmEdicao)}
-        setCloseModal={fecharEdicao}
-        largo
+        aberto={Boolean(exercicioEmEdicao)}
+        aoFechar={fecharEdicao}
+        largura="larga"
       >
         <ExercicioForm
           titulo="EDITAR EXERCICIO"
@@ -338,11 +338,11 @@ function CardsLibrary({
       </Modal>
 
       <Modal
-        isOpen={Boolean(exercicioParaExcluir)}
-        setCloseModal={fecharExclusao}
+        aberto={Boolean(exercicioParaExcluir)}
+        aoFechar={fecharExclusao}
       >
         <div className="p-4 max-w-md space-y-4">
-          <h2 className="text-red-200 text-center font-montserrat text-2xl">
+          <h2 className="text-red-200 text-center font-titulo font-bold text-2xl">
             EXCLUIR EXERCICIO
           </h2>
           <div className="w-full h-px bg-gray-300"></div>

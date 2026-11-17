@@ -15,7 +15,7 @@ function LinhaSerie({
       <div className="flex min-w-0 flex-col gap-1">
         <label
           htmlFor={`exercicio-${linha.id}`}
-          className="text-xs tracking-widest text-gray-300 md:sr-only"
+          className="text-xs tracking-widest text-gray-300 sm:sr-only"
         >
           EXERCÍCIO
         </label>
@@ -48,7 +48,7 @@ function LinhaSerie({
         valor={linha.series}
         aoAlterar={(valor) => aoAlterar("series", valor)}
         placeholder="4"
-        classeRotulo="md:sr-only"
+        classeRotulo="sm:sr-only"
       />
 
       <CampoNumero
@@ -58,7 +58,7 @@ function LinhaSerie({
         valor={linha.repeticoes}
         aoAlterar={(valor) => aoAlterar("repeticoes", valor)}
         placeholder="10"
-        classeRotulo="md:sr-only"
+        classeRotulo="sm:sr-only"
       />
 
       <CampoNumero
@@ -70,7 +70,7 @@ function LinhaSerie({
         aoAlterar={(valor) => aoAlterar("cargaKg", valor)}
         decimal
         placeholder="60"
-        classeRotulo="md:sr-only"
+        classeRotulo="sm:sr-only"
       />
 
       <button
