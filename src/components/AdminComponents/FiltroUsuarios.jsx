@@ -1,9 +1,9 @@
 import { PAPEIS } from "../../utils/papeis";
 import { LIMITE_BUSCA } from "../../utils/limites";
+import { ESTILO_ENTRADA } from "../ui/estiloDeCampo";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
-const ESTILO_CAMPO =
-  "rounded-xl border border-gray-600 bg-slate-800 p-2 text-white neon-suave-red-500 focus:border-red-500 focus:neon-red-500 focus:outline-none";
-const ESTILO_ROTULO = "text-sm text-gray-300";
+const ESTILO_ROTULO = "text-sm text-texto-suave";
 
 function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
   function handleChange(evento) {
@@ -25,7 +25,7 @@ function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
           value={filtros.busca}
           onChange={handleChange}
           placeholder="Ex.: Ana ou ana@exemplo.com"
-          className={`${ESTILO_CAMPO} min-w-60`}
+          className={`${ESTILO_ENTRADA} min-w-60`}
         />
       </div>
 
@@ -38,7 +38,7 @@ function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
           name="papel"
           value={filtros.papel}
           onChange={handleChange}
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         >
           <option value="">Todos</option>
           {PAPEIS.map((papel) => (
@@ -58,7 +58,7 @@ function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
           name="ativo"
           value={filtros.ativo}
           onChange={handleChange}
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         >
           <option value="">Todas</option>
           <option value="true">Ativos</option>
@@ -69,7 +69,7 @@ function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
       <button
         type="button"
         onClick={aoLimpar}
-        className="rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer"
+        className={estiloDeBotao({ variante: "secundario" })}
       >
         Limpar
       </button>

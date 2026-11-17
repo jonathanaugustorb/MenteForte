@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import { ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink } from "lucide-react";
+import Alerta from "../components/ui/Alerta";
+import Etiqueta from "../components/ui/Etiqueta";
+import { estiloDeBotao } from "../components/ui/estiloDeBotao";
 import Cartao from "../components/ui/Cartao";
 import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import ValidacaoArtigo from "../components/ArticlesComponents/ValidacaoArtigo";
@@ -93,12 +96,13 @@ function ArticlePages() {
   const mostrarValidacao = Boolean(artigo) && podeValidar(usuario);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-10 lg:py-16">
+    <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-8 pb-16">
       <Link
         to="/articles"
-        className="text-sm text-red-200 hover:text-white hover:underline"
+        className="mt-8 inline-flex items-center gap-1.5 text-sm text-texto-suave hover:text-texto"
       >
-        ← Voltar para os artigos
+        <ArrowLeft size={16} aria-hidden="true" />
+        Voltar para os artigos
       </Link>
 
       <div className="mt-6">
@@ -110,53 +114,48 @@ function ArticlePages() {
           mensagemVazio="Artigo não encontrado."
         >
           {artigo && (
-            <Cartao className="flex flex-col gap-4">
+            <Cartao className="flex flex-col gap-5 sm:p-10">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-red-500 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.25em] text-red-400">
-                  {artigo.categoria.descricao}
-                </span>
-                {etiquetaStatus && (
-                  <span className="rounded-md bg-gray-700 px-2 py-1 text-xs font-medium text-gray-200">
-                    {etiquetaStatus}
-                </span>
-                )}
+                <Etiqueta tom="marca">{artigo.categoria.descricao}</Etiqueta>
+                {etiquetaStatus && <Etiqueta>{etiquetaStatus}</Etiqueta>}
               </div>
 
-              <h1 className="font-titulo font-bold text-3xl text-white sm:text-4xl">
+              <h1 className="font-titulo text-3xl font-extrabold tracking-tight text-texto sm:text-4xl">
                 {artigo.titulo}
               </h1>
 
               {artigo.autoria ? (
-                <div className="flex flex-col gap-1 text-sm text-gray-400">
+                <div className="flex flex-col gap-1 text-sm text-texto-fraco">
                   <p>
                     Autoria:{" "}
-                    <span className="font-semibold text-red-200">{artigo.autoria}</span>
+                    <span className="font-semibold text-marca-200">{artigo.autoria}</span>
                   </p>
                   <p>
                     Indicado por{" "}
-                    <span className="font-semibold text-red-200">{artigo.autorNome}</span>
+                    <span className="font-semibold text-marca-200">{artigo.autorNome}</span>
                   </p>
                 </div>
               ) : (
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-texto-fraco">
                   por{" "}
-                  <span className="font-semibold text-red-200">{artigo.autorNome}</span>
+                  <span className="font-semibold text-marca-200">{artigo.autorNome}</span>
                 </p>
               )}
 
-              <div className="flex justify-between gap-2 text-xs uppercase tracking-[0.2em] text-gray-400">
-                <span className="min-w-0">{artigo.tipoEstudo}</span>
-                {artigo.ano && <span>Ano de publicação: {artigo.ano}</span>}
-              </div>
+              {(artigo.tipoEstudo || artigo.ano) && (
+                <p className="text-sm text-texto-fraco">
+                  {[artigo.tipoEstudo, artigo.ano && `publicado em ${artigo.ano}`].filter(Boolean).join(" · ")}
+                </p>
+              )}
 
-              <div className="h-px bg-gray-700"></div>
+              <div className="h-px bg-borda"></div>
 
-              <p className="text-lg leading-relaxed text-gray-300">{artigo.resumo}</p>
+              <p className="text-lg leading-relaxed text-texto-suave">{artigo.resumo}</p>
               <a
                 href={artigo.fonte}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="self-start inline-flex items-center gap-2 bg-red-500 rounded-md py-2 px-4 font-bold text-white hover:bg-red-900"
+                className={estiloDeBotao({ className: "self-start" })}
               >
                 Ler o artigo completo
                 <ExternalLink size={16} aria-hidden="true" />
@@ -164,12 +163,9 @@ function ArticlePages() {
               </a>
 
               {artigo.motivoRejeicao && (
-                <div className="rounded-xl border border-red-500 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
-                    Motivo da rejeição
-                  </p>
-                  <p className="mt-1 text-sm text-gray-300">{artigo.motivoRejeicao}</p>
-                </div>
+                <Alerta tipo="erro" titulo="Motivo da rejeição">
+                  <p>{artigo.motivoRejeicao}</p>
+                </Alerta>
               )}
 
               {artigo.podeEditar && (

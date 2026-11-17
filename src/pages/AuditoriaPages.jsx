@@ -13,6 +13,7 @@ import {
 import { baixarArquivo } from "../utils/csv";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 import { SUBTITULOS_DA_ADMINISTRACAO } from "../utils/subtitulosDasPaginas";
+import { estiloDeBotao } from "../components/ui/estiloDeBotao";
 
 const TAMANHO_PAGINA = 50;
 
@@ -98,7 +99,7 @@ function AuditoriaPages() {
   const registros = resultado?.conteudo ?? [];
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Trilha de auditoria"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.auditoria}
@@ -119,14 +120,14 @@ function AuditoriaPages() {
           type="button"
           onClick={exportar}
           disabled={exportando || carregando || Boolean(erro) || registros.length === 0}
-          className="rounded-md bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className={estiloDeBotao()}
         >
           {exportando ? "Exportando..." : "Exportar CSV"}
         </button>
       </div>
 
       {erroExportacao && (
-        <p role="alert" className="mb-4 rounded-md border border-red-500 p-3 text-sm text-red-200">
+        <p role="alert" className="mb-4 rounded-xl border border-perigo/30 bg-perigo/10 p-3 text-sm text-red-100">
           {erroExportacao}
         </p>
       )}

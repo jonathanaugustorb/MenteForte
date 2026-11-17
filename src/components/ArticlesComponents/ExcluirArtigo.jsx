@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Modal from "../ui/Modal";
 import { excluirArtigo } from "../../services/artigoService";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 function ExcluirArtigo({ artigo, aoExcluir }) {
   const [modalAberto, setModalAberto] = useState(false);
@@ -31,32 +32,32 @@ function ExcluirArtigo({ artigo, aoExcluir }) {
       <button
         type="button"
         onClick={() => setModalAberto(true)}
-        className="rounded-md border border-red-500 py-2 px-4 font-bold text-red-200 hover:bg-red-500 hover:text-white cursor-pointer"
+        className={estiloDeBotao({ variante: "contorno" })}
       >
         Excluir
       </button>
 
       <Modal aberto={modalAberto} aoFechar={fecharModal}>
         <div className="p-4 max-w-md space-y-4">
-          <h2 className="text-red-200 text-center font-titulo font-bold text-2xl">
-            EXCLUIR ARTIGO
+          <h2 className="text-marca-200 text-center font-titulo font-bold text-2xl">
+            Excluir artigo
           </h2>
-          <div className="w-full h-px bg-gray-300"></div>
+          <div className="w-full h-px bg-borda"></div>
 
           <p className="text-white">
             Tem certeza que deseja excluir{" "}
-            <span className="text-red-200">{artigo.titulo}</span>? Esta ação não
+            <span className="text-marca-200">{artigo.titulo}</span>? Esta ação não
             pode ser desfeita.
           </p>
 
-          {erro && <p className="text-red-500 text-sm text-center">{erro}</p>}
+          {erro && <p className="text-perigo text-sm text-center">{erro}</p>}
 
           <div className="flex gap-3">
             <button
               type="button"
               onClick={fecharModal}
               disabled={enviando}
-              className="flex-1 rounded-md border border-gray-700 py-2 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao({ variante: "secundario", className: "flex-1" })}
             >
               Cancelar
             </button>
@@ -64,7 +65,7 @@ function ExcluirArtigo({ artigo, aoExcluir }) {
               type="button"
               onClick={confirmarExclusao}
               disabled={enviando}
-              className="flex-1 rounded-md bg-red-500 py-2 text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao({ className: "flex-1" })}
             >
               {enviando ? "Excluindo..." : "Excluir"}
             </button>

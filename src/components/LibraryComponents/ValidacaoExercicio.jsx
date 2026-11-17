@@ -3,6 +3,7 @@ import ListaDeErros from "../QuizComponents/ListaDeErros";
 import { STATUS_ARTIGO } from "../ArticlesComponents/artigoCampos";
 import { alterarStatusExercicio } from "../../services/exercicioService";
 import { estaEmAnalise } from "../../utils/moderacao";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 const LIMITE_MOTIVO = 500;
 
@@ -47,17 +48,17 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-700 bg-white/5 p-4 backdrop-blur-xl">
-      <p className="text-xs font-semibold uppercase tracking-[0.3em] text-red-500">
+    <div className="rounded-xl border border-borda bg-superficie p-4">
+      <p className="text-sm font-semibold text-marca-400">
         Validação do administrador
       </p>
-      <p className="mt-1 text-sm text-gray-300">
+      <p className="mt-1 text-sm text-texto-suave">
         Situação atual:{" "}
         <span className="font-semibold text-white">
           {STATUS_ARTIGO[exercicio.status]?.descricao ?? exercicio.status}
         </span>
       </p>
-      <p className="mt-1 text-sm text-gray-300">
+      <p className="mt-1 text-sm text-texto-suave">
         Aprovações dos professores: {exercicio.aprovacoesDeProfessores} de{" "}
         {exercicio.aprovacoesNecessarias}
         {quemAprovou.length > 0 && ` (${quemAprovou.join(", ")})`}
@@ -73,7 +74,7 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
             type="button"
             disabled={enviando}
             onClick={() => alterar("APROVADO")}
-            className="rounded-md bg-green-600 py-2 px-4 font-bold text-white hover:bg-green-800 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className={estiloDeBotao({ variante: "sucesso" })}
           >
             {enviando ? "Salvando..." : "Aprovar"}
           </button>
@@ -81,7 +82,7 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
             type="button"
             disabled={enviando}
             onClick={() => setRejeitando(true)}
-            className="rounded-md bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className={estiloDeBotao()}
           >
             Rejeitar
           </button>
@@ -90,7 +91,7 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
 
       {emAnalise && rejeitando && (
         <div className="mt-3 flex flex-col gap-2">
-          <label htmlFor={campoMotivo} className="text-sm text-red-200">
+          <label htmlFor={campoMotivo} className="text-sm text-marca-200">
             Motivo da rejeição
           </label>
           <textarea
@@ -100,9 +101,9 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
             rows={3}
             maxLength={LIMITE_MOTIVO}
             placeholder="Explique ao autor o que precisa ser corrigido"
-            className="bg-gray-500 rounded-xl p-2 text-white"
+            className="bg-superficie-alta rounded-xl p-2 text-white"
           />
-          <span className="self-end text-sm text-gray-300">
+          <span className="self-end text-sm text-texto-suave">
             {motivo.length}/{LIMITE_MOTIVO}
           </span>
           <div className="flex flex-wrap gap-3">
@@ -110,7 +111,7 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
               type="button"
               disabled={enviando}
               onClick={cancelarRejeicao}
-              className="rounded-md border border-gray-700 py-2 px-4 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao({ variante: "secundario" })}
             >
               Cancelar
             </button>
@@ -118,7 +119,7 @@ function ValidacaoExercicio({ exercicio, aoAlterarStatus }) {
               type="button"
               disabled={enviando}
               onClick={() => alterar("REJEITADO")}
-              className="rounded-md bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className={estiloDeBotao()}
             >
               {enviando ? "Salvando..." : "Confirmar rejeição"}
             </button>

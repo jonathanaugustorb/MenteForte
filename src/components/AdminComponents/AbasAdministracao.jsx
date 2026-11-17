@@ -13,7 +13,7 @@ function AbasAdministracao() {
   return (
     <nav
       aria-label="Guias da administração"
-      className="mb-8 flex flex-wrap gap-2 border-b border-gray-700 pb-3"
+      className="mb-8 flex flex-wrap gap-2 border-b border-borda pb-3"
     >
       {GUIAS.map((guia) => (
         <NavLink
@@ -22,8 +22,8 @@ function AbasAdministracao() {
           className={({ isActive }) =>
             `${ESTILO_GUIA} ${
               isActive
-                ? "bg-red-500 text-white"
-                : "text-gray-300 hover:bg-white/10 hover:text-red-200"
+                ? "bg-marca-600 text-white"
+                : "text-texto-suave hover:bg-white/10 hover:text-marca-200"
             }`
           }
         >

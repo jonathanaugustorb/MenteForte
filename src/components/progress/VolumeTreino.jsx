@@ -3,6 +3,7 @@ import {
   calcularVolumeTreino,
   listarExerciciosParaVolume,
 } from "../../services/metricasService";
+import { Plus } from "lucide-react";
 import useCalculo from "../../hooks/useCalculo";
 import SecaoCalculadora from "./SecaoCalculadora";
 import CardResultado from "./CardResultado";
@@ -13,6 +14,7 @@ import EstadoRequisicao from "../ui/EstadoRequisicao";
 import { EXPLICACAO_VOLUME, COMO_CALCULAMOS_VOLUME } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
 import ComoCalculamos from "./ComoCalculamos";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
 
 
 const GRADE = "grid grid-cols-1 gap-3 sm:grid-cols-[2fr_1fr_1fr_1fr_auto]";
@@ -134,7 +136,7 @@ function VolumeTreino() {
       {resultado ? (
         <div className="flex flex-col gap-6">
           <CardResultado
-            rotulo="VOLUME TOTAL DA SESSÃO"
+            rotulo="Volume total da sessão"
             valor={resultado.volumeTotalKg}
             unidade="kg"
             rodape={
@@ -148,7 +150,7 @@ function VolumeTreino() {
                 {resultado.intensidadeMediaKgPorRep === undefined ? null : (
                   <span>
                     Intensidade média:{" "}
-                    <span className="text-red-200">
+                    <span className="text-marca-200">
                       {formatarNumero(resultado.intensidadeMediaKgPorRep)}{" "}
                       kg/rep
                     </span>
@@ -169,7 +171,7 @@ function VolumeTreino() {
   return (
     <SecaoCalculadora
       numero="01"
-      titulo="VOLUME DE TREINO"
+      titulo="Volume de treino"
       conceito={
         <>
           <span className="font-semibold text-white">O que é volume? </span>É o
@@ -185,23 +187,23 @@ function VolumeTreino() {
     >
       <form
         onSubmit={aoEnviar}
-        className="flex flex-col gap-6 p-7 border bg-white/5 backdrop-blur-xl border-gray-700 rounded-xl shadow-lg shadow-black/20"
+        className="flex flex-col gap-6 p-7 border bg-superficie border-borda rounded-xl shadow-cartao"
       >
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-full bg-red-500"></span>
-          <span className="text-xs tracking-widest text-gray-300">
-            SUA SESSÃO DE HOJE
+          <span className="h-2 w-2 rounded-full bg-marca-600"></span>
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Sua sessão de hoje
           </span>
         </div>
 
         <div className={`${GRADE} hidden sm:grid`}>
-          <span className="text-xs tracking-widest text-gray-300">
-            EXERCÍCIO
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Exercício
           </span>
-          <span className="text-xs tracking-widest text-gray-300">SÉRIES</span>
-          <span className="text-xs tracking-widest text-gray-300">REPS</span>
-          <span className="text-xs tracking-widest text-gray-300">
-            CARGA (KG)
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">Séries</span>
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">Repetições</span>
+          <span className="text-xs font-semibold tracking-wider text-texto-fraco uppercase">
+            Carga (kg)
           </span>
           <span className="w-[18px]"></span>
         </div>
@@ -224,19 +226,20 @@ function VolumeTreino() {
         <button
           type="button"
           onClick={adicionarLinha}
-          className="self-start text-red-200 border border-gray-500 p-2 rounded-md hover:bg-red-500 hover:text-white cursor-pointer"
+          className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno", className: "self-start" })}
         >
-          + ADICIONAR EXERCÍCIO
+          <Plus size={16} aria-hidden="true" />
+          Adicionar exercício
         </button>
 
         {erroPreenchimento && (
-          <p role="alert" className="rounded-md border border-red-500 p-3 text-sm text-red-200">
+          <p role="alert" className="rounded-xl border border-perigo/30 bg-perigo/10 p-3 text-sm text-red-100">
             {erroPreenchimento}
           </p>
         )}
 
         {erroExercicios ? (
-          <p className="rounded-md border border-red-500 p-3 text-sm text-red-200">
+          <p className="rounded-xl border border-perigo/30 bg-perigo/10 p-3 text-sm text-red-100">
             {erroExercicios}
           </p>
         ) : null}
@@ -244,9 +247,9 @@ function VolumeTreino() {
         <button
           type="submit"
           disabled={!linhasIniciadas.length || carregando}
-          className="self-start bg-red-500 py-1 px-4 font-medium text-white hover:bg-red-900 cursor-pointer disabled:cursor-not-allowed disabled:bg-gray-700 disabled:text-gray-300"
+          className={estiloDeBotao({ className: "self-start" })}
         >
-          {carregando ? "CALCULANDO..." : "CALCULAR"}
+          {carregando ? "Calculando..." : "Calcular"}
         </button>
       </form>
     </SecaoCalculadora>

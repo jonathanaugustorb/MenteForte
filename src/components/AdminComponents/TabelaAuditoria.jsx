@@ -1,7 +1,7 @@
 import { fraseDoEvento } from "./eventoAuditoria";
 
-const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-red-200 whitespace-nowrap";
-const ESTILO_CELULA = "py-2 pr-4 text-gray-300 align-top";
+const ESTILO_CABECALHO = "py-2 pr-4 font-semibold text-marca-200 whitespace-nowrap";
+const ESTILO_CELULA = "py-2 pr-4 text-texto-suave align-top";
 
 function formatarMomento(valor) {
   if (!valor) return "--";
@@ -23,7 +23,7 @@ function TabelaAuditoria({ registros }) {
     <div className="overflow-x-auto">
       <table className="w-full min-w-2xl border-collapse text-left text-sm">
         <thead>
-          <tr className="border-b border-gray-700">
+          <tr className="border-b border-borda">
             <th className={ESTILO_CABECALHO}>Quando</th>
             <th className={ESTILO_CABECALHO}>Evento</th>
             <th className={ESTILO_CABECALHO}>Usuário</th>
@@ -31,12 +31,12 @@ function TabelaAuditoria({ registros }) {
         </thead>
         <tbody>
           {registros.map((registro) => (
-            <tr key={registro.id} className="border-b border-gray-700">
+            <tr key={registro.id} className="border-b border-borda">
               <td className={`${ESTILO_CELULA} whitespace-nowrap`}>
                 {formatarMomento(registro.ocorridoEm)}
               </td>
               <td className={ESTILO_CELULA}>
-                <span className="rounded-md bg-red-500 px-2 py-1 text-xs font-medium text-white">
+                <span className="rounded-md bg-marca-600 px-2 py-1 text-xs font-medium text-white">
                   {fraseDoEvento(registro)}
                 </span>
               </td>
@@ -44,12 +44,12 @@ function TabelaAuditoria({ registros }) {
                 {registro.usuarioNome ? (
                   <>
                     <span className="block text-white">{registro.usuarioNome}</span>
-                    <span className="block text-xs text-gray-400">
+                    <span className="block text-xs text-texto-fraco">
                       {registro.usuarioEmail}
                     </span>
                   </>
                 ) : (
-                  <span className="text-gray-500">—</span>
+                  <span className="text-texto-fraco">—</span>
                 )}
               </td>
             </tr>

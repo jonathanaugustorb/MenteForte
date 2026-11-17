@@ -1,15 +1,19 @@
+import { ClipboardCheck } from "lucide-react";
+import { estiloDeChip } from "./ui/estiloDeChip";
+
 function FiltroParaAprovar({ ativo, aoAlternar, quantidade }) {
   return (
-    <div className="mb-4 flex justify-end px-4">
-      <label className="flex cursor-pointer items-center gap-2 text-sm text-red-200">
-        <input
-          type="checkbox"
-          checked={ativo}
-          onChange={(evento) => aoAlternar(evento.target.checked)}
-          className="h-4 w-4 accent-red-500"
-        />
-        Só os que preciso aprovar ({quantidade})
-      </label>
+    <div className="mb-4">
+      <button
+        type="button"
+        aria-pressed={ativo}
+        onClick={() => aoAlternar(!ativo)}
+        className={estiloDeChip(ativo)}
+      >
+        <ClipboardCheck size={16} aria-hidden="true" />
+        Só os que preciso aprovar
+        <span className="rounded-full bg-black/20 px-1.5 text-xs font-semibold">{quantidade}</span>
+      </button>
     </div>
   );
 }

@@ -1,10 +1,10 @@
 const ESTILO_BOTAO =
-  "h-8 w-8 rounded-md border text-sm font-semibold cursor-pointer hover:bg-red-500 hover:text-white";
+  "h-8 w-8 rounded-md border text-sm font-semibold cursor-pointer hover:bg-marca-600 hover:text-white";
 
 function SeletorDeColunas({ colunas, aoEscolher, opcoes }) {
   return (
     <div className="mx-auto mb-2 flex w-full max-w-[88rem] items-center justify-end gap-2 px-10">
-      <span className="text-sm text-gray-300">Cards por linha</span>
+      <span className="text-sm text-texto-suave">Cards por linha</span>
 
       {opcoes.map((valor) => {
         const ativo = valor === colunas;
@@ -17,8 +17,8 @@ function SeletorDeColunas({ colunas, aoEscolher, opcoes }) {
             onClick={() => aoEscolher(valor)}
             className={`${ESTILO_BOTAO} ${
               ativo
-                ? "border-red-500 bg-red-500 text-white"
-                : "border-gray-700 text-red-200"
+                ? "border-marca-500 bg-marca-600 text-white"
+                : "border-borda text-marca-200"
             }`}
           >
             {valor}

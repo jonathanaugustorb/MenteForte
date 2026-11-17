@@ -2,6 +2,8 @@ import { useId, useState } from "react";
 import { Link } from "react-router-dom";
 import { Plus, Trash2, X } from "lucide-react";
 import ListaDeErros from "./ListaDeErros";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
+import { ESTILO_ENTRADA, ESTILO_ROTULO } from "../ui/estiloDeCampo";
 import {
   LIMITE_ALTERNATIVA,
   LIMITE_DESCRICAO,
@@ -17,17 +19,11 @@ import {
   novaQuestao,
 } from "./quizCampos";
 
-const ESTILO_CAMPO = "bg-gray-500 rounded-xl p-2 text-white";
-const ESTILO_SELECT =
-  "bg-gray-400 text-gray-300 rounded-xl p-2 self-start disabled:opacity-60 disabled:cursor-not-allowed";
-const ESTILO_ROTULO = "text-red-200";
-const ESTILO_CONTADOR = "self-end text-xs text-gray-400";
-const ESTILO_TITULO_SECAO = "text-sm font-semibold uppercase tracking-[0.25em] text-red-200";
-const ESTILO_ADICIONAR =
-  "inline-flex items-center gap-2 self-start rounded-md border border-gray-600 px-3 py-1 text-sm text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
+const ESTILO_CONTADOR = "self-end text-xs text-texto-fraco";
+const ESTILO_TITULO_SECAO = "text-xs font-semibold tracking-wider text-texto-fraco uppercase";
 const ESTILO_REMOVER =
-  "rounded-md p-2 text-gray-400 hover:bg-white/10 hover:text-red-400 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed";
-const ESTILO_LIMITE = "text-xs text-gray-400";
+  "rounded-md p-2 text-texto-fraco hover:bg-white/10 hover:text-perigo cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed";
+const ESTILO_LIMITE = "text-xs text-texto-fraco";
 
 function textoDoLimite(quantidade, maximo, nome) {
   if (quantidade >= maximo) return `limite de ${maximo} ${nome}`;
@@ -145,7 +141,7 @@ function QuizForm({
           onChange={alterarCampo}
           maxLength={LIMITE_TITULO}
           placeholder="Ex: Princípios da hipertrofia"
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         />
         <span className={ESTILO_CONTADOR}>
           {quiz.titulo.length}/{LIMITE_TITULO}
@@ -162,7 +158,7 @@ function QuizForm({
           rows={3}
           maxLength={LIMITE_DESCRICAO}
           placeholder="O que o quiz cobre, em poucas linhas"
-          className={ESTILO_CAMPO}
+          className={ESTILO_ENTRADA}
         />
         <span className={ESTILO_CONTADOR}>
           {quiz.descricao.length}/{LIMITE_DESCRICAO}
@@ -178,7 +174,7 @@ function QuizForm({
               name="categoria"
               value={quiz.categoria}
               onChange={alterarCampo}
-              className={ESTILO_SELECT}
+              className={ESTILO_ENTRADA}
             >
               <option value="">Selecione</option>
               {categorias.map((categoria) => (
@@ -198,7 +194,7 @@ function QuizForm({
               name="nivel"
               value={quiz.nivel}
               onChange={alterarCampo}
-              className={ESTILO_SELECT}
+              className={ESTILO_ENTRADA}
             >
               <option value="">Selecione</option>
               {niveis.map((nivel) => (
@@ -227,7 +223,7 @@ function QuizForm({
               key={indice}
               role="group"
               aria-labelledby={campoId(`questao-${indice}`)}
-              className="flex flex-col gap-2 rounded-xl border border-gray-700 p-4"
+              className="flex flex-col gap-2 rounded-xl border border-borda p-4"
             >
               <div className="flex items-center justify-between gap-2">
                 <h3 id={campoId(`questao-${indice}`)} className="font-semibold text-white">
@@ -255,7 +251,7 @@ function QuizForm({
                 }
                 rows={2}
                 maxLength={LIMITE_ENUNCIADO}
-                className={ESTILO_CAMPO}
+                className={ESTILO_ENTRADA}
               />
               <span className={ESTILO_CONTADOR}>
                 {questao.enunciado.length}/{LIMITE_ENUNCIADO}
@@ -263,7 +259,7 @@ function QuizForm({
 
               <p className={ESTILO_ROTULO}>
                 Alternativas{" "}
-                <span className="text-xs text-gray-400">(marque a correta)</span>
+                <span className="text-xs text-texto-fraco">(marque a correta)</span>
               </p>
               {questao.alternativas.map((alternativa, posicao) => {
                 const letra = posicao + 1;
@@ -276,7 +272,7 @@ function QuizForm({
                       checked={alternativa.correta}
                       onChange={() => marcarCorreta(indice, posicao)}
                       aria-label={`Marcar a alternativa ${letra} da pergunta ${numero} como correta`}
-                      className="h-4 w-4 shrink-0 cursor-pointer accent-green-500"
+                      className="h-4 w-4 shrink-0 cursor-pointer accent-sucesso"
                     />
                     <input
                       type="text"
@@ -287,9 +283,9 @@ function QuizForm({
                       maxLength={LIMITE_ALTERNATIVA}
                       placeholder={`Alternativa ${letra}`}
                       aria-label={`Texto da alternativa ${letra} da pergunta ${numero}`}
-                      className={`${ESTILO_CAMPO} min-w-0 flex-1`}
+                      className={`${ESTILO_ENTRADA} min-w-0 flex-1`}
                     />
-                    <span className="w-14 shrink-0 text-right text-xs text-gray-400">
+                    <span className="w-14 shrink-0 text-right text-xs text-texto-fraco">
                       {alternativa.texto.length}/{LIMITE_ALTERNATIVA}
                     </span>
                     <button
@@ -309,7 +305,7 @@ function QuizForm({
                   type="button"
                   onClick={() => adicionarAlternativa(indice)}
                   disabled={questao.alternativas.length >= MAXIMO_ALTERNATIVAS}
-                  className={ESTILO_ADICIONAR}
+                  className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno", className: "self-start" })}
                 >
                   <Plus size={16} aria-hidden="true" />
                   Adicionar alternativa
@@ -331,7 +327,7 @@ function QuizForm({
                 rows={2}
                 maxLength={LIMITE_EXPLICACAO}
                 placeholder="Aparece depois da resposta, para quem errou entender"
-                className={ESTILO_CAMPO}
+                className={ESTILO_ENTRADA}
               />
               <span className={ESTILO_CONTADOR}>
                 {questao.explicacao.length}/{LIMITE_EXPLICACAO}
@@ -345,7 +341,7 @@ function QuizForm({
             type="button"
             onClick={adicionarQuestao}
             disabled={quiz.questoes.length >= MAXIMO_QUESTOES}
-            className={ESTILO_ADICIONAR}
+            className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno", className: "self-start" })}
           >
             <Plus size={16} aria-hidden="true" />
             Adicionar pergunta
@@ -359,28 +355,28 @@ function QuizForm({
       <section className="flex flex-col gap-2">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className={ESTILO_TITULO_SECAO}>Leitura sugerida (opcional)</h2>
-          <span className="text-xs text-gray-400">
+          <span className="text-xs text-texto-fraco">
             {quiz.artigos.length} de {MAXIMO_ARTIGOS}
           </span>
         </div>
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-texto-fraco">
           Artigos publicados que ajudam a responder. Quem faz o quiz não precisa ler antes.
         </p>
 
         {artigos.length === 0 ? (
-          <p className="text-sm text-gray-300">Ainda não há artigos publicados.</p>
+          <p className="text-sm text-texto-suave">Ainda não há artigos publicados.</p>
         ) : (
-          <ul className="flex max-h-72 flex-col gap-1 overflow-y-auto rounded-xl border border-gray-700 p-2">
+          <ul className="flex max-h-72 flex-col gap-1 overflow-y-auto rounded-xl border border-borda p-2">
             {artigos.map((artigo) => {
               const escolhido = quiz.artigos.includes(artigo.id);
 
               return (
                 <li key={artigo.id}>
                   <label
-                    className={`flex items-start gap-3 rounded-lg p-2 text-sm text-gray-200 ${
+                    className={`flex items-start gap-3 rounded-lg p-2 text-sm text-texto ${
                       !escolhido && limiteDeArtigos
                         ? "opacity-50"
-                        : "cursor-pointer hover:bg-white/5"
+                        : "cursor-pointer hover:bg-superficie"
                     }`}
                   >
                     <input
@@ -388,11 +384,11 @@ function QuizForm({
                       checked={escolhido}
                       onChange={() => alternarArtigo(artigo.id)}
                       disabled={!escolhido && limiteDeArtigos}
-                      className="mt-1 h-4 w-4 shrink-0 accent-red-500"
+                      className="mt-1 h-4 w-4 shrink-0 accent-marca-600"
                     />
                     <span>
                       {artigo.titulo}
-                      <span className="block text-xs text-gray-400">
+                      <span className="block text-xs text-texto-fraco">
                         {artigo.categoria.descricao}
                       </span>
                     </span>
@@ -409,14 +405,14 @@ function QuizForm({
       <div className="flex flex-wrap justify-end gap-3">
         <Link
           to={destinoAoCancelar}
-          className="rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10"
+          className="rounded-md border border-borda-forte px-4 py-2 text-marca-200 hover:bg-white/10"
         >
           Cancelar
         </Link>
         <button
           type="submit"
           disabled={enviando}
-          className="rounded-md bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className={estiloDeBotao()}
         >
           {enviando ? textoBotaoEnviando : textoBotao}
         </button>

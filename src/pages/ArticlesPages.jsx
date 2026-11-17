@@ -77,18 +77,13 @@ function ArticlesPages() {
   const aguardandoMinhaAprovacao = artigos.filter((artigo) => artigo.podeAprovar).length;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Artigos e revisões"
         subtitulo={subtituloPorPapel("artigos", usuario?.papel)}
         icone={ICONES_DAS_PAGINAS.artigos}
-      />
-
-      {podeEditar && (
-        <>
-          {!carregando && !erro && (
-            <LimiteDeCriacao itens={artigos} usuario={usuario} tipo="artigos" />
-          )}
+      >
+        {podeEditar && (
           <NovoArtigo
             categorias={categorias}
             carregandoOpcoes={carregando || Boolean(erro)}
@@ -96,7 +91,11 @@ function ArticlesPages() {
             aoCriar={adicionarArtigo}
             aoConferirLimite={setArtigos}
           />
-        </>
+        )}
+      </CabecalhoPagina>
+
+      {podeEditar && !carregando && !erro && (
+        <LimiteDeCriacao itens={artigos} usuario={usuario} tipo="artigos" />
       )}
 
       {usuario?.papel === "PROFESSOR" && (

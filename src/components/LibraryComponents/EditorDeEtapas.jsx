@@ -1,13 +1,11 @@
 import { useEffect, useId, useRef } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import { LIMITE_ETAPAS, LIMITE_POR_ETAPA } from "./exercicioCampos";
+import { estiloDeBotao } from "../ui/estiloDeBotao";
+import { ESTILO_ENTRADA, ESTILO_ROTULO } from "../ui/estiloDeCampo";
 
-const ESTILO_CAMPO = "field-sizing-content bg-gray-500 rounded-xl p-1 text-lg text-white";
-const ESTILO_CAMPO_ACIMA_DO_LIMITE = "border border-red-500";
 const ESTILO_REMOVER =
-  "rounded-md p-1 text-gray-300 hover:bg-white/10 hover:text-red-400 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed";
-const ESTILO_ADICIONAR =
-  "inline-flex items-center gap-2 rounded-md border border-gray-600 px-3 py-1 text-sm text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
+  "rounded-md p-1 text-texto-suave hover:bg-white/10 hover:text-perigo cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed";
 
 function EditorDeEtapas({ etapas, aoMudar }) {
   const idBase = useId();
@@ -52,7 +50,12 @@ function EditorDeEtapas({ etapas, aoMudar }) {
 
   return (
     <div role="group" aria-labelledby={`${idBase}-titulo`} className="flex flex-col gap-3">
-      <span id={`${idBase}-titulo`}>Etapas da execução</span>
+      <span id={`${idBase}-titulo`} className={ESTILO_ROTULO}>
+        Etapas da execução
+        <span aria-hidden="true" className="ml-0.5 text-marca-400">
+          *
+        </span>
+      </span>
 
       {etapas.map((etapa, indice) => {
         const numero = indice + 1;
@@ -61,7 +64,7 @@ function EditorDeEtapas({ etapas, aoMudar }) {
         return (
           <div key={indice} className="flex flex-col gap-1">
             <div className="flex items-center justify-between gap-2">
-              <label htmlFor={campoId(indice)} className="text-base text-red-200">
+              <label htmlFor={campoId(indice)} className="text-xs font-medium text-texto-fraco">
                 Etapa {numero}
               </label>
               <button
@@ -83,12 +86,12 @@ function EditorDeEtapas({ etapas, aoMudar }) {
               maxLength={LIMITE_POR_ETAPA}
               aria-invalid={acimaDoLimite}
               aria-describedby={`${campoId(indice)}-contador`}
-              placeholder="Digite"
-              className={`${ESTILO_CAMPO} ${acimaDoLimite ? ESTILO_CAMPO_ACIMA_DO_LIMITE : ""}`}
+              placeholder="Descreva esta etapa"
+              className={`${ESTILO_ENTRADA} field-sizing-content`}
             />
             <span
               id={`${campoId(indice)}-contador`}
-              className={`self-end text-sm ${acimaDoLimite ? "text-red-400" : "text-gray-300"}`}
+              className={`self-end text-xs ${acimaDoLimite ? "text-perigo" : "text-texto-fraco"}`}
             >
               {etapa.length}/{LIMITE_POR_ETAPA}
             </span>
@@ -101,12 +104,12 @@ function EditorDeEtapas({ etapas, aoMudar }) {
           type="button"
           onClick={adicionar}
           disabled={limiteAtingido}
-          className={ESTILO_ADICIONAR}
+          className={estiloDeBotao({ variante: "secundario", tamanho: "pequeno" })}
         >
           <Plus size={16} aria-hidden="true" />
           Adicionar etapa
         </button>
-        <span className="text-sm text-gray-300">
+        <span className="text-xs text-texto-fraco">
           {etapas.length} de {LIMITE_ETAPAS} etapas
         </span>
       </div>

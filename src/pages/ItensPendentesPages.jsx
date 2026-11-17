@@ -25,7 +25,7 @@ function ItensPendentesPages() {
   }
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
+    <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 pb-16">
       <CabecalhoPagina
         titulo="Itens pendentes"
         subtitulo={SUBTITULOS_DA_ADMINISTRACAO.pendentes}
