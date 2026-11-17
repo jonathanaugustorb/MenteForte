@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import Navegacao from "./Navegacao";
 import Rodape from "./Rodape";
 import AvisoDeAcao from "./AvisoDeAcao";
+import FormLogin from "../components/FormLogin";
 import Modal from "../components/ui/Modal";
 import Container from "../components/ui/Container";
 import Carregando from "../components/ui/Carregando";
@@ -18,6 +19,7 @@ import {
 function Layout() {
   const [usuario, setUsuario] = useState(lerSessao);
   const [avisoDeAcao, setAvisoDeAcao] = useState(null);
+  const [pedidoDeLogin, setPedidoDeLogin] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +53,16 @@ function Layout() {
     navigate(destino ?? "/inicio");
   }
 
+  function pedirLogin(destino = null) {
+    setPedidoDeLogin({ destino });
+  }
+
+  function entrarPeloLogin(sessao) {
+    const destino = pedidoDeLogin?.destino;
+    setPedidoDeLogin(null);
+    entrar(sessao, destino);
+  }
+
   function renomear(nomeCompleto) {
     atualizarNomeDaSessao(nomeCompleto);
     setUsuario((atual) => (atual ? { ...atual, nomeCompleto } : atual));
@@ -72,7 +84,7 @@ function Layout() {
         Pular para o conteúdo
       </a>
 
-      <Navegacao usuario={usuario} aoEntrar={entrar} aoSair={sair} />
+      <Navegacao usuario={usuario} aoPedirLogin={pedirLogin} aoSair={sair} />
 
       <main id="conteudo" tabIndex={-1} className="flex-1 focus:outline-none">
         <Suspense
@@ -82,11 +94,17 @@ function Layout() {
             </Container>
           }
         >
-          <Outlet context={{ usuario, aoEntrar: entrar, aoRenomear: renomear, avisar: setAvisoDeAcao }} />
+          <Outlet
+            context={{ usuario, aoEntrar: entrar, pedirLogin, aoRenomear: renomear, avisar: setAvisoDeAcao }}
+          />
         </Suspense>
       </main>
 
       <Rodape />
+
+      <Modal aberto={pedidoDeLogin !== null} aoFechar={() => setPedidoDeLogin(null)} largura="estreita">
+        <FormLogin aoEntrar={entrarPeloLogin} aoFechar={() => setPedidoDeLogin(null)} />
+      </Modal>
 
       <Modal aberto={avisoDeAcao !== null} aoFechar={() => setAvisoDeAcao(null)} largura="estreita">
         {avisoDeAcao && <AvisoDeAcao {...avisoDeAcao} aoFechar={() => setAvisoDeAcao(null)} />}

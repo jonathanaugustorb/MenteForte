@@ -6,7 +6,6 @@ import Modal from "../components/ui/Modal";
 import Botao from "../components/ui/Botao";
 import Container from "../components/ui/Container";
 import { estiloDeBotao } from "../components/ui/estiloDeBotao";
-import FormLogin from "../components/FormLogin";
 import AvisoLogin from "./AvisoLogin";
 import MenuDaConta from "./MenuDaConta";
 import { PAPEIS_EDITORES, PAPEIS_VALIDADORES, rotuloDoPapel } from "../utils/papeis";
@@ -34,11 +33,9 @@ function estiloDoLinkMovel({ isActive }) {
   }`;
 }
 
-function Navegacao({ usuario, aoEntrar, aoSair }) {
+function Navegacao({ usuario, aoPedirLogin, aoSair }) {
   const [menuAberto, setMenuAberto] = useState(false);
-  const [loginAberto, setLoginAberto] = useState(false);
-  const [avisoAberto, setAvisoAberto] = useState(false);
-  const [destinoDoLogin, setDestinoDoLogin] = useState(null);
+  const [destinoProtegido, setDestinoProtegido] = useState(null);
 
   const links = LINKS.filter(({ papeis }) => !papeis || papeis.includes(usuario?.papel));
 
@@ -59,13 +56,12 @@ function Navegacao({ usuario, aoEntrar, aoSair }) {
 
   function abrirLogin() {
     fecharMenu();
-    setDestinoDoLogin(null);
-    setLoginAberto(true);
+    aoPedirLogin(null);
   }
 
   function irParaLogin() {
-    setAvisoAberto(false);
-    setLoginAberto(true);
+    aoPedirLogin(destinoProtegido);
+    setDestinoProtegido(null);
   }
 
   function sair() {
@@ -76,8 +72,7 @@ function Navegacao({ usuario, aoEntrar, aoSair }) {
   function aoClicarLink(evento, protegida, para) {
     if (protegida && !usuario) {
       evento.preventDefault();
-      setDestinoDoLogin(para);
-      setAvisoAberto(true);
+      setDestinoProtegido(para);
     }
     fecharMenu();
   }
@@ -185,17 +180,7 @@ function Navegacao({ usuario, aoEntrar, aoSair }) {
         </div>
       )}
 
-      <Modal aberto={loginAberto} aoFechar={() => setLoginAberto(false)} largura="estreita">
-        <FormLogin
-          aoFechar={() => setLoginAberto(false)}
-          aoEntrar={(sessao) => {
-            setLoginAberto(false);
-            aoEntrar(sessao, destinoDoLogin);
-          }}
-        />
-      </Modal>
-
-      <Modal aberto={avisoAberto} aoFechar={() => setAvisoAberto(false)} largura="estreita">
+      <Modal aberto={destinoProtegido !== null} aoFechar={() => setDestinoProtegido(null)} largura="estreita">
         <AvisoLogin aoFazerLogin={irParaLogin} />
       </Modal>
     </header>

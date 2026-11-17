@@ -1,57 +1,8 @@
-import { useEffect, useState } from "react";
-import DocumentoLegal from "../components/ComponentesLegais/DocumentoLegal";
-import EstadoRequisicao from "../components/ui/EstadoRequisicao";
-import { buscarDocumento } from "../services/documentoLegalService";
-import { formatarDataExtenso } from "../utils/formatar";
+import PaginaDoDocumento from "../components/ComponentesLegais/PaginaDoDocumento";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
 
 function TermosPages() {
-  const [documento, setDocumento] = useState(null);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
-
-  useEffect(() => {
-    let ativo = true;
-
-    buscarDocumento("TERMOS_USO")
-      .then((dados) => {
-        if (ativo) setDocumento(dados);
-      })
-      .catch((err) => {
-        if (ativo) {
-          setErro(err.mensagem || "Não foi possível carregar os Termos de Uso.");
-        }
-      })
-      .finally(() => {
-        if (ativo) setCarregando(false);
-      });
-
-    return () => {
-      ativo = false;
-    };
-  }, []);
-
-  return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
-      <EstadoRequisicao
-        carregando={carregando}
-        mensagemCarregando="Carregando documento..."
-        erro={erro}
-        vazio={!documento}
-        mensagemVazio="Documento não encontrado."
-      >
-        {documento && (
-          <DocumentoLegal
-            titulo="Termos de Uso"
-            icone={ICONES_DAS_PAGINAS.termos}
-            versao={documento.versao}
-            vigencia={formatarDataExtenso(documento.vigenteDesde)}
-            secoes={documento.secoes}
-          />
-        )}
-      </EstadoRequisicao>
-    </div>
-  );
+  return <PaginaDoDocumento tipo="TERMOS_USO" titulo="Termos de Uso" icone={ICONES_DAS_PAGINAS.termos} />;
 }
 
 export default TermosPages;
