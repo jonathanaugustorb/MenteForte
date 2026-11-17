@@ -52,7 +52,7 @@ export const FUNCIONALIDADES = [
     para: "/admin",
     icone: ICONES_DAS_PAGINAS.administracao,
     titulo: "Administração",
-    texto: "Usuários, artigos e quizzes para aprovar, verificação do CREF e trilha de auditoria.",
+    texto: "Usuários, conteúdo para aprovar, pedidos de exclusão e trilha de auditoria.",
     papeis: PAPEIS_VALIDADORES,
   },
 ];

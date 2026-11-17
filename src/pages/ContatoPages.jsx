@@ -23,10 +23,6 @@ const ASSUNTOS = [
     texto: "Um artigo, quiz ou exercício que precise de correção. Diga qual é e o que está errado.",
   },
   {
-    titulo: "Verificação do CREF",
-    texto: "Para professores com dúvida sobre a análise do cadastro.",
-  },
-  {
     titulo: "Seus dados pessoais",
     texto:
       "Pedidos e dúvidas sobre o tratamento dos seus dados, pela LGPD. O encarregado pelo tratamento é Jonathan Augusto Rodrigues Barbosa.",

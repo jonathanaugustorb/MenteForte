@@ -1,40 +1,39 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { KeyRound, Mail, PencilLine } from "lucide-react";
 import CabecalhoPagina from "../components/ui/CabecalhoPagina";
 import Cartao from "../components/ui/Cartao";
+import Container from "../components/ui/Container";
 import EstadoRequisicao from "../components/ui/EstadoRequisicao";
+import Etiqueta from "../components/ui/Etiqueta";
+import Alerta from "../components/ui/Alerta";
+import Botao from "../components/ui/Botao";
 import Modal from "../components/ui/Modal";
 import ConfirmarExclusaoConta from "../components/ConfirmarExclusaoConta";
-import AvisoCref from "../components/AvisoCref";
-import RenovarCref from "../components/RenovarCref";
 import EditarMeusDados from "../components/EditarMeusDados";
 import AlterarSenha from "../components/AlterarSenha";
 import AlterarEmail from "../components/AlterarEmail";
 import BaixarMeusDados from "../components/BaixarMeusDados";
-import { formatarCep, formatarDataCurta, formatarNascimento } from "../utils/formatar";
+import { formatarDataCurta } from "../utils/formatar";
 import { rotuloDoPapel } from "../utils/papeis";
-import { rotuloDaSituacaoCref } from "../utils/cref";
 import { EMAIL_CONTATO } from "../utils/contato";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
-import { alterarMinhaSenha, atualizarMinhaConta, buscarMinhaConta, 
-  cancelarExclusaoDaMinhaConta, confirmarTrocaDeEmail, listarFormacoes, renovarCref, 
-  solicitarExclusaoDaMinhaConta, solicitarTrocaDeEmail, } from "../services/usuarioService";
+import {
+  alterarMinhaSenha,
+  atualizarMinhaConta,
+  buscarMinhaConta,
+  cancelarExclusaoDaMinhaConta,
+  solicitarExclusaoDaMinhaConta,
+  trocarMeuEmail,
+} from "../services/usuarioService";
 
-const SITUACOES_COM_RENOVACAO = ["APROVADO", "REJEITADO"];
-const ESTILO_ROTULO = "block text-xs text-gray-400";
-const ESTILO_VALOR = "block text-white";
-const ESTILO_SUBTITULO =
-  "text-sm font-semibold tracking-[0.25em] text-red-200 uppercase";
-const ESTILO_BOTAO_GRAVE =
-  "rounded-md border border-red-500 bg-red-500/10 px-4 py-2 font-medium text-red-300 hover:bg-red-500/25 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
-const ESTILO_BOTAO_SECUNDARIO =
-  "rounded-md border border-gray-600 px-4 py-2 text-red-200 hover:bg-white/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed";
+const ESTILO_TITULO_DO_CARTAO = "font-titulo text-lg font-bold text-texto";
 
-function Dado({ rotulo, valor }) {
+function Dado({ rotulo, children }) {
   return (
     <div>
-      <span className={ESTILO_ROTULO}>{rotulo}</span>
-      <span className={ESTILO_VALOR}>{valor || "—"}</span>
+      <dt className="text-xs font-medium text-texto-fraco">{rotulo}</dt>
+      <dd className="mt-1 text-texto wrap-anywhere">{children || "—"}</dd>
     </div>
   );
 }
@@ -42,373 +41,207 @@ function Dado({ rotulo, valor }) {
 function MinhaContaPages() {
   const { aoRenomear, avisar } = useOutletContext();
   const [conta, setConta] = useState(null);
-  const [formacoes, setFormacoes] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState(null);
-  const [modalAberto, setModalAberto] = useState(false);
-  const [renovacaoAberta, setRenovacaoAberta] = useState(false);
-  const [edicaoAberta, setEdicaoAberta] = useState(false);
-  const [senhaAberta, setSenhaAberta] = useState(false);
-  const [emailAberto, setEmailAberto] = useState(false);
+  const [janela, setJanela] = useState(null);
   const [cancelando, setCancelando] = useState(false);
   const [versao, setVersao] = useState(0);
 
   useEffect(() => {
     let ativo = true;
-
-    listarFormacoes()
-      .then((lista) => {
-        if (ativo) setFormacoes(lista);
-      })
-      .catch(() => {
-        if (ativo) setFormacoes([]);
-      });
-
-    return () => {
-      ativo = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    let ativo = true;
-
     buscarMinhaConta()
       .then((dados) => {
         if (!ativo) return;
         setConta(dados);
         setErro(null);
       })
-      .catch((err) => {
-        if (!ativo) return;
-        setConta(null);
-        setErro(err.mensagem || "Não foi possível carregar os seus dados.");
+      .catch((falha) => {
+        if (ativo) setErro(falha.mensagem || "Não foi possível carregar os seus dados.");
       })
       .finally(() => {
         if (ativo) setCarregando(false);
       });
-
     return () => {
       ativo = false;
     };
   }, [versao]);
 
-  async function solicitar() {
+  function fecharJanela() {
+    setJanela(null);
+  }
+
+  function recarregar() {
+    setVersao((atual) => atual + 1);
+  }
+
+  async function salvarDados(dados) {
+    const atualizada = await atualizarMinhaConta(dados);
+    setConta(atualizada);
+    aoRenomear(atualizada.nomeCompleto);
+    fecharJanela();
+    avisar({ tipo: "sucesso", titulo: "Dados atualizados", mensagem: "As alterações foram salvas." });
+  }
+
+  async function trocarEmail(novoEmail, senhaAtual) {
+    const atualizada = await trocarMeuEmail(novoEmail, senhaAtual);
+    setConta(atualizada);
+    fecharJanela();
+    avisar({
+      tipo: "sucesso",
+      titulo: "E-mail alterado",
+      mensagem: `A partir de agora, entre com ${atualizada.email}.`,
+    });
+  }
+
+  async function alterarSenha(senhaAtual, novaSenha) {
+    await alterarMinhaSenha(senhaAtual, novaSenha);
+    fecharJanela();
+    avisar({ tipo: "sucesso", titulo: "Senha alterada", mensagem: "Use a nova senha no próximo login." });
+  }
+
+  async function pedirExclusao() {
     await solicitarExclusaoDaMinhaConta();
+    fecharJanela();
+    recarregar();
     avisar({
       tipo: "sucesso",
       titulo: "Pedido de exclusão registrado",
       mensagem: "Um administrador vai cumprir o pedido. Até lá, sua conta continua funcionando e você pode desistir.",
     });
-    setModalAberto(false);
-    setVersao((atual) => atual + 1);
   }
 
-    async function renovar(cref, formacao) {
-    await renovarCref(cref, formacao);
-    avisar({
-      tipo: "sucesso",
-      titulo: "CREF enviado para verificação",
-      mensagem: "A partir do próximo login, sua conta fica com as permissões de aluno até um administrador conferir o CREF.",
-    });
-    setRenovacaoAberta(false);
-    setVersao((atual) => atual + 1);
-  }
-
-    async function salvarDados(dados) {
-    const atualizada = await atualizarMinhaConta(dados);
-    avisar({
-      tipo: "sucesso",
-      titulo: "Dados atualizados",
-      mensagem: "As alterações nos seus dados foram salvas.",
-    });
-    setConta(atualizada);
-    setEdicaoAberta(false);
-    aoRenomear(atualizada.nomeCompleto);
-  }
-
-  async function solicitarEmail(novoEmail, senhaAtual) {
-    await solicitarTrocaDeEmail(novoEmail, senhaAtual);
-  }
-
-  async function confirmarEmail(codigo) {
-    const atualizada = await confirmarTrocaDeEmail(codigo);
-    setConta(atualizada);
-  }
-
-  async function cancelarPedido() {
+  async function desistirDaExclusao() {
     setCancelando(true);
-
     try {
       await cancelarExclusaoDaMinhaConta();
-      avisar({
-        tipo: "sucesso",
-        titulo: "Pedido de exclusão cancelado",
-        mensagem: "Sua conta continua ativa, com todos os dados.",
-      });
-      setVersao((atual) => atual + 1);
-    } catch (err) {
-      avisar({
-        tipo: "erro",
-        titulo: "Pedido não cancelado",
-        mensagem: err.mensagem || "Não foi possível cancelar o pedido.",
-      });
+      recarregar();
+      avisar({ tipo: "sucesso", titulo: "Pedido cancelado", mensagem: "Sua conta continua ativa, com todos os dados." });
+    } catch (falha) {
+      avisar({ tipo: "erro", titulo: "Pedido não cancelado", mensagem: falha.mensagem || "Tente novamente." });
     } finally {
       setCancelando(false);
     }
   }
 
-  const professor = conta?.papel === "PROFESSOR";
   const administrador = conta?.papel === "ADMINISTRADOR";
-  const pedidoPendente = Boolean(conta?.anonimizacaoSolicitadaEm);
   const anonimizada = Boolean(conta?.anonimizadoEm);
-  const descricaoFormacao =
-    formacoes.find((opcao) => opcao.codigo === conta?.formacao)?.descricao ??
-    conta?.formacao;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
+    <Container largura="estreita" className="pb-16">
       <CabecalhoPagina
         titulo="Minha conta"
-        subtitulo="Os dados que a plataforma guarda sobre você, e o que fazer com eles."
+        subtitulo="Os dados que o MenteForte guarda sobre você e o que fazer com eles."
         icone={ICONES_DAS_PAGINAS.meusDados}
       />
 
       <EstadoRequisicao
         carregando={carregando}
         mensagemCarregando="Carregando seus dados..."
-        erro={carregando ? null : erro}
-        vazio={!carregando && !erro && conta === null}
+        erro={erro}
+        vazio={!conta}
         mensagemVazio="Não encontramos os seus dados."
       >
         {conta && (
-          <>
-            {professor && (<AvisoCref situacao={conta.situacaoCref}
-            motivo={conta.motivoRejeicaoCref}/>
-            )}
-            <section className="py-4">
-              <Cartao className="space-y-5">
-                <h2 className={ESTILO_SUBTITULO}>Seus dados</h2>
+          <div className="space-y-6">
+            <Cartao className="space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2 className={ESTILO_TITULO_DO_CARTAO}>Seus dados</h2>
+                <Etiqueta tom={conta.ativo ? "sucesso" : "neutra"}>{conta.ativo ? "Conta ativa" : "Conta inativa"}</Etiqueta>
+              </div>
 
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  <Dado rotulo="Nome completo" valor={conta.nomeCompleto} />
-                  <Dado rotulo="E-mail" valor={conta.email} />
-                  <Dado rotulo="Perfil" valor={rotuloDoPapel(conta.papel)} />
-                  <Dado
-                    rotulo="Data de nascimento"
-                    valor={formatarNascimento(conta.dataNascimento)}
-                  />
-                  <Dado
-                    rotulo="Cadastrado em"
-                    valor={formatarDataCurta(conta.criadoEm)}
-                  />
-                  <Dado
-                    rotulo="Situação"
-                    valor={conta.ativo ? "Ativa" : "Inativa"}
-                  />
+              <dl className="grid gap-5 sm:grid-cols-2">
+                <Dado rotulo="Nome completo">{conta.nomeCompleto}</Dado>
+                <Dado rotulo="E-mail">{conta.email}</Dado>
+                <Dado rotulo="Perfil">{rotuloDoPapel(conta.papel)}</Dado>
+                <Dado rotulo="Cadastrada em">{formatarDataCurta(conta.criadoEm)}</Dado>
+              </dl>
+
+              {anonimizada ? (
+                <Alerta tipo="aviso">
+                  Conta anonimizada em {formatarDataCurta(conta.anonimizadoEm)}. Os dados pessoais foram
+                  apagados e não podem mais ser alterados.
+                </Alerta>
+              ) : (
+                <div className="flex flex-wrap gap-3 border-t border-borda pt-5">
+                  <Botao variante="secundario" onClick={() => setJanela("dados")}>
+                    <PencilLine size={16} aria-hidden="true" />
+                    Editar nome
+                  </Botao>
+                  <Botao variante="secundario" onClick={() => setJanela("email")}>
+                    <Mail size={16} aria-hidden="true" />
+                    Alterar e-mail
+                  </Botao>
+                  <Botao variante="secundario" onClick={() => setJanela("senha")}>
+                    <KeyRound size={16} aria-hidden="true" />
+                    Alterar senha
+                  </Botao>
                 </div>
-
-                {professor && (
-                  <>
-                    <h2 className={`${ESTILO_SUBTITULO} pt-2`}>Habilitação</h2>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                      <Dado rotulo="CREF" valor={conta.cref} />
-                      <Dado rotulo="Formação" valor={descricaoFormacao} />
-                      {conta.situacaoCref && (<Dado rotulo="Verificação do CREF"
-                      valor={rotuloDaSituacaoCref(conta.situacaoCref)}/>
-                      )}
-                    </div>
-                      
-                    {SITUACOES_COM_RENOVACAO.includes(conta.situacaoCref) && (
-                      <button
-                        type="button"
-                        onClick={() => setRenovacaoAberta(true)}
-                        className={ESTILO_BOTAO_SECUNDARIO}
-                      >
-                        Atualizar CREF
-                      </button>
-                    )}
-
-                    <h2 className={`${ESTILO_SUBTITULO} pt-2`}>
-                      Endereço profissional
-                    </h2>
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      <Dado rotulo="CEP" valor={formatarCep(conta.cep ?? "")} />
-                      <Dado rotulo="Logradouro" valor={conta.logradouro} />
-                      <Dado rotulo="Número" valor={conta.numero} />
-                      <Dado rotulo="Complemento" valor={conta.complemento} />
-                      <Dado rotulo="Bairro" valor={conta.bairro} />
-                      <Dado rotulo="Cidade" valor={conta.cidade} />
-                      <Dado rotulo="Estado" valor={conta.estado} />
-                    </div>
-                  </>
-                )}
-
-                {anonimizada ? (
-                  <p className="rounded-md border border-red-500 p-3 text-sm text-red-200">
-                    Conta anonimizada em {formatarDataCurta(conta.anonimizadoEm)}. Os
-                    dados pessoais foram apagados e não podem mais ser alterados.
-                  </p>
-                ) : (
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setEdicaoAberta(true)}
-                      className={ESTILO_BOTAO_SECUNDARIO}
-                    >
-                      Editar meus dados
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setSenhaAberta(true)}
-                      className={ESTILO_BOTAO_SECUNDARIO}
-                    >
-                      Alterar senha
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEmailAberto(true)}
-                      className={ESTILO_BOTAO_SECUNDARIO}
-                    >
-                      Alterar e-mail
-                    </button>
-                  </div>
-                )}
-
-              </Cartao>
-            </section>
+              )}
+            </Cartao>
 
             {!anonimizada && (
-              <section className="py-4">
-                <Cartao className="space-y-4">
-                  <h2 className={ESTILO_SUBTITULO}>Portabilidade dos dados</h2>
-                  <p className="text-sm text-gray-300">
-                    Baixe uma cópia dos seus dados para guardar ou levar a outro serviço.
-                    É o seu direito de portabilidade, previsto no art. 18 da LGPD.
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    O arquivo vem em JSON, um formato aberto, com os dados da sua conta e
-                    os seus resultados nos quizzes. Para o professor, vêm também os artigos
-                    e os quizzes que ele enviou.
-                  </p>
-                  <BaixarMeusDados formacoes={formacoes} className={ESTILO_BOTAO_SECUNDARIO} />
-                </Cartao>
-              </section>
+              <Cartao className="space-y-4">
+                <h2 className={ESTILO_TITULO_DO_CARTAO}>Portabilidade dos dados</h2>
+                <p className="text-sm leading-relaxed text-texto-suave">
+                  Baixe uma cópia dos seus dados em JSON, um formato aberto, com a sua conta e os seus
+                  resultados nos quizzes. Para o professor, vêm também os conteúdos que ele enviou. É o
+                  direito de portabilidade previsto no art. 18 da LGPD.
+                </p>
+                <BaixarMeusDados />
+              </Cartao>
             )}
 
             {!administrador && !anonimizada && (
-              <section className="py-4">
-                <Cartao className="space-y-4 border-red-900">
-                  <h2 className={ESTILO_SUBTITULO}>Excluir minha conta</h2>
-
-                  {pedidoPendente ? (
-                    <>
-                      <p className="rounded-md border border-red-500 p-3 text-sm text-red-200">
-                        Exclusão solicitada em{" "}
-                        {formatarDataCurta(conta.anonimizacaoSolicitadaEm)}. Sua
-                        conta continua funcionando até um administrador cumprir
-                        o pedido.
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        Mudou de ideia? Você pode desistir enquanto o pedido não
-                        for cumprido.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={cancelarPedido}
-                        disabled={cancelando}
-                        className={ESTILO_BOTAO_SECUNDARIO}
-                      >
-                        {cancelando ? "Cancelando..." : "Desistir da exclusão"}
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <p className="text-sm text-gray-300">
-                        Você pode pedir que os seus dados pessoais sejam
-                        apagados. O pedido fica registrado e um administrador o
-                        cumpre; até lá, sua conta continua funcionando e você
-                        pode desistir.
-                      </p>
-                      <p className="text-sm text-gray-400">
-                        O registro de que você aceitou os Termos e a Política
-                        permanece, sem os seus dados, porque é a prova do
-                        consentimento exigida por lei.
-                      </p>
-                      <button
-                        type="button"
-                        onClick={() => setModalAberto(true)}
-                        className={ESTILO_BOTAO_GRAVE}
-                      >
-                        Solicitar exclusão da conta
-                      </button>
-                    </>
-                  )}
-
-                  {erro && !carregando && (
-                    <p className="text-sm text-red-400">{erro}</p>
-                  )}
-                </Cartao>
-              </section>
+              <Cartao className="space-y-4 border-perigo/30">
+                <h2 className={ESTILO_TITULO_DO_CARTAO}>Excluir minha conta</h2>
+                {conta.anonimizacaoSolicitadaEm ? (
+                  <>
+                    <Alerta tipo="aviso" titulo={`Exclusão pedida em ${formatarDataCurta(conta.anonimizacaoSolicitadaEm)}`}>
+                      Sua conta continua funcionando até um administrador cumprir o pedido. Mudou de ideia?
+                      Você pode desistir enquanto isso.
+                    </Alerta>
+                    <Botao variante="secundario" onClick={desistirDaExclusao} disabled={cancelando}>
+                      {cancelando ? "Cancelando..." : "Desistir da exclusão"}
+                    </Botao>
+                  </>
+                ) : (
+                  <>
+                    <p className="text-sm leading-relaxed text-texto-suave">
+                      Você pode pedir que os seus dados pessoais sejam apagados. Um administrador cumpre o
+                      pedido; até lá, sua conta continua funcionando e você pode desistir.
+                    </p>
+                    <Botao variante="perigo" onClick={() => setJanela("exclusao")}>
+                      Pedir a exclusão da conta
+                    </Botao>
+                  </>
+                )}
+              </Cartao>
             )}
-          </>
+          </div>
         )}
       </EstadoRequisicao>
 
-      <p className="mt-6 text-sm text-gray-400">
-        Para dúvidas ou pedidos sobre a sua conta, fale com o administrador pelo e-mail{" "}
-        <a
-          href={`mailto:${EMAIL_CONTATO}`}
-          className="text-red-200 underline underline-offset-4 hover:text-red-100"
-        >
+      <p className="mt-8 text-sm text-texto-fraco">
+        Dúvidas sobre a sua conta? Escreva para{" "}
+        <a href={`mailto:${EMAIL_CONTATO}`} className="text-marca-300 underline underline-offset-4 hover:text-marca-200">
           {EMAIL_CONTATO}
         </a>
-        .
+        , um endereço fictício desta demonstração.
       </p>
 
-      <Modal aberto={modalAberto} aoFechar={() => setModalAberto(false)}>
-        <ConfirmarExclusaoConta
-          aoConfirmar={solicitar}
-          aoCancelar={() => setModalAberto(false)}
-        />
+      <Modal aberto={janela === "dados"} aoFechar={fecharJanela} largura="estreita">
+        {conta && <EditarMeusDados conta={conta} aoSalvar={salvarDados} aoCancelar={fecharJanela} />}
       </Modal>
-            
-      <Modal aberto={renovacaoAberta} aoFechar={() => setRenovacaoAberta(false)}>
-        {conta && (
-          <RenovarCref
-            crefAtual={conta.cref}
-            formacaoAtual={conta.formacao}
-            formacoes={formacoes}
-            aoRenovar={renovar}
-            aoCancelar={() => setRenovacaoAberta(false)}
-          />
-        )}
+      <Modal aberto={janela === "email"} aoFechar={fecharJanela} largura="estreita">
+        {conta && <AlterarEmail emailAtual={conta.email} aoTrocar={trocarEmail} aoFechar={fecharJanela} />}
       </Modal>
-      <Modal aberto={edicaoAberta} aoFechar={() => setEdicaoAberta(false)}>
-        {conta && (
-          <EditarMeusDados
-            conta={conta}
-            aoSalvar={salvarDados}
-            aoCancelar={() => setEdicaoAberta(false)}
-          />
-        )}
+      <Modal aberto={janela === "senha"} aoFechar={fecharJanela} largura="estreita">
+        <AlterarSenha aoAlterar={alterarSenha} aoFechar={fecharJanela} />
       </Modal>
-            <Modal aberto={senhaAberta} aoFechar={() => setSenhaAberta(false)}>
-        <AlterarSenha
-          aoAlterar={alterarMinhaSenha}
-          aoFechar={() => setSenhaAberta(false)}
-        />
+      <Modal aberto={janela === "exclusao"} aoFechar={fecharJanela}>
+        <ConfirmarExclusaoConta aoConfirmar={pedirExclusao} aoCancelar={fecharJanela} />
       </Modal>
-      <Modal aberto={emailAberto} aoFechar={() => setEmailAberto(false)}>
-        {conta && (
-          <AlterarEmail
-            emailAtual={conta.email}
-            aoSolicitar={solicitarEmail}
-            aoConfirmar={confirmarEmail}
-            aoFechar={() => setEmailAberto(false)}
-          />
-        )}
-      </Modal>
-    </div>
+    </Container>
   );
 }
 

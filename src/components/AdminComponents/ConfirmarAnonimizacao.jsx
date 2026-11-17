@@ -47,9 +47,7 @@ function ConfirmarAnonimizacao({ usuario, aoConfirmar, aoCancelar }) {
       <h3 className={ESTILO_SUBTITULO}>O que será apagado</h3>
       <ul className={ESTILO_LISTA}>
         <li>Nome, e-mail e senha</li>
-        <li>Data de nascimento</li>
-        <li>CREF, formação e endereço profissional</li>
-        <li>Códigos de verificação em duas etapas e de recuperação</li>
+        <li>Resultados nos quizzes</li>
       </ul>
       <h3 className={`${ESTILO_SUBTITULO} mt-5`}>O que permanece</h3>
       <ul className={ESTILO_LISTA}>

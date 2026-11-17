@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import EstadoRequisicao from "../ui/EstadoRequisicao";
-import AvisoDeSimulacao from "../LibraryComponents/AvisoDeSimulacao";
 import ConteudoExercicio from "../LibraryComponents/ConteudoExercicio";
 import ValidacaoExercicio from "../LibraryComponents/ValidacaoExercicio";
 import { montarDicionario } from "../LibraryComponents/exercicioCampos";
@@ -10,7 +9,6 @@ import {
   listarExerciciosPendentes,
   listarGruposMusculares,
   listarNiveis,
-  MODERACAO_DE_EXERCICIOS_SIMULADA,
 } from "../../services/exercicioService";
 import { formatarDataCurta } from "../../utils/formatar";
 
@@ -92,8 +90,6 @@ function FilaDeExercicios() {
           botões de aprovar e rejeitar.
         </p>
       </div>
-
-      {MODERACAO_DE_EXERCICIOS_SIMULADA && <AvisoDeSimulacao />}
 
       <EstadoRequisicao
         carregando={carregando}

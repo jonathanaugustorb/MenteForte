@@ -1,10 +1,6 @@
 import Cartao from "../ui/Cartao";
 import CabecalhoPagina from "../ui/CabecalhoPagina";
-
-const ESTILO_TITULO_SECAO = "font-titulo font-bold text-2xl text-white lg:text-3xl";
-const ESTILO_PARAGRAFO = "text-base leading-relaxed text-gray-300";
-const ESTILO_DESTAQUE =
-  "rounded-xl border border-red-500 bg-red-950/30 p-4 space-y-3 neon-suave-red-500";
+import SecoesDoDocumento from "./SecoesDoDocumento";
 
 function DocumentoLegal({ titulo, icone, versao, vigencia, secoes }) {
   return (
@@ -14,62 +10,8 @@ function DocumentoLegal({ titulo, icone, versao, vigencia, secoes }) {
         subtitulo={`Versão ${versao} · em vigor desde ${vigencia}`}
         icone={icone}
       />
-
-      <Cartao className="space-y-8">
-        {secoes.map((secao) => (
-          <section key={secao.titulo} className="space-y-3">
-            <h2 className={ESTILO_TITULO_SECAO}>{secao.titulo}</h2>
-
-            <div className={secao.destaque ? ESTILO_DESTAQUE : "space-y-3"}>
-              {secao.paragrafos?.map((paragrafo) => (
-                <p key={paragrafo} className={ESTILO_PARAGRAFO}>
-                  {paragrafo}
-                </p>
-              ))}
-
-              {secao.lista && (
-                <ul className={`list-disc space-y-1 pl-6 ${ESTILO_PARAGRAFO}`}>
-                  {secao.lista.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              )}
-
-              {secao.tabela && (
-                <div className="overflow-x-auto">
-                  <table className="w-full min-w-xl border-collapse text-left text-sm">
-                    <thead>
-                      <tr className="border-b border-gray-700">
-                        {secao.tabela.cabecalho.map((coluna) => (
-                          <th
-                            key={coluna}
-                            className="py-2 pr-4 font-semibold text-red-200"
-                          >
-                            {coluna}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {secao.tabela.linhas.map((linha) => (
-                        <tr key={linha[0]} className="border-b border-gray-700">
-                          {linha.map((celula) => (
-                            <td key={celula} className="py-2 pr-4 text-gray-300">
-                              {celula}
-                            </td>
-                          ))}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              )}
-              {secao.nota && (
-                <p className={`${ESTILO_PARAGRAFO} text-sm`}>{secao.nota}</p>
-              )}
-            </div>
-          </section>
-        ))}
+      <Cartao className="sm:p-10">
+        <SecoesDoDocumento secoes={secoes} />
       </Cartao>
     </>
   );

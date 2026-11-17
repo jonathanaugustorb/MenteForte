@@ -1,32 +1,18 @@
 import api from "./api";
-
-function limparParametros(parametros) {
-  return Object.fromEntries(
-    Object.entries(parametros).filter(([, valor]) => valor !== "" && valor != null),
-  );
-}
+import { limparParametros } from "./parametros";
 
 export async function criarUsuario(usuario) {
   const { data } = await api.post("/usuarios", usuario);
   return data;
 }
 
-export async function listarFormacoes() {
-  const { data } = await api.get("/usuarios/formacoes");
-  return data;
-}
-
 export async function buscarUsuarios(parametros) {
-  const { data } = await api.get("/usuarios", {
-    params: limparParametros(parametros),
-  });
+  const { data } = await api.get("/usuarios", { params: limparParametros(parametros) });
   return data;
 }
 
 export async function buscarDadosCompletos(id, justificativa) {
-  const { data } = await api.get(`/usuarios/${id}/dados-completos`, {
-    params: { justificativa },
-  });
+  const { data } = await api.get(`/usuarios/${id}/dados-completos`, { params: { justificativa } });
   return data;
 }
 
@@ -49,31 +35,8 @@ export async function listarAnonimizacoesPendentes() {
   return data;
 }
 
-export async function listarVerificacoesPendentes() {
-  const { data } = await api.get("/usuarios/pendentes-verificacao");
-  return data;
-}
-
-export async function decidirVerificacaoCref(id, status, motivo) {
-  const { data } = await api.patch(`/usuarios/${id}/verificacao`, { status, motivo });
-  return data;
-}
-
 export async function buscarMinhaConta() {
   const { data } = await api.get("/usuarios/me");
-  return data;
-}
-
-export async function solicitarExclusaoDaMinhaConta() {
-  await api.post("/usuarios/me/anonimizacao");
-}
-
-export async function cancelarExclusaoDaMinhaConta() {
-  await api.delete("/usuarios/me/anonimizacao");
-}
-
-export async function renovarCref(cref, formacao) {
-  const { data } = await api.patch("/usuarios/me/cref", { cref, formacao });
   return data;
 }
 
@@ -82,15 +45,19 @@ export async function atualizarMinhaConta(dados) {
   return data;
 }
 
+export async function trocarMeuEmail(novoEmail, senhaAtual) {
+  const { data } = await api.post("/usuarios/me/email", { novoEmail, senhaAtual });
+  return data;
+}
+
 export async function alterarMinhaSenha(senhaAtual, novaSenha) {
   await api.patch("/usuarios/me/senha", { senhaAtual, novaSenha });
 }
 
-export async function solicitarTrocaDeEmail(novoEmail, senhaAtual) {
-  await api.post("/usuarios/me/email", { novoEmail, senhaAtual });
+export async function solicitarExclusaoDaMinhaConta() {
+  await api.post("/usuarios/me/anonimizacao");
 }
 
-export async function confirmarTrocaDeEmail(codigo) {
-  const { data } = await api.post("/usuarios/me/email/confirmacao", { codigo });
-  return data;
+export async function cancelarExclusaoDaMinhaConta() {
+  await api.delete("/usuarios/me/anonimizacao");
 }

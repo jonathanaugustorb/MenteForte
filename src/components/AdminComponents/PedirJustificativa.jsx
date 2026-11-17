@@ -52,7 +52,7 @@ export default function PedirJustificativa({
             maxLength={MAXIMO}
             value={justificativa}
             onChange={(evento) => setJustificativa(evento.target.value)}
-            placeholder="Ex.: conferir o CREF enviado pelo professor"
+            placeholder="Ex.: conferir o e-mail informado pela pessoa"
             aria-describedby="justificativa-dica"
             className={ESTILO_ENTRADA}
           />

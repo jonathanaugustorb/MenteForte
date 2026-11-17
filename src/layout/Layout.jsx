@@ -2,7 +2,6 @@ import { Suspense, useEffect, useState } from "react";
 import { Outlet, ScrollRestoration, useNavigate } from "react-router-dom";
 import Navegacao from "./Navegacao";
 import Rodape from "./Rodape";
-import AvisoCrefNoLogin from "./AvisoCrefNoLogin";
 import AvisoDeAcao from "./AvisoDeAcao";
 import Modal from "../components/ui/Modal";
 import Container from "../components/ui/Container";
@@ -15,20 +14,15 @@ import {
   lerSessao,
   limparSessao,
 } from "../utils/sessao";
-import { buscarMinhaConta } from "../services/usuarioService";
-
-const SITUACOES_COM_AVISO = ["PENDENTE", "REJEITADO"];
 
 function Layout() {
   const [usuario, setUsuario] = useState(lerSessao);
-  const [avisoCref, setAvisoCref] = useState(null);
   const [avisoDeAcao, setAvisoDeAcao] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     function aoExpirar() {
       setUsuario(null);
-      setAvisoCref(null);
       setAvisoDeAcao({
         tipo: "erro",
         titulo: "Sessão expirada",
@@ -51,20 +45,9 @@ function Layout() {
     };
   }, [navigate]);
 
-  function conferirVerificacaoDoCref() {
-    buscarMinhaConta()
-      .then((conta) => {
-        if (conta.papel === "PROFESSOR" && SITUACOES_COM_AVISO.includes(conta.situacaoCref)) {
-          setAvisoCref({ situacao: conta.situacaoCref, motivo: conta.motivoRejeicaoCref });
-        }
-      })
-      .catch(() => {});
-  }
-
   function entrar(resposta, destino) {
     gravarSessao(resposta);
     setUsuario({ id: resposta.id, nomeCompleto: resposta.nomeCompleto, papel: resposta.papel });
-    if (resposta.papel === "ALUNO") conferirVerificacaoDoCref();
     navigate(destino ?? "/inicio");
   }
 
@@ -77,11 +60,6 @@ function Layout() {
     limparSessao();
     setUsuario(null);
     navigate("/");
-  }
-
-  function verMinhaConta() {
-    setAvisoCref(null);
-    navigate("/minha-conta");
   }
 
   return (
@@ -104,22 +82,11 @@ function Layout() {
             </Container>
           }
         >
-          <Outlet context={{ usuario, aoRenomear: renomear, avisar: setAvisoDeAcao }} />
+          <Outlet context={{ usuario, aoEntrar: entrar, aoRenomear: renomear, avisar: setAvisoDeAcao }} />
         </Suspense>
       </main>
 
       <Rodape />
-
-      <Modal aberto={avisoCref !== null} aoFechar={() => setAvisoCref(null)}>
-        {avisoCref && (
-          <AvisoCrefNoLogin
-            situacao={avisoCref.situacao}
-            motivo={avisoCref.motivo}
-            aoVerConta={verMinhaConta}
-            aoFechar={() => setAvisoCref(null)}
-          />
-        )}
-      </Modal>
 
       <Modal aberto={avisoDeAcao !== null} aoFechar={() => setAvisoDeAcao(null)} largura="estreita">
         {avisoDeAcao && <AvisoDeAcao {...avisoDeAcao} aoFechar={() => setAvisoDeAcao(null)} />}

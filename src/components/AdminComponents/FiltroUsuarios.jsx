@@ -24,7 +24,7 @@ function FiltroUsuarios({ filtros, aoAlterar, aoLimpar }) {
           name="busca"
           value={filtros.busca}
           onChange={handleChange}
-          placeholder="Ex: Ana ou ana@umc.br"
+          placeholder="Ex.: Ana ou ana@exemplo.com"
           className={`${ESTILO_CAMPO} min-w-60`}
         />
       </div>
