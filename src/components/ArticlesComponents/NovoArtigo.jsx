@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import ArtigoForm from "./ArtigoForm";
 import { ARTIGO_VAZIO, artigoParaEnvio, validarArtigo } from "./artigoCampos";
 import { criarArtigo } from "../../services/artigoService";
@@ -60,7 +60,7 @@ function NovoArtigo({ categorias, carregandoOpcoes, criacaoBloqueada = false, ao
         Novo artigo
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal} largo>
+      <Modal aberto={modalAberto} aoFechar={fecharModal} largura="larga">
         <ArtigoForm
           titulo="NOVO ARTIGO"
           valores={form}

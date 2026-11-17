@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import Modal from "../Modal";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
+import Modal from "../ui/Modal";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import ConfirmarAnonimizacao from "./ConfirmarAnonimizacao";
 import {
   anonimizarUsuario,
@@ -116,8 +116,8 @@ function PedidosDeExclusao() {
       </EstadoRequisicao>
 
       <Modal
-        isOpen={pedidoEmAnonimizacao !== null}
-        setCloseModal={() => setPedidoEmAnonimizacao(null)}
+        aberto={pedidoEmAnonimizacao !== null}
+        aoFechar={() => setPedidoEmAnonimizacao(null)}
       >
         {pedidoEmAnonimizacao && (
           <ConfirmarAnonimizacao

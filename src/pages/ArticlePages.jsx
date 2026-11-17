@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { ExternalLink } from "lucide-react";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import ValidacaoArtigo from "../components/ArticlesComponents/ValidacaoArtigo";
 import EditarArtigo from "../components/ArticlesComponents/EditarArtigo";
 import ExcluirArtigo from "../components/ArticlesComponents/ExcluirArtigo";
@@ -93,7 +93,7 @@ function ArticlePages() {
   const mostrarValidacao = Boolean(artigo) && podeValidar(usuario);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-10 lp:py-16">
+    <div className="w-full max-w-4xl mx-auto px-4 py-10 lg:py-16">
       <Link
         to="/articles"
         className="text-sm text-red-200 hover:text-white hover:underline"
@@ -122,7 +122,7 @@ function ArticlePages() {
                 )}
               </div>
 
-              <h1 className="font-montserrat text-3xl text-white md:text-4xl">
+              <h1 className="font-titulo font-bold text-3xl text-white sm:text-4xl">
                 {artigo.titulo}
               </h1>
 

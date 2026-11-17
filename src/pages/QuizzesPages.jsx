@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
-import CabecalhoPagina from "../components/CabecalhoPagina";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import CabecalhoPagina from "../components/ui/CabecalhoPagina";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import FiltroQuizzes from "../components/QuizComponents/FiltroQuizzes";
 import CardQuiz from "../components/QuizComponents/CardQuiz";
 import LimiteDeCriacao from "../components/LimiteDeCriacao";
@@ -64,7 +64,7 @@ function QuizzesPages() {
   const aguardandoMinhaAprovacao = quizzes.filter((quiz) => quiz.podeAprovar).length;
 
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-6xl mx-auto px-4 pb-10 lg:pb-16">
       <CabecalhoPagina
         titulo="Teste o que você aprendeu"
         subtitulo={subtituloPorPapel("quiz", usuario?.papel)}
@@ -127,7 +127,7 @@ function QuizzesPages() {
             : "Nenhum quiz encontrado."
         }
       >
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           {quizzesVisiveis.map((quiz) => (
             <CardQuiz key={quiz.id} quiz={quiz} />
           ))}

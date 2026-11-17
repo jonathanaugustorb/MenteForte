@@ -1,7 +1,7 @@
 import { estaEmAnalise, estaPublicado } from "../../utils/moderacao";
 import { lerSessao } from "../../utils/sessao";
 
-const CHAVE_DO_MOCK = "forcamente:mock:exercicios";
+const CHAVE_DO_MOCK = "menteforte:mock:exercicios";
 const APROVACOES_PARA_PUBLICAR = 3;
 const LIMITE_MOTIVO = 500;
 
@@ -41,7 +41,7 @@ const EXEMPLOS = [
     "Supino reto com barra",
     "PEITO",
     "INTERMEDIARIO",
-    "/images/Supino com barra.jpg",
+    "/images/supino-com-barra.webp",
     [
       "Deite no banco com os pés apoiados no chão.",
       "Desça a barra até tocar o peito, com controle.",
@@ -58,7 +58,7 @@ const EXEMPLOS = [
     "Agachamento livre",
     "PERNA",
     "INTERMEDIARIO",
-    "/images/Agachamento livre.jpg",
+    "/images/agachamento-livre.webp",
     [
       "Apoie a barra nos ombros e afaste os pés na largura do quadril.",
       "Desça até as coxas ficarem paralelas ao chão.",
@@ -71,7 +71,7 @@ const EXEMPLOS = [
     "Remada com halter",
     "COSTAS",
     "INICIANTE",
-    "/images/Remada com halter.jpg",
+    "/images/remada-com-halter.webp",
     ["Apoie um joelho e uma mão no banco.", "Puxe o halter até a lateral do tronco."],
     { equipamento: "Halter e banco" },
   ),
@@ -80,7 +80,7 @@ const EXEMPLOS = [
     "Leg press 45",
     "PERNA",
     "INICIANTE",
-    "/images/legpress.jpg",
+    "/images/legpress.webp",
     ["Apoie os pés na plataforma.", "Desça com controle e empurre sem travar os joelhos."],
     {
       equipamento: "Leg press",
@@ -95,7 +95,7 @@ const EXEMPLOS = [
     "Rosca direta com barra W",
     "BICEPS",
     "INICIANTE",
-    "/images/rosca direta com barra W.jpg",
+    "/images/rosca-direta-com-barra-w.webp",
     ["Segure a barra com os cotovelos junto ao corpo.", "Suba sem balançar o tronco."],
     {
       equipamento: "Barra W",
@@ -109,7 +109,7 @@ const EXEMPLOS = [
     "Desenvolvimento com halteres",
     "OMBRO",
     "INTERMEDIARIO",
-    "/images/desenvolvimento com halteres.jpg",
+    "/images/desenvolvimento-com-halteres.webp",
     ["Sente com os halteres na altura dos ombros.", "Empurre até estender os braços."],
     {
       equipamento: "Halteres e banco",
@@ -124,7 +124,7 @@ const EXEMPLOS = [
     "Barra fixa",
     "COSTAS",
     "AVANCADO",
-    "/images/Barra Fixa.jpg",
+    "/images/barra-fixa.webp",
     ["Segure a barra com as mãos afastadas.", "Suba até o queixo passar da barra."],
     {
       equipamento: "Barra fixa",

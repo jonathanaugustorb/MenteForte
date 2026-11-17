@@ -3,7 +3,7 @@ import VideoExercicio from "./VideoExercicio";
 import { etapasDaDescricao } from "./exercicioCampos";
 import { etiquetaDoArtigo } from "../ArticlesComponents/artigoCampos";
 
-const ESTILO_TITULO_SECAO = "font-montserrat text-lg text-red-200";
+const ESTILO_TITULO_SECAO = "font-titulo font-bold text-lg text-red-200";
 const ESTILO_TEXTO = "mt-1 text-gray-300 wrap-anywhere";
 
 function Dado({ rotulo, valor }) {
@@ -69,7 +69,7 @@ function ConteudoExercicio({ exercicio, rotuloGrupo, rotuloNivel }) {
       </dl>
 
       {gifUrl?.trim() && (
-        <ImagemExercicio src={gifUrl} alt={`Demonstração de ${nome}`} altura="h-56 md:h-72" />
+        <ImagemExercicio src={gifUrl} alt={`Demonstração de ${nome}`} altura="h-56 sm:h-72" />
       )}
 
       <VideoExercicio videoYoutubeId={videoYoutubeId} nome={nome} />

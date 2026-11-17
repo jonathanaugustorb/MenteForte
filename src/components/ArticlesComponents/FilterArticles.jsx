@@ -48,7 +48,7 @@ function FilterArticles({
 
           return (
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <h2 className="hidden font-medium text-2xl text-red-200 xl:block">
+              <h2 className="hidden font-medium text-2xl text-red-200 2xl:block">
                 Categorias:
               </h2>
 

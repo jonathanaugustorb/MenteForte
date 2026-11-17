@@ -7,7 +7,7 @@ import CardResultado from "./CardResultado";
 import CampoNumero from "./CampoNumero";
 import BarraComposicao from "./BarraComposicao";
 import BlocoExplicacao from "./BlocoExplicacao";
-import EstadoRequisicao from "./EstadoRequisicao";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import TrackerAgua from "./TrackerAgua";
 import { EXPLICACAO_HIDRATACAO, COMO_CALCULAMOS_HIDRATACAO } from "./explicacoesCalculo";
 import { formatarNumero, paraNumero } from "../../utils/formatar";
@@ -145,7 +145,7 @@ function CalculadoraHidratacao({ pesoKg, aoAlterarPeso, consentiu }) {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="flex flex-col gap-1">
               <CampoNumero
                 id="peso-hidratacao"

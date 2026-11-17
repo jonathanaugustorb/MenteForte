@@ -1,15 +1,17 @@
-# ForçaMente — Frontend
+# MenteForte — Frontend
 
 Projeto Final de Curso de Sistemas de Informação da UMC (2026), com conteúdo educacional sobre musculação para alunos, professores e administradores.
 
 ## Tecnologias e organização
 
-React 19, React Compiler, React Router 7, Tailwind CSS 4, Axios, Recharts, Lucide, Fontsource/Montserrat, Vite 8 e ESLint 10. O compilador cuida da memoização; os componentes não usam `useMemo` ou `useCallback` manualmente.
+React 19, React Compiler, React Router 7, Tailwind CSS 4, Axios, Recharts, Lucide, Fontsource (Inter e Montserrat), Vite 8 e ESLint 10. O compilador cuida da memoização; os componentes não usam `useMemo` ou `useCallback` manualmente.
 
-- `src/main.jsx` e `src/App.jsx`: inicialização e rotas; as páginas secundárias são carregadas sob demanda com `lazy` e `Suspense`.
-- `src/Layout/`: navegação, rodapé, sessão e avisos globais.
+- `src/main.jsx` e `src/App.jsx`: inicialização e rotas; as páginas secundárias são carregadas sob demanda com `lazy` e `Suspense`, e as rotas restritas ficam agrupadas sob `RotaProtegida` e `RotaPorPapel`.
+- `src/index.css`: tokens de design (cores da marca, superfícies, texto, fontes e sombras) no `@theme` do Tailwind.
+- `src/layout/`: navegação, menu da conta, rodapé, sessão e avisos globais.
 - `src/pages/`: páginas públicas, conteúdo, calculadoras, conta e administração.
-- `src/components/`: formulários e interface reutilizável; `Dialogo` compartilha a base acessível dos modais, com foco, Escape e bloqueio da interação com o fundo pelo diálogo nativo do navegador.
+- `src/components/ui/`: base visual reutilizável (Botao, Campo, Cartao, Etiqueta, Alerta, Container, Carregando, EstadoRequisicao, CabecalhoPagina, Logo e Modal). O `Modal` usa o diálogo nativo do navegador, com foco preso, Escape e bloqueio do fundo.
+- `src/components/`: formulários e componentes de cada área.
 - `src/hooks/`: comportamento compartilhado, como cálculos e consulta de CEP que ignora respostas antigas.
 - `src/services/`: toda comunicação HTTP com a API e alternativas locais de simulação existentes.
 - `src/utils/`: formatação, sessão, papéis e constantes da interface.

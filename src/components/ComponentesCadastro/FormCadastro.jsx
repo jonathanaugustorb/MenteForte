@@ -3,9 +3,9 @@ import { Link, useOutletContext } from "react-router-dom";
 import ForcaSenha from "./ForcaSenha";
 import CampoSenha from "../CampoSenha";
 import { avaliarSenha } from "./senhaRegras";
-import Cartao from "../ComponentesHome/Cartao";
+import Cartao from "../ui/Cartao";
 import CabecalhoSecao from "../ComponentesHome/CabecalhoSecao";
-import CabecalhoPagina from "../CabecalhoPagina";
+import CabecalhoPagina from "../ui/CabecalhoPagina";
 import { formatarCref, somenteDigitos } from "../../utils/formatar";
 import { ESTADOS } from "../../utils/estados";
 import { ICONES_DAS_PAGINAS } from "../../utils/iconesDasPaginas";
@@ -461,7 +461,7 @@ function FormCadastro() {
                 </div>
 
                 <fieldset disabled={!enderecoLiberado} className="contents">
-                  <div className="grid gap-3 md:grid-cols-2 lp:grid-cols-3">
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                     <div>
                       <label htmlFor="logradouro" className={styleLabel}>
                         Logradouro *

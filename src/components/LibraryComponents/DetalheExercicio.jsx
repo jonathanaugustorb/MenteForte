@@ -2,8 +2,8 @@ import ConteudoExercicio from "./ConteudoExercicio";
 
 function DetalheExercicio({ exercicio, rotuloGrupo, rotuloNivel, aoFechar, children }) {
   return (
-    <div className="space-y-4 py-2 md:p-4">
-      <h2 className="px-6 text-center font-montserrat text-2xl text-red-200 wrap-anywhere">
+    <div className="space-y-4 py-2 sm:p-4">
+      <h2 className="px-6 text-center font-titulo font-bold text-2xl text-red-200 wrap-anywhere">
         {exercicio.nome}
       </h2>
       <div className="h-px w-full bg-gray-300"></div>

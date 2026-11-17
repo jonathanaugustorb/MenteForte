@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useOutletContext, useParams } from "react-router-dom";
-import Cartao from "../components/ComponentesHome/Cartao";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import Cartao from "../components/ui/Cartao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import ResponderQuiz from "../components/QuizComponents/ResponderQuiz";
 import GabaritoQuiz from "../components/QuizComponents/GabaritoQuiz";
 import AprovarQuiz from "../components/QuizComponents/AprovarQuiz";
@@ -93,7 +93,7 @@ function QuizPages() {
   const mostrarValidacao = Boolean(quiz) && podeValidar(usuario);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 py-10 lp:py-16">
+    <div className="w-full max-w-4xl mx-auto px-4 py-10 lg:py-16">
       <Link to="/quiz" className="text-sm text-red-200 hover:text-white hover:underline">
         ← Voltar para os quizzes
       </Link>
@@ -118,7 +118,7 @@ function QuizPages() {
                 )}
               </div>
 
-              <h1 className="font-montserrat text-3xl text-white md:text-4xl">{quiz.titulo}</h1>
+              <h1 className="font-titulo font-bold text-3xl text-white sm:text-4xl">{quiz.titulo}</h1>
               <p className="text-sm text-gray-400">
                 por <span className="font-semibold text-red-200">{quiz.autorNome}</span>
               </p>

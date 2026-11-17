@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import { excluirArtigo } from "../../services/artigoService";
 
 function ExcluirArtigo({ artigo, aoExcluir }) {
@@ -36,9 +36,9 @@ function ExcluirArtigo({ artigo, aoExcluir }) {
         Excluir
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal}>
+      <Modal aberto={modalAberto} aoFechar={fecharModal}>
         <div className="p-4 max-w-md space-y-4">
-          <h2 className="text-red-200 text-center font-montserrat text-2xl">
+          <h2 className="text-red-200 text-center font-titulo font-bold text-2xl">
             EXCLUIR ARTIGO
           </h2>
           <div className="w-full h-px bg-gray-300"></div>

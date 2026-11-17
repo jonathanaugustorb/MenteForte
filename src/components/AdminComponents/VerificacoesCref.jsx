@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import Modal from "../Modal";
-import EstadoRequisicao from "../progress/EstadoRequisicao";
+import Modal from "../ui/Modal";
+import EstadoRequisicao from "../ui/EstadoRequisicao";
 import DecidirVerificacaoCref from "./DecidirVerificacaoCref";
 import PedirJustificativa from "./PedirJustificativa";
 import {
@@ -170,8 +170,8 @@ function VerificacoesCref() {
       )}
 
       <Modal
-        isOpen={professorEmVerificacao !== null}
-        setCloseModal={() => setProfessorEmVerificacao(null)}
+        aberto={professorEmVerificacao !== null}
+        aoFechar={() => setProfessorEmVerificacao(null)}
       >
         {professorEmVerificacao && (
           <DecidirVerificacaoCref

@@ -3,7 +3,7 @@ import ImagemExercicio from "./ImagemExercicio";
 import { etiquetaDoArtigo } from "../ArticlesComponents/artigoCampos";
 
 export const ESTILO_CAIXA_CARROSSEL =
-  "w-full md:w-[calc((100%_-_1.5rem)/2)] lp:w-[calc((100%_-_3rem)/3)] lg:w-[calc((100%_-_4.5rem)/4)] h-[26rem] flex-none snap-start";
+  "w-full sm:w-[calc((100%_-_1.5rem)/2)] lg:w-[calc((100%_-_3rem)/3)] xl:w-[calc((100%_-_4.5rem)/4)] h-[26rem] flex-none snap-start";
 
 const ESTILO_ITEM_MENU =
   "flex w-full items-center gap-2 px-3 py-2 text-sm text-[#df1028] hover:bg-[#df1028] hover:text-white cursor-pointer";
@@ -78,17 +78,17 @@ function CardExercicio({
 
         <dl className="flex items-start justify-between gap-2 text-xs">
           <div className="flex min-w-0 flex-col items-start gap-1">
-            <dt className="font-montserrat font-black uppercase text-white">Grupo muscular:</dt>
+            <dt className="font-titulo font-black uppercase text-white">Grupo muscular:</dt>
             <dd className="rounded-full bg-red-500/10 px-2 py-1 font-semibold text-[#ff4b49]">
               {rotuloGrupo}
             </dd>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-1">
-            <dt className="font-montserrat font-black uppercase text-white">Nível:</dt>
+            <dt className="font-titulo font-black uppercase text-white">Nível:</dt>
             <dd className="py-1 text-gray-300">{rotuloNivel}</dd>
           </div>
         </dl>
-        <h3 className="line-clamp-2 font-montserrat text-lg leading-tight text-white wrap-anywhere">
+        <h3 className="line-clamp-2 font-titulo font-bold text-lg leading-tight text-white wrap-anywhere">
           {nome}
         </h3>
       </header>
@@ -104,7 +104,7 @@ function CardExercicio({
         </div>
         {equipamento && (
           <p className="line-clamp-2 text-sm text-gray-300 wrap-anywhere">
-            <strong className="block font-montserrat font-black text-white">Equipamento:</strong>
+            <strong className="block font-titulo font-black text-white">Equipamento:</strong>
             {equipamento}
           </p>
         )}

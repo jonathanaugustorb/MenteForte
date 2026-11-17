@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "../Modal";
+import Modal from "../ui/Modal";
 import { excluirQuiz } from "../../services/quizService";
 
 function ExcluirQuiz({ quiz, aoExcluir }) {
@@ -36,7 +36,7 @@ function ExcluirQuiz({ quiz, aoExcluir }) {
         Excluir
       </button>
 
-      <Modal isOpen={modalAberto} setCloseModal={fecharModal}>
+      <Modal aberto={modalAberto} aoFechar={fecharModal}>
         <div className="max-w-md space-y-4 p-4">
           <h2 className="text-xl font-bold text-white">Excluir quiz</h2>
           <p className="text-sm text-gray-300">

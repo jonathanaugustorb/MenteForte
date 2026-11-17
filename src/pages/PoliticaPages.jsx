@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import DocumentoLegal from "../components/ComponentesLegais/DocumentoLegal";
-import EstadoRequisicao from "../components/progress/EstadoRequisicao";
+import EstadoRequisicao from "../components/ui/EstadoRequisicao";
 import { buscarDocumento } from "../services/documentoLegalService";
 import { formatarDataExtenso } from "../utils/formatar";
 import { ICONES_DAS_PAGINAS } from "../utils/iconesDasPaginas";
@@ -32,7 +32,7 @@ function TermosPages() {
   }, []);
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lp:pb-16">
+    <div className="w-full max-w-4xl mx-auto px-4 pb-10 lg:pb-16">
       <EstadoRequisicao
         carregando={carregando}
         mensagemCarregando="Carregando documento..."

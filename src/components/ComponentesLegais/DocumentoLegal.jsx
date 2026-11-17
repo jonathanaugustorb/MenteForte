@@ -1,7 +1,7 @@
-import Cartao from "../ComponentesHome/Cartao";
-import CabecalhoPagina from "../CabecalhoPagina";
+import Cartao from "../ui/Cartao";
+import CabecalhoPagina from "../ui/CabecalhoPagina";
 
-const ESTILO_TITULO_SECAO = "font-montserrat text-2xl text-white lp:text-3xl";
+const ESTILO_TITULO_SECAO = "font-titulo font-bold text-2xl text-white lg:text-3xl";
 const ESTILO_PARAGRAFO = "text-base leading-relaxed text-gray-300";
 const ESTILO_DESTAQUE =
   "rounded-xl border border-red-500 bg-red-950/30 p-4 space-y-3 neon-suave-red-500";
